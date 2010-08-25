@@ -1,0 +1,36 @@
+Source: fontconfig
+Section: libs
+Priority:optional
+Maintainer: Jihoon Kim <jihoon48.kim@samsung.com>
+Uploaders: Seokjae Jeong <seok.j.jeong@samsung.com>, Sehwan Park <sehwan@samsung.com>
+Build-Depends: debhelper (>= 5), autotools-dev, cdbs (>= 0.4.5.4), debhelper (>= 5.0.22), libfreetype6-dev (>= 2.1.7), libexpat1-dev, binutils (>= 2.12.90.0.9), po-debconf
+Standards-Version: 3.7.2
+
+Package: fontconfig
+Section: utils
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, fontconfig-config
+Replaces: fontconfig-config (<< 2.5.93-1)
+Suggests: defoma (>= 0.7.0)
+Description: generic font configuration library - support binaries
+
+Package: fontconfig-config
+Section: libs
+Architecture: any
+Depends: ${misc:Depends}
+Replaces: fontconfig (<< 2.3.2-2)
+Conflicts: fontconfig (<< 2.3.2-2)
+Description: generic font configuration library - configuration
+
+Package: libfontconfig1-dev
+Section: libdevel
+Architecture: any
+Depends: libfontconfig1 (= ${binary:Version}), libexpat1-dev, libfreetype6-dev (>= 2.1.7), pkg-config
+Provides: libfontconfig-dev
+Description: generic font configuration library - development
+
+Package: libfontconfig1
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, fontconfig-config (= ${source:Version})
+Description: generic font configuration library - runtime

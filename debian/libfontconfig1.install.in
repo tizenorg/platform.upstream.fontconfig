@@ -1,0 +1,2 @@
+@PREFIX@/lib/libfontconfig*.so.*
+@PREFIX@/lib/libfontconfig*.so

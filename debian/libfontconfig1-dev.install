@@ -1,0 +1,3 @@
+usr/include/fontconfig/*
+usr/lib/pkgconfig/fontconfig.pc
+usr/lib/libfontconfig*.a
