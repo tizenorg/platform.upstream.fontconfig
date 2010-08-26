@@ -1,3 +1,11 @@
+fontconfig (2.6.0-11slp3+4) unstable; urgency=low
+
+  * Change the Font configuration file
+  * Git: 165.213.180.234:/git/slp/pkgs/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+4
+
+ -- Myoungwoon Kim <myoungwoon.kim@samsung.com>  Thu, 26 Aug 2010 17:48:48 +0900
+
 fontconfig (2.6.0-11slp3+3) unstable; urgency=low
 
   * Change the maintainer to Mr. Myoungwoon Kim
