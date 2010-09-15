@@ -26,122 +26,42 @@
 	<dir>@FC_DEFAULT_FONTS@</dir>
 	@FC_FONTPATH@
 	<dir>~/.fonts</dir>
-	<dir>/usr/share/SLP/licensed_fonts</dir>
 
 <!--
-  Accept deprecated 'mono' alias, replacing it with 'GP45_ArabCJK_TouchWiz'
--->
-	<match target="pattern">
-		<test qual="any" name="family">
-			<string>SLP</string>
-		</test>
-		<edit name="family" mode="assign">
-			<string>Helvetica</string>
-		</edit>
-	</match>
-
-<!--
-  Accept deprecated 'mono' alias, replacing it with 'GP45_ArabCJK_TouchWiz'
+  Accept deprecated 'mono' alias, replacing it with 'monospace'
 -->
 	<match target="pattern">
 		<test qual="any" name="family">
 			<string>mono</string>
 		</test>
 		<edit name="family" mode="assign">
-			<string>HelveticaNeue-Rom</string>
+			<string>monospace</string>
 		</edit>
 	</match>
 
 <!--
-  Accept alternate 'sans serif' spelling, replacing it with 'GP45_ArabCJK_TouchWiz'
+  Accept alternate 'sans serif' spelling, replacing it with 'sans-serif'
 -->
 	<match target="pattern">
 		<test qual="any" name="family">
 			<string>sans serif</string>
 		</test>
 		<edit name="family" mode="assign">
-			<string>HelveticaNeue-Rom</string>
+			<string>sans-serif</string>
 		</edit>
 	</match>
 
 <!--
-  Accept deprecated 'sans' alias, replacing it with 'GP45_ArabCJK_TouchWiz'
+  Accept deprecated 'sans' alias, replacing it with 'sans-serif'
 -->
 	<match target="pattern">
 		<test qual="any" name="family">
 			<string>sans</string>
 		</test>
 		<edit name="family" mode="assign">
-			<string>HelveticaNeue-Rom</string>
+			<string>sans-serif</string>
 		</edit>
 	</match>
-    
-<!--
-  Accept deprecated 'serif' alias, replacing it with 'GP45_ArabCJK_TouchWiz'
--->
-	<match target="pattern">
-		<test qual="any" name="family">
-			<string>serif</string>
-		</test>
-		<edit name="family" mode="assign">
-			<string>HelveticaNeue-Rom</string>
-		</edit>
-    </match>
-
-<!--
-  Accept deprecated 'serif' alias, replacing it with 'GP45_ArabCJK_TouchWiz'
--->
-	<match target="pattern">
-		<test qual="any" name="family">
-			<string>HelveticaNeueRom</string>
-		</test>
-		<edit name="family" mode="assign">
-			<string>HelveticaNeue-Rom</string>
-		</edit>
-    </match>
-
-<!--
-  Accept deprecated 'serif' alias, replacing it with 'GP45_ArabCJK_TouchWiz'
--->
-	<match target="pattern">
-		<test qual="any" name="family">
-			<string>slp_default_roman</string>
-		</test>
-		<edit name="family" mode="assign">
-			<string>HelveticaNeue-Bld</string>
-		</edit>
-    </match>
-
-<!--
-  Accept deprecated 'serif' alias, replacing it with 'GP45_ArabCJK_TouchWiz'
--->
-	<match target="pattern">
-		<test qual="any" name="family">
-			<string>slp default</string>
-		</test>
-		<edit name="family" mode="assign">
-			<string>HelveticaNeue-Rom</string>
-		</edit>
-    </match>
-
-<!--
-  Accept deprecated 'serif' alias, replacing it with 'GP45_ArabCJK_TouchWiz'
--->
-	<match target="pattern">
-		<test qual="any" name="family">
-			<string>slp bold</string>
-		</test>
-		<edit name="family" mode="assign">
-			<string>HelveticaNeue-Bld</string>
-		</edit>
-    </match>
-
-<!--
-Names not including any well known alias are given 'GP45_ArabCJK_TouchWiz'
--->
-<match target="pattern">
-  <edit name="family" mode="append_last"><string>HelveticaNeue-Rom</string></edit>
-</match>
 
 <!--
   Load local system customization file
