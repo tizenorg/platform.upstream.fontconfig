@@ -1,3 +1,11 @@
+fontconfig (2.6.0-11slp3+6) unstable; urgency=low
+
+  * [SLP Font] Reverted fonts.conf.in to the open source codes.
+  * Git: 165.213.180.234:/git/slp/pkgs/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+6
+
+ -- Juyung Seo <juyung.seo@samsung.com>  Wed, 15 Sep 2010 15:08:54 +0900
+
 fontconfig (2.6.0-11slp3+5) unstable; urgency=low
 
   * Change fonts.conf.in to apply SLP font family name
