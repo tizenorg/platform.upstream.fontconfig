@@ -23000,12 +23000,12 @@ _ACEOF
 				;;
 			*)
 				expat=no
+				CPPFLAGS="$expatsaved_CPPFLAGS"
+				LIBS="$expatsaved_LIBS"
 				;;
 			esac
 			;;
 		esac
-		CPPFLAGS="$expatsaved_CPPFLAGS"
-		LIBS="$expatsaved_LIBS"
 		;;
 	esac
 
