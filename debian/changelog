@@ -1,3 +1,11 @@
+fontconfig (2.6.0-11slp3+8) unstable; urgency=low
+
+  * Applied patches from Karol.
+  * Git: 165.213.180.234:/git/slp/pkgs/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+8
+
+ -- Juyung Seo <juyung.seo@samsung.com>  Sun, 19 Sep 2010 18:40:03 +0900
+
 fontconfig (2.6.0-11slp3+7) unstable; urgency=low
 
   * Set default fonts as Helvetica.
