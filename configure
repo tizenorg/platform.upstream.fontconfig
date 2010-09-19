@@ -22332,9 +22332,6 @@ LIBS="$LIBS $FREETYPE_LIBS"
 CFLAGS="$CFLAGS $FREETYPE_CFLAGS"
 
 
-
-
-
 for ac_func in FT_Get_Next_Char FT_Get_BDF_Property FT_Get_PS_Font_Info FT_Has_PS_Glyph_Names FT_Get_X11_Font_Format
 do
 as_ac_var=`echo "ac_cv_func_$ac_func" | $as_tr_sh`
@@ -22536,8 +22533,9 @@ cat >>confdefs.h <<_ACEOF
 #define HAVE_FT_BITMAP_SIZE_Y_PPEM $HAVE_FT_BITMAP_SIZE_Y_PPEM
 _ACEOF
 
-CFLAGS="$fontconfig_save_cflags"
-LIBS="$fontconfig_save_libs"
+# Erm, maybe not. But if you know how to fix autotools, feel free to do so
+#CFLAGS="$fontconfig_save_cflags"
+#LIBS="$fontconfig_save_libs"
 
 #
 # Check expat configuration
@@ -23020,6 +23018,10 @@ _ACEOF
 		{ echo "$as_me:$LINENO: WARNING: Cannot find usable expat library. Trying to use libxml2 as fallback." >&5
 echo "$as_me: WARNING: Cannot find usable expat library. Trying to use libxml2 as fallback." >&2;}
 		;;
+#       *)
+#               EXPAT_CFLAGS="-I$expat_includes"
+#               EXPAT_LIBS="-lexpat"
+#               ;;
 	esac
 fi
 
