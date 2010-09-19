@@ -243,8 +243,9 @@ AC_CHECK_MEMBER(FT_Bitmap_Size.y_ppem,
 #include FT_FREETYPE_H])
 AC_DEFINE_UNQUOTED(HAVE_FT_BITMAP_SIZE_Y_PPEM,$HAVE_FT_BITMAP_SIZE_Y_PPEM,
 		   [FT_Bitmap_Size structure includes y_ppem field])
-CFLAGS="$fontconfig_save_cflags"
-LIBS="$fontconfig_save_libs"
+# Should perform a check here I guess..
+#CFLAGS="$fontconfig_save_cflags"
+#LIBS="$fontconfig_save_libs"
 
 #
 # Check expat configuration
@@ -354,6 +355,10 @@ if test "$enable_libxml2" != "yes"; then
 
 		AC_MSG_WARN([Cannot find usable expat library. Trying to use libxml2 as fallback.])
 		;;
+       *)
+               CPPFLAGS="$CPPFLAGS $EXPAT_CFLAGS"
+               LIBS="$LIBS $EXPAT_LIBS"
+               ;;
 	esac
 fi
 
