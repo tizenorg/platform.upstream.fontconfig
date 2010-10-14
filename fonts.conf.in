@@ -63,10 +63,6 @@
 		</edit>
 	</match>
 
-	<match target="pattern">
-		<edit name="family" mode="append_last"><string>Helvetica</string></edit>
-	</match>
-
 <!--
   Load local system customization file
 -->
