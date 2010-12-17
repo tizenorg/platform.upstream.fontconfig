@@ -1,3 +1,11 @@
+fontconfig (2.6.0-11slp3+12) unstable; urgency=low
+
+  * Bug fix - debian/rules has wrong configuration option. Modify cache-dir path.
+  * Git: 165.213.180.234:slp/pkgs/f/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+12
+
+ -- Minsu Han <minsu81.han@samsung.com>  Fri, 17 Dec 2010 09:47:18 +0900
+
 fontconfig (2.6.0-11slp3+11) unstable; urgency=low
 
   * Upload again.
