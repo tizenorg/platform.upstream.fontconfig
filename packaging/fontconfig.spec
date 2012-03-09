@@ -1,8 +1,9 @@
+#sbs-git:slp/pkgs/f/fontconfig fontconfig 2.6.0 70f07428c05d43eef8009f4dfbe28723b040e865
 %global freetype_version 2.1.4
 
 Name:       fontconfig
 Summary:    Font configuration and customization library
-Version:    2.6.0
+Version: 2.6.0
 Release:    1
 Group:      System/Libraries
 License:    MIT
@@ -16,13 +17,10 @@ BuildRequires:  gawk
 BuildRequires:  expat-devel
 BuildRequires:  perl
 
-
 %description
 Fontconfig is designed to locate fonts within the
-system and select them according to requirements specified by 
+system and select them according to requirements specified by
 applications.
-
-
 
 %package devel
 Summary:    Font configuration and customization library
@@ -36,21 +34,25 @@ Requires:   pkgconfig
 The fontconfig-devel package includes the header files,
 and developer docs for the fontconfig package.
 
-Install fontconfig-devel if you want to develop programs which 
+Install fontconfig-devel if you want to develop programs which
 will use fontconfig.
-
-
 
 %prep
 %setup -q -n %{name}-%{version}
-
 
 %build
 # We don't want to rebuild the docs, but we want to install the included ones.
 export HASDOCBOOK=no
 
 %reconfigure --disable-static \
-    --with-add-fonts=/usr/share/X11/fonts/misc,/usr/local/share/fonts --with-cache-dir=/var/cache/fontconfig --disable-docs
+    --with-expat=/usr \
+    --with-expat-include=%{_includedir} \
+    --with-expat-lib=%{_libdir} \
+    --with-freetype-config=%{_bindir}/freetype-config \
+    --with-add-fonts=/usr/share/X11/fonts/misc,/usr/share/fonts \
+    --with-cache-dir=/var/cache/fontconfig \
+    --with-confdir=/usr/etc/fonts \
+    --disable-docs
 
 make %{?jobs:-j%jobs}
 
@@ -59,7 +61,6 @@ make check
 rm -rf %{buildroot}
 
 %make_install
-
 
 #install -m 0644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/fonts/conf.d
 #install -m 0644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/fonts/conf.avail
@@ -78,13 +79,9 @@ rm -rf %{buildroot}
 # and own /usr/share/fonts
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/fonts
 
-
 # Remove unpackaged files. no need when configure --disable-static
 #rm $RPM_BUILD_ROOT%{_libdir}/*.la
 #rm $RPM_BUILD_ROOT%{_libdir}/*.a
-
-
-
 
 %post
 /sbin/ldconfig
@@ -97,7 +94,7 @@ rm -f /var/cache/fontconfig/????????????????????????????????.cache-2
 rm -f /var/cache/fontconfig/stamp
 
 # remove 49-sansserif.conf to fix bmc #9024
-rm -rf %{_sysconfdir}/fonts/conf.d/49-sansserif.conf
+rm -rf /usr/%{_sysconfdir}/fonts/conf.d/49-sansserif.conf
 
 # Force regeneration of all fontconfig cache files
 # The check for existance is needed on dual-arch installs (the second
@@ -107,12 +104,7 @@ if [ -x /usr/bin/fc-cache ] && /usr/bin/fc-cache --version 2>&1 | grep -q %{vers
 HOME=/root /usr/bin/fc-cache -f
 fi
 
-
 %postun -p /sbin/ldconfig
-
-
-
-
 
 %files
 %defattr(-,root,root,-)
@@ -123,14 +115,13 @@ fi
 %{_bindir}/fc-cat
 %{_bindir}/fc-list
 %{_bindir}/fc-match
-%{_sysconfdir}/fonts/*
-%dir %{_sysconfdir}/fonts/conf.avail
+/usr/%{_sysconfdir}/fonts/*
+%dir /usr/%{_sysconfdir}/fonts/conf.avail
 %dir %{_datadir}/fonts
-%doc %{_sysconfdir}/fonts/conf.d/README
-%config %{_sysconfdir}/fonts/conf.avail/*.conf
-%config(noreplace) %{_sysconfdir}/fonts/conf.d/*.conf
+%doc /usr/%{_sysconfdir}/fonts/conf.d/README
+%config /usr/%{_sysconfdir}/fonts/conf.avail/*.conf
+%config(noreplace) /usr/%{_sysconfdir}/fonts/conf.d/*.conf
 %dir /var/cache/fontconfig
-
 
 %files devel
 %defattr(-,root,root,-)
