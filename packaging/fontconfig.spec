@@ -49,7 +49,7 @@ export HASDOCBOOK=no
     --with-expat-include=%{_includedir} \
     --with-expat-lib=%{_libdir} \
     --with-freetype-config=%{_bindir}/freetype-config \
-    --with-add-fonts=/usr/share/X11/fonts/misc,/usr/share/fonts \
+    --with-add-fonts=/opt/share/fonts \
     --with-cache-dir=/var/cache/fontconfig \
     --with-confdir=/usr/etc/fonts \
     --disable-docs
