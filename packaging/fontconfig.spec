@@ -94,7 +94,7 @@ rm -f /var/cache/fontconfig/????????????????????????????????.cache-2
 rm -f /var/cache/fontconfig/stamp
 
 # remove 49-sansserif.conf to fix bmc #9024
-rm -rf /usr/%{_sysconfdir}/fonts/conf.d/49-sansserif.conf
+#rm -rf /usr/%{_sysconfdir}/fonts/conf.d/49-sansserif.conf
 
 # Force regeneration of all fontconfig cache files
 # The check for existance is needed on dual-arch installs (the second
