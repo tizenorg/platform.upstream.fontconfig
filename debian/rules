@@ -21,7 +21,7 @@ LDFLAGS ?=
 PREFIX = /usr
 DATADIR ?= /opt
 DATAFS ?= /opt
-configure_option=CC_FOR_BUILD=gcc --prefix=$(PREFIX) --with-expat=$(PREFIX) --with-expat-include=$(PREFIX)/include --with-expat-lib=$(PREFIX)/lib --with-freetype-config=$(PREFIX)/bin/freetype-config --disable-docs --with-arch=arm9 --with-add-fonts=$(DATADIR)/share/fonts --with-confdir=$(PREFIX)/etc/fonts --with-cache-dir=/var/cache/fontconfig
+configure_option=CC_FOR_BUILD=gcc --prefix=$(PREFIX) --with-expat=$(PREFIX) --with-expat-include=$(PREFIX)/include --with-expat-lib=$(PREFIX)/lib --with-freetype-config=$(PREFIX)/bin/freetype-config --disable-docs --with-arch=arm9 --with-add-fonts=$(DATADIR)/share/fonts,$(PREFIX)/share/app_fonts --with-confdir=$(PREFIX)/etc/fonts --with-cache-dir=/var/cache/fontconfig
 CONFIGURE_OPTIONS=${configure_option}
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))

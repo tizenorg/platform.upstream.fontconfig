@@ -1,3 +1,11 @@
+fontconfig (2.6.0-11slp3+19) unstable; urgency=low
+
+  * Add /usr/share/app_fonts to font directory list of fonts.conf
+  * Git: slp/pkgs/f/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+19
+
+ -- Deokjin Kim <deokjin81.kim@samsung.com>  Fri, 11 May 2012 17:25:25 +0900
+
 fontconfig (2.6.0-11slp3+18) unstable; urgency=low
 
   * Add /opt/share/fonts to font directory list of fonts.conf
