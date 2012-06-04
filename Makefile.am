@@ -1,5 +1,5 @@
 # 
-#  $Id$
+#  fontconfig/Makefile.am
 # 
 #  Copyright © 2003 Keith Packard
 # 
@@ -7,23 +7,24 @@
 #  documentation for any purpose is hereby granted without fee, provided that
 #  the above copyright notice appear in all copies and that both that
 #  copyright notice and this permission notice appear in supporting
-#  documentation, and that the name of Keith Packard not be used in
+#  documentation, and that the name of the author(s) not be used in
 #  advertising or publicity pertaining to distribution of the software without
-#  specific, written prior permission.  Keith Packard makes no
+#  specific, written prior permission.  The authors make no
 #  representations about the suitability of this software for any purpose.  It
 #  is provided "as is" without express or implied warranty.
 # 
-#  KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+#  THE AUTHOR(S) DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
 #  INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
-#  EVENT SHALL KEITH PACKARD BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+#  EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY SPECIAL, INDIRECT OR
 #  CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
 #  DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
 #  TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 #  PERFORMANCE OF THIS SOFTWARE.
 
 DOCSRC=@DOCSRC@
-SUBDIRS=fontconfig fc-case fc-lang fc-glyphname fc-arch src \
-	fc-cache fc-cat fc-list fc-match conf.d $(DOCSRC) test
+SUBDIRS=fontconfig fc-case fc-lang fc-glyphname src \
+	fc-cache fc-cat fc-list fc-match fc-pattern fc-query fc-scan \
+	conf.d $(DOCSRC) test
 	 
 EXTRA_DIST = \
         fontconfig.pc.in \
@@ -32,7 +33,8 @@ EXTRA_DIST = \
         fontconfig.spec.in \
         fontconfig.spec \
 	fontconfig-zip.in
-DISTCLEANFILES = config.cache ChangeLog doltcompile
+CLEANFILES = fonts.conf
+DISTCLEANFILES = config.cache doltcompile
 MAINTAINERCLEANFILES = \
 	$(srcdir)/aclocal.m4 \
 	$(srcdir)/autoscan.log \
@@ -62,15 +64,14 @@ endif
 
 # Creating ChangeLog from git log:
 
-MAINTAINERCLEANFILES += ChangeLog
-
+MAINTAINERCLEANFILES += $(srcdir)/ChangeLog
 EXTRA_DIST += ChangeLog
-
-ChangeLog:
+ChangeLog: $(srcdir)/ChangeLog
+$(srcdir)/ChangeLog:
 	if test -d "$(srcdir)/.git"; then \
-	  (GIT_DIR=$(top_srcdir)/.git ./missing --run git-log --stat) | fmt --split-only > $@.tmp \
+	  (GIT_DIR=$(top_srcdir)/.git ./missing --run git log --stat) | fmt --split-only > $@.tmp \
 	  && mv -f $@.tmp $@ \
-	  || ($(RM) $@.tmp; \
+	  || (rm -f $@.tmp; \
 	      echo Failed to generate ChangeLog, your ChangeLog may be outdated >&2; \
 	      (test -f $@ || echo git-log is required to generate this file >> $@)); \
 	else \
@@ -81,7 +82,17 @@ ChangeLog:
 
 .PHONY: ChangeLog
 
-install-data-local:
+fonts.conf: fonts.conf.in Makefile
+	sed \
+		-e 's,@FC_CACHEDIR\@,$(FC_CACHEDIR),g' \
+		-e 's,@FC_DEFAULT_FONTS\@,$(FC_DEFAULT_FONTS),g' \
+		-e 's,@FC_FONTPATH\@,$(FC_FONTPATH),g' \
+		-e 's,@PACKAGE\@,$(PACKAGE),g' \
+		-e 's,@VERSION\@,$(VERSION),g' \
+		$(srcdir)/$@.in > $@.tmp && \
+	mv $@.tmp $@
+
+install-data-local: fonts.conf
 	$(mkinstalldirs) $(DESTDIR)$(configdir) $(DESTDIR)$(fc_cachedir)
 	if [ -f $(DESTDIR)$(configdir)/fonts.conf ]; then \
 	  echo "backing up existing $(DESTDIR)$(configdir)/fonts.conf"; \
@@ -95,8 +106,8 @@ install-data-local:
 	  $(INSTALL_DATA) fonts.conf $(DESTDIR)$(configdir)/fonts.conf; \
 	fi; fi
 	@(if $(RUN_FC_CACHE_TEST); then \
-	    echo " $(bindir)/fc-cache -s -f -v"; \
-	    $(bindir)/fc-cache -s -f -v; \
+	    echo "fc-cache$(EXEEXT) -s -f -v"; \
+	    fc-cache/fc-cache$(EXEEXT) -s -f -v; \
 	else \
 	    echo "***"; \
 	    echo "*** Warning: fonts.cache not built"; \

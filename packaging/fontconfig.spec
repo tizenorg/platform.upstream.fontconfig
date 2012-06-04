@@ -3,7 +3,7 @@
 
 Name:       fontconfig
 Summary:    Font configuration and customization library
-Version: 2.6.0
+Version:    2.9.0
 Release:    1
 Group:      System/Libraries
 License:    MIT
@@ -111,10 +111,7 @@ fi
 %defattr(-, root, root)
 %doc README AUTHORS COPYING
 %{_libdir}/libfontconfig.so.*
-%{_bindir}/fc-cache
-%{_bindir}/fc-cat
-%{_bindir}/fc-list
-%{_bindir}/fc-match
+%{_bindir}/fc-*
 /usr/%{_sysconfdir}/fonts/*
 %dir /usr/%{_sysconfdir}/fonts/conf.avail
 %dir %{_datadir}/fonts

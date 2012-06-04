@@ -1,8 +1,8 @@
 Source: fontconfig
 Section: libs
 Priority:optional
-Maintainer: Minsu Han <minsu81.han@samsung.com>
-Uploaders: Seokjae Jeong <seok.j.jeong@samsung.com>, Sehwan Park <sehwan@samsung.com>, Juyung Seo <juyung.seo@samsung.com>, Minsu Han <minsu81.han@samsung.com>, Deokjin Kim <deokjin81.kim@samsung.com>, WooHyun Jung <wh0705.jung@samsung.com>
+Maintainer: Deokjin Kim <deokjin81.kim@samsung.com>
+Uploaders: Deokjin Kim <deokjin81.kim@samsung.com>, Inpyo Kang <mantiger@samsung.com>
 Build-Depends: debhelper (>= 5), autotools-dev, cdbs (>= 0.4.5.4), debhelper (>= 5.0.22), libfreetype6-dev (>= 2.1.7), libexpat1-dev, binutils (>= 2.12.90.0.9), po-debconf
 Standards-Version: 3.7.2
 

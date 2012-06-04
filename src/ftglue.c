@@ -18,7 +18,7 @@ static void
 ftglue_log( const char*   format, ... )
 {
   va_list  ap;
- 
+
   va_start( ap, format );
   vfprintf( stderr, format, ap );
   va_end( ap );
@@ -60,71 +60,13 @@ ftglue_qalloc( FT_Memory  memory,
   } while (0)
 
 
-FTGLUE_APIDEF( FT_Pointer )
-ftglue_alloc( FT_Memory  memory,
-              FT_ULong   size,
-              FT_Error  *perror )
-{
-  FT_Error    error = 0;
-  FT_Pointer  block = NULL;
-
-  if ( size > 0 )
-  {
-    block = memory->alloc( memory, size );
-    if ( !block )
-      error = FT_Err_Out_Of_Memory;
-    else
-      memset( (char*)block, 0, (size_t)size );
-  }
-
-  *perror = error;
-  return block;
-}
-
-
-FTGLUE_APIDEF( FT_Pointer )
-ftglue_realloc( FT_Memory   memory,
-                FT_Pointer  block,
-                FT_ULong    old_size,
-                FT_ULong    new_size,
-                FT_Error   *perror )
-{
-  FT_Pointer  block2 = NULL;
-  FT_Error    error  = 0;
-
-  if ( old_size == 0 || block == NULL )
-  {
-    block2 = ftglue_alloc( memory, new_size, &error );
-  }
-  else if ( new_size == 0 )
-  {
-    ftglue_free( memory, block );
-  }
-  else
-  {
-    block2 = memory->realloc( memory, old_size, new_size, block );
-    if ( block2 == NULL )
-      error = FT_Err_Out_Of_Memory;
-    else if ( new_size > old_size )
-      memset( (char*)block2 + old_size, 0, (size_t)(new_size - old_size) );
-  }
-
-  if ( !error )
-    block = block2;
-
-  *perror = error;
-  return block;
-}
-
-
-FTGLUE_APIDEF( void )
+static void
 ftglue_free( FT_Memory   memory,
              FT_Pointer  block )
 {
   if ( block )
     memory->free( memory, block );
 }
-
 
 FTGLUE_APIDEF( FT_Long )
 ftglue_stream_pos( FT_Stream   stream )
@@ -140,7 +82,6 @@ ftglue_stream_seek( FT_Stream   stream,
 {
   FT_Error  error = 0;
 
-  stream->pos = pos;
   if ( stream->read )
   {
     if ( stream->read( stream, pos, 0, 0 ) )
@@ -149,6 +90,8 @@ ftglue_stream_seek( FT_Stream   stream,
   else if ( pos > stream->size )
     error = FT_Err_Invalid_Stream_Operation;
 
+  if ( !error )
+    stream->pos = pos;
   LOG(( "ftglue:stream:seek(%ld) -> %d\n", pos, error ));
   return error;
 }
@@ -228,10 +171,10 @@ ftglue_face_goto_table( FT_Face    face,
   FT_Error  error;
 
   LOG(( "ftglue_face_goto_table( %p, %c%c%c%c, %p )\n",
-                face, 
-                (int)((the_tag >> 24) & 0xFF), 
-                (int)((the_tag >> 16) & 0xFF), 
-                (int)((the_tag >> 8) & 0xFF), 
+                face,
+                (int)((the_tag >> 24) & 0xFF),
+                (int)((the_tag >> 16) & 0xFF),
+                (int)((the_tag >> 8) & 0xFF),
                 (int)(the_tag & 0xFF),
                 stream ));
 
@@ -245,10 +188,17 @@ ftglue_face_goto_table( FT_Face    face,
    /* parse the directory table directly, without using
     * FreeType's built-in data structures
     */
-    FT_ULong  offset = 0;
+    FT_ULong  offset = 0, sig;
     FT_UInt   count, nn;
 
-    if ( face->num_faces > 1 )
+    if ( FILE_Seek( 0 ) || ACCESS_Frame( 4 ) )
+      goto Exit;
+
+    sig = GET_Tag4();
+
+    FORGET_Frame();
+
+    if ( sig == FT_MAKE_TAG( 't', 't', 'c', 'f' ) )
     {
       /* deal with TrueType collections */
 
@@ -286,7 +236,7 @@ ftglue_face_goto_table( FT_Face    face,
 
       FT_UNUSED(checksum);
       FT_UNUSED(size);
-      
+
       if ( tag == the_tag )
       {
         LOG(( "TrueType table (start: %ld) (size: %ld)\n", start, size ));
@@ -294,7 +244,7 @@ ftglue_face_goto_table( FT_Face    face,
         goto FoundIt;
       }
     }
-    error = TT_Err_Table_Missing;
+    error = FT_Err_Table_Missing;
 
   FoundIt:
     FORGET_Frame();
@@ -302,9 +252,9 @@ ftglue_face_goto_table( FT_Face    face,
 
 Exit:
   LOG(( "TrueType error=%d\n", error ));
-  
+
   return error;
-}                        
+}
 
 #undef QALLOC
 #define __ftglue__

@@ -1,3 +1,11 @@
+fontconfig (2.9.0-slp2+1) unstable; urgency=low
+
+  * fontconfig version upgrade from 2.6.0 to 2.9.0
+  * Git: slp/pkgs/f/fontconfig
+  * Tag: fontconfig_2.9.0-slp2+1
+
+ -- Deokjin Kim <deokjin81.kim@samsung.com>  Wed, 30 May 2012 16:53:17 +0900
+
 fontconfig (2.6.0-11slp3+19) unstable; urgency=low
 
   * Add /usr/share/app_fonts to font directory list of fonts.conf

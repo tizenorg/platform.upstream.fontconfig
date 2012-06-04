@@ -1,5 +1,5 @@
 /*
- * $Id$
+ * fontconfig/doc/fcfontset.fncs
  *
  * Copyright © 2003 Keith Packard
  *
@@ -7,15 +7,15 @@
  * documentation for any purpose is hereby granted without fee, provided that
  * the above copyright notice appear in all copies and that both that
  * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Keith Packard not be used in
+ * documentation, and that the name of the author(s) not be used in
  * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Keith Packard makes no
+ * specific, written prior permission.  The authors make no
  * representations about the suitability of this software for any purpose.  It
  * is provided "as is" without express or implied warranty.
  *
- * KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * THE AUTHOR(S) DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
- * EVENT SHALL KEITH PACKARD BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY SPECIAL, INDIRECT OR
  * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
  * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
@@ -62,6 +62,8 @@ Selects fonts matching <parameter>pattern</parameter> from
 <parameter>sets</parameter>, creates patterns from those
 fonts containing only the objects in <parameter>object_set</parameter> and returns
 the set of unique such patterns.
+If <parameter>config</parameter> is NULL, the default configuration is checked
+to be up to date, and used.
 @@
 
 @RET@		FcPattern *
@@ -80,6 +82,7 @@ pattern. This function should be called only after
 <function>FcConfigSubstitute</function> and
 <function>FcDefaultSubstitute</function> have been called for
 <parameter>pattern</parameter>; otherwise the results will not be correct.
+If <parameter>config</parameter> is NULL, the current configuration is used.
 Returns NULL if an error occurs during this process.
 @@
 
@@ -122,7 +125,7 @@ modify these patterns.  Instead, they should be passed, along with
 <parameter>pattern</parameter> to
 <function>FcFontRenderPrepare</function> which combines them into a complete pattern.
     </para><para>
-The FcFontSet returned by FcFontSetSort is destroyed by caling FcFontSetDestroy.
+The FcFontSet returned by FcFontSetSort is destroyed by calling FcFontSetDestroy.
 @@
 
 @RET@		

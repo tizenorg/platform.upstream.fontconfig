@@ -1,5 +1,5 @@
 /*
- * $RCSId: xc/lib/fontconfig/src/fcdbg.c,v 1.10 2002/08/22 18:53:22 keithp Exp $
+ * fontconfig/src/fcdbg.c
  *
  * Copyright © 2000 Keith Packard
  *
@@ -7,15 +7,15 @@
  * documentation for any purpose is hereby granted without fee, provided that
  * the above copyright notice appear in all copies and that both that
  * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Keith Packard not be used in
+ * documentation, and that the name of the author(s) not be used in
  * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Keith Packard makes no
+ * specific, written prior permission.  The authors make no
  * representations about the suitability of this software for any purpose.  It
  * is provided "as is" without express or implied warranty.
  *
- * KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * THE AUTHOR(S) DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
- * EVENT SHALL KEITH PACKARD BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY SPECIAL, INDIRECT OR
  * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
  * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
@@ -87,7 +87,7 @@ FcLangSetPrint (const FcLangSet *ls)
 {
     FcStrBuf	buf;
     FcChar8	init_buf[1024];
-    
+
     FcStrBufInit (&buf, init_buf, sizeof (init_buf));
     if (FcNameUnparseLangSet (&buf, ls) && FcStrBufChar (&buf,'\0'))
        printf ("%s", buf.buf);
@@ -102,27 +102,27 @@ FcCharSetPrint (const FcCharSet *c)
     int	i, j;
     intptr_t	*leaves = FcCharSetLeaves (c);
     FcChar16	*numbers = FcCharSetNumbers (c);
-    
+
 #if 0
     printf ("CharSet  0x%x\n", (intptr_t) c);
     printf ("Leaves:  +%d = 0x%x\n", c->leaves_offset, (intptr_t) leaves);
     printf ("Numbers: +%d = 0x%x\n", c->numbers_offset, (intptr_t) numbers);
-    
+
     for (i = 0; i < c->num; i++)
     {
-	printf ("Page %d: %04x +%d = 0x%x\n", 
-		i, numbers[i], leaves[i], 
+	printf ("Page %d: %04x +%d = 0x%x\n",
+		i, numbers[i], leaves[i],
 		(intptr_t) FcOffsetToPtr (leaves, leaves[i], FcCharLeaf));
     }
 #endif
 		
+    printf ("\n");
     for (i = 0; i < c->num; i++)
     {
 	intptr_t	leaf_offset = leaves[i];
 	FcCharLeaf	*leaf = FcOffsetToPtr (leaves, leaf_offset, FcCharLeaf);
 	
-	if (i)
-	    printf ("\t");
+	printf ("\t");
 	printf ("%04x:", numbers[i]);
 	for (j = 0; j < 256/32; j++)
 	    printf (" %08x", leaf->map[j]);
@@ -135,7 +135,7 @@ FcPatternPrint (const FcPattern *p)
 {
     int		    i;
     FcPatternElt   *e;
-    
+
     if (!p)
     {
 	printf ("Null pattern\n");
@@ -146,26 +146,7 @@ FcPatternPrint (const FcPattern *p)
     {
 	e = &FcPatternElts(p)[i];
 	printf ("\t%s:", FcObjectName(e->object));
-	/* so that fc-match properly displays file: foo... */
-	if (e->object == FC_FILE_OBJECT)
-	{
-	    FcChar8 * s;
-	    FcPatternObjectGetString (p, FC_FILE_OBJECT, 0, &s);
-	    printf (" \"%s\"", s);
-	    switch (FcPatternEltValues(e)->binding) {
-	    case FcValueBindingWeak:
-	        printf ("(w)");
-	        break;
-	    case FcValueBindingStrong:
-	        printf ("(s)");
-	        break;
-	    case FcValueBindingSame:
-	        printf ("(=)");
-	        break;
-	    }
-	}
-	else
-	    FcValueListPrint (FcPatternEltValues(e));
+	FcValueListPrint (FcPatternEltValues(e));
 	printf ("\n");
     }
     printf ("\n");
@@ -179,8 +160,10 @@ FcOpPrint (FcOp op)
     case FcOpDouble: printf ("Double"); break;
     case FcOpString: printf ("String"); break;
     case FcOpMatrix: printf ("Matrix"); break;
+    case FcOpRange: printf ("Range"); break;
     case FcOpBool: printf ("Bool"); break;
     case FcOpCharSet: printf ("CharSet"); break;
+    case FcOpLangSet: printf ("LangSet"); break;
     case FcOpField: printf ("Field"); break;
     case FcOpConst: printf ("Const"); break;
     case FcOpAssign: printf ("Assign"); break;
@@ -229,8 +212,14 @@ FcExprPrint (const FcExpr *expr)
 			      expr->u.mval->xy,
 			      expr->u.mval->yx,
 			      expr->u.mval->yy); break;
+    case FcOpRange: break;
     case FcOpBool: printf ("%s", expr->u.bval ? "true" : "false"); break;
     case FcOpCharSet: printf ("charset\n"); break;
+    case FcOpLangSet:
+	printf ("langset:");
+	FcLangSetPrint(expr->u.lval);
+	printf ("\n");
+	break;
     case FcOpNil: printf ("nil\n"); break;
     case FcOpField: printf ("%s", FcObjectName(expr->u.object)); break;
     case FcOpConst: printf ("%s", expr->u.constant); break;
@@ -366,7 +355,7 @@ FcSubstPrint (const FcSubst *subst)
 {
     FcEdit	*e;
     FcTest	*t;
-    
+
     printf ("match\n");
     for (t = subst->test; t; t = t->next)
     {

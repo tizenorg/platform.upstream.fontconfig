@@ -1,5 +1,5 @@
 /*
- * $Id$
+ * fontconfig/doc/fccharset.fncs
  *
  * Copyright © 2003 Keith Packard
  *
@@ -7,15 +7,15 @@
  * documentation for any purpose is hereby granted without fee, provided that
  * the above copyright notice appear in all copies and that both that
  * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Keith Packard not be used in
+ * documentation, and that the name of the author(s) not be used in
  * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Keith Packard makes no
+ * specific, written prior permission.  The authors make no
  * representations about the suitability of this software for any purpose.  It
  * is provided "as is" without express or implied warranty.
  *
- * KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * THE AUTHOR(S) DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
- * EVENT SHALL KEITH PACKARD BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY SPECIAL, INDIRECT OR
  * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
  * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
@@ -46,9 +46,20 @@ memory referenced is freed.
 @TYPE2@		FcChar32% 		@ARG2@		ucs4 
 @PURPOSE@	Add a character to a charset
 @DESC@
-<function>FcCharSetAddChar</function> adds a single unicode char to the set,
+<function>FcCharSetAddChar</function> adds a single Unicode char to the set,
 returning FcFalse on failure, either as a result of a constant set or from
 running out of memory. 
+@@
+
+@RET@		FcBool 
+@FUNC@		FcCharSetDelChar
+@TYPE1@		FcCharSet *		@ARG1@		fcs
+@TYPE2@		FcChar32% 		@ARG2@		ucs4 
+@PURPOSE@	Add a character to a charset
+@DESC@
+<function>FcCharSetDelChar</function> deletes a single Unicode char from the set,
+returning FcFalse on failure, either as a result of a constant set or from
+running out of memory.
 @@
 
 @RET@		FcCharSet *
@@ -67,7 +78,7 @@ than increment the reference count on <parameter>src</parameter>.
 @PURPOSE@	Compare two charsets
 @DESC@
 Returns whether <parameter>a</parameter> and <parameter>b</parameter>
-contain the same set of unicode chars.
+contain the same set of Unicode chars.
 @@
 
 @RET@		FcCharSet *
@@ -98,6 +109,21 @@ Returns a set including only those chars found in either <parameter>a</parameter
 Returns a set including only those chars found in <parameter>a</parameter> but not <parameter>b</parameter>. 
 @@
 
+@RET@		FcBool
+@FUNC@		FcCharSetMerge
+@TYPE1@		FcCharSet *		@ARG1@		a
+@TYPE2@		const FcCharSet *	@ARG2@		b
+@TYPE3@		FcBool *		@ARG3@		changed
+@PURPOSE@	Merge charsets
+@DESC@
+Adds all chars in <parameter>b</parameter> to <parameter>a</parameter>.
+In other words, this is an in-place version of FcCharSetUnion.
+If <parameter>changed</parameter> is not NULL, then it returns whether any new
+chars from <parameter>b</parameter> were added to <parameter>a</parameter>.
+Returns FcFalse on failure, either when <parameter>a</parameter> is a constant
+set or from running out of memory.
+@@
+
 @RET@		FcBool 
 @FUNC@		FcCharSetHasChar
 @TYPE1@		const FcCharSet *	@ARG1@		fcs
@@ -112,7 +138,7 @@ Returns whether <parameter>fcs</parameter> contains the char <parameter>ucs4</pa
 @TYPE1@		const FcCharSet *	@ARG1@		a
 @PURPOSE@	Count entries in a charset
 @DESC@
-Returns the total number of unicode chars in <parameter>a</parameter>. 
+Returns the total number of Unicode chars in <parameter>a</parameter>. 
 @@
 
 @RET@		FcChar32

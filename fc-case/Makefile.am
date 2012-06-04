@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 #
 # $Id $
 #
@@ -7,24 +8,20 @@
 # documentation for any purpose is hereby granted without fee, provided that
 # the above copyright notice appear in all copies and that both that
 # copyright notice and this permission notice appear in supporting
-# documentation, and that the name of Keith Packard not be used in
+# documentation, and that the name of the author(s) not be used in
 # advertising or publicity pertaining to distribution of the software without
-# specific, written prior permission.  Keith Packard makes no
+# specific, written prior permission.  The authors make no
 # representations about the suitability of this software for any purpose.  It
 # is provided "as is" without express or implied warranty.
 #
-# KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+# THE AUTHOR(S) DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
 # INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
-# EVENT SHALL KEITH PACKARD BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+# EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY SPECIAL, INDIRECT OR
 # CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
 # DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
 # TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 # PERFORMANCE OF THIS SOFTWARE.
 #
-
-CC = @CC_FOR_BUILD@
-EXEEXT = @EXEEXT_FOR_BUILD@
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 
 INCLUDES=-I${top_srcdir}/src -I${top_srcdir} $(WARN_CFLAGS)
 
@@ -34,28 +31,35 @@ TARG=fccase.h
 
 noinst_PROGRAMS=fc-case
 
-noinst_MANS=fc-case.man
+noinst_HEADERS=$(TARG)
 
-fc_case_SRCS= \
-	fc-case.c \
-	fccaseint.h \
-	fccaseread.c
+fc_case_SOURCES= \
+	fc-case.c
 
 CASEFOLDING=CaseFolding.txt
 SCASEFOLDING=${top_srcdir}/fc-case/CaseFolding.txt
 
-EXTRA_DIST=$(TMPL) $(CASEFOLDING)
+EXTRA_DIST = $(TARG) $(TMPL) $(CASEFOLDING)
 
+if CROSS_COMPILING
+$(TARG): $(STMPL) fc-case.c $(SCASEFOLDING)
+	@echo Warning: cannot rebuild $(TARG) when cross-compiling
+else
 $(TARG): $(STMPL) fc-case$(EXEEXT) $(SCASEFOLDING)
-	rm -f $(TARG)
-	./fc-case$(EXEEXT) $(SCASEFOLDING) < $(STMPL) > $(TARG)
+	-@rm $(TARG)
+	$(AM_V_GEN) $(builddir)/fc-case$(EXEEXT) $(SCASEFOLDING) < $(STMPL) > $(TARG).tmp && \
+	mv $(TARG).tmp $(TARG)
+endif
 
 ALIAS_FILES = fcalias.h fcaliastail.h
 
-BUILT_SOURCES = $(ALIAS_FILES) $(TARG)
+BUILT_SOURCES = $(ALIAS_FILES)
 
 $(ALIAS_FILES): 
 	touch $(ALIAS_FILES)
 
-CLEANFILES=$(TARG) $(ALIAS_FILES)
+CLEANFILES = $(ALIAS_FILES)
 
+DISTCLEANFILES = $(TARG)
+
+MAINTAINERCLEANFILES = $(TARG)

@@ -1,5 +1,5 @@
 /*
- * $RCSId: xc/lib/fontconfig/fc-cache/fc-cache.c,v 1.8tsi Exp $
+ * fontconfig/fc-cat/fc-cat.c
  *
  * Copyright © 2002 Keith Packard
  *
@@ -7,15 +7,15 @@
  * documentation for any purpose is hereby granted without fee, provided that
  * the above copyright notice appear in all copies and that both that
  * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Keith Packard not be used in
+ * documentation, and that the name of the author(s) not be used in
  * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Keith Packard makes no
+ * specific, written prior permission.  The authors make no
  * representations about the suitability of this software for any purpose.  It
  * is provided "as is" without express or implied warranty.
  *
- * KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * THE AUTHOR(S) DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
- * EVENT SHALL KEITH PACKARD BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY SPECIAL, INDIRECT OR
  * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
  * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
@@ -32,7 +32,7 @@
 #endif
 
 #include <fontconfig/fontconfig.h>
-#include "../fc-arch/fcarch.h"
+#include "../src/fcarch.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -56,7 +56,7 @@ const struct option longopts[] = {
     {"version", 0, 0, 'V'},
     {"verbose", 0, 0, 'v'},
     {"recurse", 0, 0, 'r'},
-    {"help", 0, 0, '?'},
+    {"help", 0, 0, 'h'},
     {NULL,0,0,0},
 };
 #else
@@ -146,32 +146,33 @@ write_string (FILE *f, const FcChar8 *string)
 }
 
 static void
-usage (char *program)
+usage (char *program, int error)
 {
+    FILE *file = error ? stderr : stdout;
 #if HAVE_GETOPT_LONG
-    fprintf (stderr, "usage: %s [-rv] [--recurse] [--verbose] [*-%s.cache-2|directory]...\n",
+    fprintf (file, "usage: %s [-rv] [--recurse] [--verbose] [*-%s.cache-2|directory]...\n",
 	     program, FC_ARCHITECTURE);
-    fprintf (stderr, "       %s [-V?] [--version] [--help]\n", program);
+    fprintf (file, "       %s [-Vh] [--version] [--help]\n", program);
 #else
-    fprintf (stderr, "usage: %s [-rvV?] [*-%s.cache-2|directory]...\n",
+    fprintf (file, "usage: %s [-rvVh] [*-%s.cache-2|directory]...\n",
 	     program, FC_ARCHITECTURE);
 #endif
-    fprintf (stderr, "Reads font information cache from:\n"); 
-    fprintf (stderr, " 1) specified fontconfig cache file\n");
-    fprintf (stderr, " 2) related to a particular font directory\n");
-    fprintf (stderr, "\n");
+    fprintf (file, "Reads font information cache from:\n");
+    fprintf (file, " 1) specified fontconfig cache file\n");
+    fprintf (file, " 2) related to a particular font directory\n");
+    fprintf (file, "\n");
 #if HAVE_GETOPT_LONG
-    fprintf (stderr, "  -r, --recurse        recurse into subdirectories\n");
-    fprintf (stderr, "  -v, --verbose        be verbose\n");
-    fprintf (stderr, "  -V, --version        display font config version and exit\n");
-    fprintf (stderr, "  -?, --help           display this help and exit\n");
+    fprintf (file, "  -r, --recurse        recurse into subdirectories\n");
+    fprintf (file, "  -v, --verbose        be verbose\n");
+    fprintf (file, "  -V, --version        display font config version and exit\n");
+    fprintf (file, "  -h, --help           display this help and exit\n");
 #else
-    fprintf (stderr, "  -r         (recurse) recurse into subdirectories\n");
-    fprintf (stderr, "  -v         (verbose) be verbose\n");
-    fprintf (stderr, "  -V         (version) display font config version and exit\n");
-    fprintf (stderr, "  -?         (help)    display this help and exit\n");
+    fprintf (file, "  -r         (recurse) recurse into subdirectories\n");
+    fprintf (file, "  -v         (verbose) be verbose\n");
+    fprintf (file, "  -V         (version) display font config version and exit\n");
+    fprintf (file, "  -h         (help)    display this help and exit\n");
 #endif
-    exit (1);
+    exit (error);
 }
 
 /*
@@ -193,11 +194,9 @@ file_base_name (const FcChar8 *cache, const FcChar8 *file)
 static FcBool
 cache_print_set (FcFontSet *set, FcStrSet *dirs, const FcChar8 *base_name, FcBool verbose)
 {
-    FcChar8	    *name, *dir;
-    const FcChar8   *file, *base;
-    int		    ret;
+    FcChar8	    *dir;
+    const FcChar8   *base;
     int		    n;
-    int		    id;
     int		    ndir = 0;
     FcStrList	    *list;
 
@@ -226,37 +225,22 @@ cache_print_set (FcFontSet *set, FcStrSet *dirs, const FcChar8 *base_name, FcBoo
     for (n = 0; n < set->nfont; n++)
     {
 	FcPattern   *font = set->fonts[n];
+	FcChar8 *s;
 
-	if (FcPatternGetString (font, FC_FILE, 0, (FcChar8 **) &file) != FcResultMatch)
-	    goto bail3;
-	base = file_base_name (base_name, file);
-	if (FcPatternGetInteger (font, FC_INDEX, 0, &id) != FcResultMatch)
-	    goto bail3;
-	if (!write_string (stdout, base))
-	    goto bail3;
-	if (PUTC (' ', stdout) == EOF)
-	    goto bail3;
-	if (!write_int (stdout, id))
-	    goto bail3;
-        if (PUTC (' ', stdout) == EOF)
-	    goto bail3;
-	name = FcNameUnparse (font);
-	if (!name)
-	    goto bail3;
-	ret = write_string (stdout, name);
-	FcStrFree (name);
-	if (!ret)
-	    goto bail3;
-	if (PUTC ('\n', stdout) == EOF)
-	    goto bail3;
+	s = FcPatternFormat (font, (const FcChar8 *) "%{=fccat}\n");
+	if (s)
+	{
+	    printf ("%s", s);
+	    free (s);
+	}
     }
     if (verbose && !set->nfont && !ndir)
 	printf ("<empty>\n");
-    
+
     FcStrListDone (list);
 
     return FcTrue;
-    
+
 bail3:
     FcStrListDone (list);
 bail2:
@@ -282,9 +266,9 @@ main (int argc, char **argv)
     int		c;
 
 #if HAVE_GETOPT_LONG
-    while ((c = getopt_long (argc, argv, "Vvr?", longopts, NULL)) != -1)
+    while ((c = getopt_long (argc, argv, "Vvrh", longopts, NULL)) != -1)
 #else
-    while ((c = getopt (argc, argv, "Vvr?")) != -1)
+    while ((c = getopt (argc, argv, "Vvrh")) != -1)
 #endif
     {
 	switch (c) {
@@ -298,8 +282,10 @@ main (int argc, char **argv)
 	case 'r':
 	    recurse++;
 	    break;
+	case 'h':
+	    usage (argv[0], 0);
 	default:
-	    usage (argv[0]);
+	    usage (argv[0], 1);
 	}
     }
     i = optind;
@@ -401,5 +387,6 @@ main (int argc, char **argv)
 	    FcStrFree (cache_file);
     }
 
+    FcFini ();
     return 0;
 }

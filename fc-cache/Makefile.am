@@ -1,5 +1,5 @@
 # 
-#  $Id$
+#  fontconfig/fc-cache/Makefile.am
 # 
 #  Copyright © 2003 Keith Packard
 # 
@@ -7,15 +7,15 @@
 #  documentation for any purpose is hereby granted without fee, provided that
 #  the above copyright notice appear in all copies and that both that
 #  copyright notice and this permission notice appear in supporting
-#  documentation, and that the name of Keith Packard not be used in
+#  documentation, and that the name of the author(s) not be used in
 #  advertising or publicity pertaining to distribution of the software without
-#  specific, written prior permission.  Keith Packard makes no
+#  specific, written prior permission.  The authors make no
 #  representations about the suitability of this software for any purpose.  It
 #  is provided "as is" without express or implied warranty.
 # 
-#  KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+#  THE AUTHOR(S) DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
 #  INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
-#  EVENT SHALL KEITH PACKARD BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+#  EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY SPECIAL, INDIRECT OR
 #  CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
 #  DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
 #  TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
@@ -33,7 +33,7 @@ install-data-local:
 	-$(mkinstalldirs) "$(DESTDIR)$(fc_cachedir)"
 
 uninstall-local:
-	-$(RM) -rf "$(DESTDIR)$(fc_cachedir)"
+	-rm -rf "$(DESTDIR)$(fc_cachedir)"
 endif
 
 INCLUDES=-I${top_srcdir} -I${top_srcdir}/src $(WARN_CFLAGS)
@@ -53,14 +53,14 @@ fc_cache_LDADD = ${top_builddir}/src/libfontconfig.la
 if USEDOCBOOK
 
 ${man_MANS}: ${SGML}	
-	$(RM) $@
-	$(DOC2MAN) ${SGML}
-	$(RM) manpage.refs manpage.links
+	-@rm $@
+	$(AM_V_GEN) $(DOC2MAN) ${SGML}
+	@rm -f manpage.*
 
 all-local: $(man_MANS)
 
 clean-local:
-	$(RM) $(man_MANS)
+	-rm $(man_MANS)
 
 else
 all-local:

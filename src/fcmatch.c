@@ -1,5 +1,5 @@
 /*
- * $RCSId: xc/lib/fontconfig/src/fcmatch.c,v 1.20 2002/08/31 22:17:32 keithp Exp $
+ * fontconfig/src/fcmatch.c
  *
  * Copyright © 2000 Keith Packard
  *
@@ -7,15 +7,15 @@
  * documentation for any purpose is hereby granted without fee, provided that
  * the above copyright notice appear in all copies and that both that
  * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Keith Packard not be used in
+ * documentation, and that the name of the author(s) not be used in
  * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Keith Packard makes no
+ * specific, written prior permission.  The authors make no
  * representations about the suitability of this software for any purpose.  It
  * is provided "as is" without express or implied warranty.
  *
- * KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+ * THE AUTHOR(S) DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
- * EVENT SHALL KEITH PACKARD BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+ * EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY SPECIAL, INDIRECT OR
  * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
  * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
@@ -23,6 +23,7 @@
  */
 
 #include "fcint.h"
+#include <assert.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
@@ -31,7 +32,7 @@ static double
 FcCompareNumber (FcValue *value1, FcValue *value2)
 {
     double  v1, v2, v;
-    
+
     switch (value1->type) {
     case FcTypeInteger:
 	v1 = (double) value1->u.i;
@@ -61,18 +62,19 @@ FcCompareNumber (FcValue *value1, FcValue *value2)
 static double
 FcCompareString (FcValue *v1, FcValue *v2)
 {
-    return (double) FcStrCmpIgnoreCase (fc_value_string(v1), fc_value_string(v2)) != 0;
+    return (double) FcStrCmpIgnoreCase (FcValueString(v1), FcValueString(v2)) != 0;
 }
 
 static double
 FcCompareFamily (FcValue *v1, FcValue *v2)
 {
-    /* rely on the guarantee in FcPatternAddWithBinding that
+    /* rely on the guarantee in FcPatternObjectAddWithBinding that
      * families are always FcTypeString. */
-    const FcChar8* v1_string = fc_value_string(v1);
-    const FcChar8* v2_string = fc_value_string(v2);
+    const FcChar8* v1_string = FcValueString(v1);
+    const FcChar8* v2_string = FcValueString(v2);
 
-    if (FcToLower(*v1_string) != FcToLower(*v2_string))
+    if (FcToLower(*v1_string) != FcToLower(*v2_string) &&
+	*v1_string != ' ' && *v2_string != ' ')
        return 1.0;
 
     return (double) FcStrCmpIgnoreBlanksAndCase (v1_string, v2_string) != 0;
@@ -83,7 +85,7 @@ FcCompareLang (FcValue *v1, FcValue *v2)
 {
     FcLangResult    result;
     FcValue value1 = FcValueCanonicalize(v1), value2 = FcValueCanonicalize(v2);
-    
+
     switch (value1.type) {
     case FcTypeLangSet:
 	switch (value2.type) {
@@ -91,7 +93,7 @@ FcCompareLang (FcValue *v1, FcValue *v2)
 	    result = FcLangSetCompare (value1.u.l, value2.u.l);
 	    break;
 	case FcTypeString:
-	    result = FcLangSetHasLang (value1.u.l, 
+	    result = FcLangSetHasLang (value1.u.l,
 				       value2.u.s);
 	    break;
 	default:
@@ -104,7 +106,7 @@ FcCompareLang (FcValue *v1, FcValue *v2)
 	    result = FcLangSetHasLang (value2.u.l, value1.u.s);
 	    break;
 	case FcTypeString:
-	    result = FcLangCompare (value1.u.s, 
+	    result = FcLangCompare (value1.u.s,
 				    value2.u.s);
 	    break;
 	default:
@@ -128,7 +130,7 @@ FcCompareLang (FcValue *v1, FcValue *v2)
 static double
 FcCompareBool (FcValue *v1, FcValue *v2)
 {
-    if (fc_storage_type(v2) != FcTypeBool || fc_storage_type(v1) != FcTypeBool)
+    if (v2->type != FcTypeBool || v1->type != FcTypeBool)
 	return -1.0;
     return (double) v2->u.b != v1->u.b;
 }
@@ -136,7 +138,7 @@ FcCompareBool (FcValue *v1, FcValue *v2)
 static double
 FcCompareCharSet (FcValue *v1, FcValue *v2)
 {
-    return (double) FcCharSetSubtractCount (fc_value_charset(v1), fc_value_charset(v2));
+    return (double) FcCharSetSubtractCount (FcValueCharSet(v1), FcValueCharSet(v2));
 }
 
 static double
@@ -183,72 +185,43 @@ typedef struct _FcMatcher {
  * each value, earlier values are more significant than
  * later values
  */
-static FcMatcher _FcMatchers [] = {
+static const FcMatcher _FcMatchers [] = {
     { FC_FOUNDRY_OBJECT,	FcCompareString,	0, 0 },
 #define MATCH_FOUNDRY	    0
-#define MATCH_FOUNDRY_INDEX 0
-    
     { FC_CHARSET_OBJECT,	FcCompareCharSet,	1, 1 },
 #define MATCH_CHARSET	    1
-#define MATCH_CHARSET_INDEX 1
-    
     { FC_FAMILY_OBJECT,    	FcCompareFamily,	2, 4 },
 #define MATCH_FAMILY	    2
-#define MATCH_FAMILY_STRONG_INDEX   2
-#define MATCH_FAMILY_WEAK_INDEX	    4
-    
     { FC_LANG_OBJECT,		FcCompareLang,	3, 3 },
 #define MATCH_LANG	    3
 #define MATCH_LANG_INDEX    3
-    
     { FC_SPACING_OBJECT,	FcCompareNumber,	5, 5 },
 #define MATCH_SPACING	    4
-#define MATCH_SPACING_INDEX 5
-    
     { FC_PIXEL_SIZE_OBJECT,	FcCompareSize,	6, 6 },
 #define MATCH_PIXEL_SIZE    5
-#define MATCH_PIXEL_SIZE_INDEX	6
-    
     { FC_STYLE_OBJECT,		FcCompareString,	7, 7 },
 #define MATCH_STYLE	    6
-#define MATCH_STYLE_INDEX   7
-    
     { FC_SLANT_OBJECT,		FcCompareNumber,	8, 8 },
 #define MATCH_SLANT	    7
-#define MATCH_SLANT_INDEX   8
-    
     { FC_WEIGHT_OBJECT,		FcCompareNumber,	9, 9 },
 #define MATCH_WEIGHT	    8
-#define MATCH_WEIGHT_INDEX  9
-    
     { FC_WIDTH_OBJECT,		FcCompareNumber,	10, 10 },
 #define MATCH_WIDTH	    9
-#define MATCH_WIDTH_INDEX   10
-    
     { FC_DECORATIVE_OBJECT,	FcCompareBool,		11, 11 },
 #define MATCH_DECORATIVE	10
-#define MATCH_DECORATIVE_INDEX	11
-
     { FC_ANTIALIAS_OBJECT,	FcCompareBool,		12, 12 },
 #define MATCH_ANTIALIAS		    11
-#define MATCH_ANTIALIAS_INDEX	    12
-    
     { FC_RASTERIZER_OBJECT,	FcCompareString,	13, 13 },
 #define MATCH_RASTERIZER	    12
-#define MATCH_RASTERIZER_INDEX	    13
-
     { FC_OUTLINE_OBJECT,	FcCompareBool,		14, 14 },
 #define MATCH_OUTLINE		    13
-#define MATCH_OUTLINE_INDEX	    14
-
     { FC_FONTVERSION_OBJECT,	FcCompareNumber,	15, 15 },
 #define MATCH_FONTVERSION	    14
-#define MATCH_FONTVERSION_INDEX	    15
 };
 
 #define NUM_MATCH_VALUES    16
 
-static FcMatcher*
+static const FcMatcher*
 FcObjectToMatcher (FcObject object)
 {
     int 	i;
@@ -304,7 +277,7 @@ FcCompareValueList (FcObject	 object,
     FcValueListPtr  v1, v2;
     double    	    v, best, bestStrong, bestWeak;
     int		    j;
-    FcMatcher       *match = FcObjectToMatcher(object);
+    const FcMatcher *match = FcObjectToMatcher(object);
 
     if (!match)
     {
@@ -316,7 +289,7 @@ FcCompareValueList (FcObject	 object,
     best = 1e99;
     bestStrong = 1e99;
     bestWeak = 1e99;
-    j = 0;
+    j = 1;
     for (v1 = v1orig; v1; v1 = FcValueListNext(v1))
     {
 	for (v2 = v2orig; v2; v2 = FcValueListNext(v2))
@@ -327,7 +300,7 @@ FcCompareValueList (FcObject	 object,
 		*result = FcResultTypeMismatch;
 		return FcFalse;
 	    }
-	    v = v * 100 + j;
+	    v = v * 1000 + j;
 	    if (v < best)
 	    {
 		if (bestValue)
@@ -382,10 +355,10 @@ FcCompare (FcPattern	*pat,
 	   FcResult	*result)
 {
     int		    i, i1, i2;
-    
+
     for (i = 0; i < NUM_MATCH_VALUES; i++)
 	value[i] = 0.0;
-    
+
     i1 = 0;
     i2 = 0;
     while (i1 < pat->num && i2 < fnt->num)
@@ -422,7 +395,10 @@ FcFontRenderPrepare (FcConfig	    *config,
     FcPatternElt    *fe, *pe;
     FcValue	    v;
     FcResult	    result;
-    
+
+    assert (pat != NULL);
+    assert (font != NULL);
+
     new = FcPatternCreate ();
     if (!new)
 	return 0;
@@ -432,7 +408,7 @@ FcFontRenderPrepare (FcConfig	    *config,
 	pe = FcPatternObjectFindElt (pat, fe->object);
 	if (pe)
 	{
-	    if (!FcCompareValueList (pe->object, FcPatternEltValues(pe), 
+	    if (!FcCompareValueList (pe->object, FcPatternEltValues(pe),
 				     FcPatternEltValues(fe), &v, 0, &result))
 	    {
 		FcPatternDestroy (new);
@@ -458,12 +434,12 @@ FcFontRenderPrepare (FcConfig	    *config,
     return new;
 }
 
-FcPattern *
-FcFontSetMatch (FcConfig    *config,
-		FcFontSet   **sets,
-		int	    nsets,
-		FcPattern   *p,
-		FcResult    *result)
+static FcPattern *
+FcFontSetMatchInternal (FcConfig    *config,
+			FcFontSet   **sets,
+			int	    nsets,
+			FcPattern   *p,
+			FcResult    *result)
 {
     double    	    score[NUM_MATCH_VALUES], bestscore[NUM_MATCH_VALUES];
     int		    f;
@@ -479,12 +455,6 @@ FcFontSetMatch (FcConfig    *config,
     {
 	printf ("Match ");
 	FcPatternPrint (p);
-    }
-    if (!config)
-    {
-	config = FcConfigGetCurrent ();
-	if (!config)
-	    return 0;
     }
     for (set = 0; set < nsets; set++)
     {
@@ -528,6 +498,7 @@ FcFontSetMatch (FcConfig    *config,
 	printf ("Best score");
 	for (i = 0; i < NUM_MATCH_VALUES; i++)
 	    printf (" %g", bestscore[i]);
+	printf ("\n");
 	FcPatternPrint (best);
     }
     if (!best)
@@ -535,16 +506,46 @@ FcFontSetMatch (FcConfig    *config,
 	*result = FcResultNoMatch;
 	return 0;
     }
-    return FcFontRenderPrepare (config, p, best);
+    return best;
+}
+
+FcPattern *
+FcFontSetMatch (FcConfig    *config,
+		FcFontSet   **sets,
+		int	    nsets,
+		FcPattern   *p,
+		FcResult    *result)
+{
+    FcPattern	    *best;
+
+    assert (sets != NULL);
+    assert (p != NULL);
+    assert (result != NULL);
+
+    if (!config)
+    {
+	config = FcConfigGetCurrent ();
+	if (!config)
+	    return 0;
+    }
+    best = FcFontSetMatchInternal (config, sets, nsets, p, result);
+    if (best)
+	return FcFontRenderPrepare (config, p, best);
+    else
+	return NULL;
 }
 
 FcPattern *
 FcFontMatch (FcConfig	*config,
-	     FcPattern	*p, 
+	     FcPattern	*p,
 	     FcResult	*result)
 {
     FcFontSet	*sets[2];
     int		nsets;
+    FcPattern   *best;
+
+    assert (p != NULL);
+    assert (result != NULL);
 
     if (!config)
     {
@@ -557,7 +558,12 @@ FcFontMatch (FcConfig	*config,
 	sets[nsets++] = config->fonts[FcSetSystem];
     if (config->fonts[FcSetApplication])
 	sets[nsets++] = config->fonts[FcSetApplication];
-    return FcFontSetMatch (config, sets, nsets, p, result);
+
+    best = FcFontSetMatchInternal (config, sets, nsets, p, result);
+    if (best)
+	return FcFontRenderPrepare (config, p, best);
+    else
+	return NULL;
 }
 
 typedef struct _FcSortNode {
@@ -582,52 +588,71 @@ FcSortCompare (const void *aa, const void *ab)
 }
 
 static FcBool
-FcSortWalk (FcSortNode **n, int nnode, FcFontSet *fs, FcCharSet **cs, FcBool trim, FcBool build_cs)
+FcSortWalk (FcSortNode **n, int nnode, FcFontSet *fs, FcCharSet **csp, FcBool trim)
 {
-    FcCharSet	*ncs;
-    FcSortNode	*node;
+    FcBool ret = FcFalse;
+    FcCharSet *cs;
+
+    cs = 0;
+    if (trim || csp)
+    {
+	cs = FcCharSetCreate ();
+	if (cs == NULL)
+	    goto bail;
+    }
 
     while (nnode--)
     {
-	node = *n++;
-	if (FcPatternGetCharSet (node->pattern, FC_CHARSET, 0, &ncs) == 
-	    FcResultMatch)
-	{
-	    /*
-	     * If this font isn't a subset of the previous fonts,
-	     * add it to the list
-	     */
-	    if (!trim || !*cs || !FcCharSetIsSubset (ncs, *cs))
-	    {
-                if (trim || build_cs)
-                {
-                    if (*cs)
-                    {
-                        ncs = FcCharSetUnion (ncs, *cs);
-                        if (!ncs)
-                            return FcFalse;
-                        FcCharSetDestroy (*cs);
-                    }
-                    else
-                        ncs = FcCharSetCopy (ncs);
-                    *cs = ncs;
-                }
+	FcSortNode	*node = *n++;
+	FcBool		adds_chars = FcFalse;
 
-		FcPatternReference (node->pattern);
-		if (FcDebug () & FC_DBG_MATCHV)
-		{
-		    printf ("Add ");
-		    FcPatternPrint (node->pattern);
-		}
-		if (!FcFontSetAdd (fs, node->pattern))
-		{
-		    FcPatternDestroy (node->pattern);
-		    return FcFalse;
-		}
+	/*
+	 * Only fetch node charset if we'd need it
+	 */
+	if (cs)
+	{
+	    FcCharSet	*ncs;
+
+	    if (FcPatternGetCharSet (node->pattern, FC_CHARSET, 0, &ncs) !=
+		FcResultMatch)
+	        continue;
+
+	    if (!FcCharSetMerge (cs, ncs, &adds_chars))
+		goto bail;
+	}
+
+	/*
+	 * If this font isn't a subset of the previous fonts,
+	 * add it to the list
+	 */
+	if (!trim || adds_chars)
+	{
+	    FcPatternReference (node->pattern);
+	    if (FcDebug () & FC_DBG_MATCHV)
+	    {
+		printf ("Add ");
+		FcPatternPrint (node->pattern);
+	    }
+	    if (!FcFontSetAdd (fs, node->pattern))
+	    {
+		FcPatternDestroy (node->pattern);
+		goto bail;
 	    }
 	}
     }
-    return FcTrue;
+    if (csp)
+    {
+	*csp = cs;
+	cs = 0;
+    }
+
+    ret = FcTrue;
+
+bail:
+    if (cs)
+	FcCharSetDestroy (cs);
+
+    return ret;
 }
 
 void
@@ -651,13 +676,25 @@ FcFontSetSort (FcConfig	    *config,
     FcSortNode	    **nodeps, **nodep;
     int		    nnodes;
     FcSortNode	    *new;
-    FcCharSet	    *cs;
     int		    set;
     int		    f;
     int		    i;
     int		    nPatternLang;
     FcBool    	    *patternLangSat;
     FcValue	    patternLang;
+
+    assert (sets != NULL);
+    assert (p != NULL);
+    assert (result != NULL);
+
+    /* There are some implementation that relying on the result of
+     * "result" to check if the return value of FcFontSetSort
+     * is valid or not.
+     * So we should initialize it to the conservative way since
+     * this function doesn't return NULL anymore.
+     */
+    if (result)
+	*result = FcResultNoMatch;
 
     if (FcDebug () & FC_DBG_MATCH)
     {
@@ -673,22 +710,22 @@ FcFontSetSort (FcConfig	    *config,
 	nnodes += s->nfont;
     }
     if (!nnodes)
-	goto bail0;
-    
+	return FcFontSetCreate ();
+
     for (nPatternLang = 0;
 	 FcPatternGet (p, FC_LANG, nPatternLang, &patternLang) == FcResultMatch;
 	 nPatternLang++)
 	;
 	
     /* freed below */
-    nodes = malloc (nnodes * sizeof (FcSortNode) + 
+    nodes = malloc (nnodes * sizeof (FcSortNode) +
 		    nnodes * sizeof (FcSortNode *) +
 		    nPatternLang * sizeof (FcBool));
     if (!nodes)
 	goto bail0;
     nodeps = (FcSortNode **) (nodes + nnodes);
     patternLangSat = (FcBool *) (nodeps + nnodes);
-    
+
     new = nodes;
     nodep = nodeps;
     for (set = 0; set < nsets; set++)
@@ -722,13 +759,13 @@ FcFontSetSort (FcConfig	    *config,
     }
 
     nnodes = new - nodes;
-    
+
     qsort (nodeps, nnodes, sizeof (FcSortNode *),
 	   FcSortCompare);
-    
+
     for (i = 0; i < nPatternLang; i++)
 	patternLangSat[i] = FcFalse;
-    
+
     for (f = 0; f < nnodes; f++)
     {
 	FcBool	satisfies = FcFalse;
@@ -736,7 +773,7 @@ FcFontSetSort (FcConfig	    *config,
 	 * If this node matches any language, go check
 	 * which ones and satisfy those entries
 	 */
-	if (nodeps[f]->score[MATCH_LANG_INDEX] < 200)
+	if (nodeps[f]->score[MATCH_LANG_INDEX] < 2000)
 	{
 	    for (i = 0; i < nPatternLang; i++)
 	    {
@@ -766,7 +803,7 @@ FcFontSetSort (FcConfig	    *config,
 	    }
 	}
 	if (!satisfies)
-	    nodeps[f]->score[MATCH_LANG_INDEX] = 1000.0;
+	    nodeps[f]->score[MATCH_LANG_INDEX] = 10000.0;
     }
 
     /*
@@ -779,18 +816,8 @@ FcFontSetSort (FcConfig	    *config,
     if (!ret)
 	goto bail1;
 
-    cs = 0;
-
-    if (!FcSortWalk (nodeps, nnodes, ret, &cs, trim, (csp!=0)))
+    if (!FcSortWalk (nodeps, nnodes, ret, csp, trim))
 	goto bail2;
-
-    if (csp)
-	*csp = cs;
-    else
-    {
-        if (cs)
-            FcCharSetDestroy (cs);
-    }
 
     free (nodes);
 
@@ -802,8 +829,6 @@ FcFontSetSort (FcConfig	    *config,
     return ret;
 
 bail2:
-    if (cs)
-	FcCharSetDestroy (cs);
     FcFontSetDestroy (ret);
 bail1:
     free (nodes);
@@ -813,13 +838,16 @@ bail0:
 
 FcFontSet *
 FcFontSort (FcConfig	*config,
-	    FcPattern	*p, 
+	    FcPattern	*p,
 	    FcBool	trim,
 	    FcCharSet	**csp,
 	    FcResult	*result)
 {
     FcFontSet	*sets[2];
     int		nsets;
+
+    assert (p != NULL);
+    assert (result != NULL);
 
     if (!config)
     {
