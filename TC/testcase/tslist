@@ -1,0 +1,7 @@
+/testcase/utc_fc_cache
+#/testcase/utc_fc_cat
+/testcase/utc_fc_list
+/testcase/utc_fc_match
+/testcase/utc_fc_pattern
+#/testcase/utc_fc_query
+#/testcase/utc_fc_scan
