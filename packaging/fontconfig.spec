@@ -4,7 +4,7 @@
 Name:       fontconfig
 Summary:    Font configuration and customization library
 Version:    2.9.0
-Release:    2
+Release:    3
 Group:      System/Libraries
 License:    MIT
 URL:        http://fontconfig.org
