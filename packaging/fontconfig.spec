@@ -4,11 +4,12 @@
 Name:       fontconfig
 Summary:    Font configuration and customization library
 Version:    2.9.0
-Release:    4
+Release:    5
 Group:      System/Libraries
 License:    MIT
 URL:        http://fontconfig.org
 Source0:    http://fontconfig.org/release/fontconfig-%{version}.tar.gz
+Source1001: packaging/fontconfig.manifest
 Requires(pre): /usr/bin/fc-cache, /bin/mkdir /bin/rm, /bin/grep
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
@@ -41,6 +42,7 @@ will use fontconfig.
 %setup -q -n %{name}-%{version}
 
 %build
+cp %{SOURCE1001} .
 # We don't want to rebuild the docs, but we want to install the included ones.
 export HASDOCBOOK=no
 
@@ -107,6 +109,7 @@ fi
 %postun -p /sbin/ldconfig
 
 %files
+%manifest fontconfig.manifest
 %defattr(-,root,root,-)
 %defattr(-, root, root)
 %doc README AUTHORS COPYING
@@ -121,6 +124,7 @@ fi
 %dir /var/cache/fontconfig
 
 %files devel
+%manifest fontconfig.manifest
 %defattr(-,root,root,-)
 %defattr(-, root, root)
 %{_libdir}/libfontconfig.so
