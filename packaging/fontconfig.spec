@@ -1,10 +1,10 @@
 #sbs-git:slp/pkgs/f/fontconfig fontconfig 2.6.0 70f07428c05d43eef8009f4dfbe28723b040e865
-%global freetype_version 2.1.4
+%global freetype_version 2.9.0
 
 Name:       fontconfig
 Summary:    Font configuration and customization library
 Version:    2.9.0
-Release:    6
+Release:    7
 Group:      System/Libraries
 License:    MIT
 URL:        http://fontconfig.org
@@ -80,6 +80,8 @@ rm -rf %{buildroot}
 # All font packages depend on this package, so we create
 # and own /usr/share/fonts
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/fonts
+mkdir -p %{buildroot}/usr/share/license
+cat COPYING > %{buildroot}/usr/share/license/%{name}
 
 # Remove unpackaged files. no need when configure --disable-static
 #rm $RPM_BUILD_ROOT%{_libdir}/*.la
@@ -122,6 +124,7 @@ fi
 %config /usr/%{_sysconfdir}/fonts/conf.avail/*.conf
 %config(noreplace) /usr/%{_sysconfdir}/fonts/conf.d/*.conf
 %dir /var/cache/fontconfig
+/usr/share/license/%{name}
 
 %files devel
 %manifest fontconfig.manifest
