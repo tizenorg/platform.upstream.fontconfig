@@ -1,3 +1,11 @@
+fontconfig (2.9.0-slp2+8) unstable; urgency=low
+
+  * Fix  dependency of freetype version
+  * Git: framework/graphics/fontconfig
+  * Tag: fontconfig_2.9.0-slp2+8
+
+ -- Seongwon Cho <seongwon1.cho@samsung.com>  Mon, 15 Oct 2012 13:31:21 +0900
+
 fontconfig (2.9.0-slp2+7) unstable; urgency=low
 
   * install license file

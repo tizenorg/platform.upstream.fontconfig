@@ -1,10 +1,10 @@
 #sbs-git:slp/pkgs/f/fontconfig fontconfig 2.6.0 70f07428c05d43eef8009f4dfbe28723b040e865
-%global freetype_version 2.9.0
+%global freetype_version 2.1.4
 
 Name:       fontconfig
 Summary:    Font configuration and customization library
 Version:    2.9.0
-Release:    7
+Release:    8
 Group:      System/Libraries
 License:    MIT
 URL:        http://fontconfig.org
