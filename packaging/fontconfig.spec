@@ -1,11 +1,7 @@
-#
-# Please submit bugfixes or comments via http://bugs.tizen.org/
-#
-
 %global freetype_version 2.1.4
 
 Name:           fontconfig
-Version:        2.9.0
+Version:        2.10.0
 Release:        2
 License:        MIT
 Summary:        Font configuration and customization library
