@@ -49,6 +49,7 @@ export HASDOCBOOK=no
     --with-add-fonts=%{_datadir}/fonts,/usr/share/app_fonts,/usr/share/fallback_fonts \
     --with-cache-dir=/var/cache/fontconfig \
     --with-confdir=/etc/fonts \
+    --with-templatedir=%{_sysconfdir}/fonts/conf.avail \
     --disable-docs
 
 make %{?_smp_mflags}
@@ -83,12 +84,12 @@ fi
 %{_libdir}/libfontconfig.so.*
 %{_bindir}/fc-*
 %{_sysconfdir}/fonts/*
-%dir %{_sysconfdir}/fonts/conf.avail
 %dir %{_datadir}/fonts
 %doc %{_sysconfdir}/fonts/conf.d/README
 %config %{_sysconfdir}/fonts/conf.avail/*.conf
 %config(noreplace) %{_sysconfdir}/fonts/conf.d/*.conf
 %dir %{_localstatedir}/cache/fontconfig
+/usr/share/xml/fontconfig/fonts.dtd
 
 %files devel
 %{_libdir}/libfontconfig.so
