@@ -1,7 +1,7 @@
 %global freetype_version 2.1.4
 
 Name:           fontconfig
-Version:        2.10.2
+Version:        2.10.91
 Release:        0
 License:        MIT
 Summary:        Font configuration and customization library
