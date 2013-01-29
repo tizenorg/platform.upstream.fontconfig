@@ -1,4 +1,4 @@
-                Fontconfig Developers Reference, Version 2.10.2
+                Fontconfig Developers Reference, Version 2.10.91
 
    Copyright © 2002 Keith Packard
 
@@ -436,7 +436,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcConfig * FcInitLoadConfig(void);
@@ -448,7 +448,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                             FcInitLoadConfigAndFonts
 
@@ -458,7 +458,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcConfig * FcInitLoadConfigAndFonts(void);
@@ -470,7 +470,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                      FcInit
 
@@ -480,7 +480,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcInit(void);
@@ -494,7 +494,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                      FcFini
 
@@ -504,7 +504,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcFini(void);
@@ -518,7 +518,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcGetVersion
 
@@ -528,7 +528,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    int FcGetVersion(void);
@@ -539,7 +539,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcInitReinitialize
 
@@ -549,7 +549,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcInitReinitialize(void);
@@ -564,7 +564,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                               FcInitBringUptoDate
 
@@ -574,7 +574,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcInitBringUptoDate(void);
@@ -588,7 +588,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
    --------------------------------------------------------------------------
 
@@ -652,7 +652,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcPattern * FcPatternCreate(void);
@@ -663,7 +663,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcPatternDuplicate
 
@@ -673,7 +673,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcPattern * FcPatternDuplicate(const FcPattern *p);
@@ -685,7 +685,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcPatternReference
 
@@ -695,7 +695,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcPatternReference(FcPattern *p);
@@ -707,7 +707,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcPatternDestroy
 
@@ -717,7 +717,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcPatternDestroy(FcPattern *p);
@@ -729,7 +729,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcPatternEqual
 
@@ -739,7 +739,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcPatternEqual(const FcPattern *pa, const FcPattern *pb);
@@ -750,7 +750,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                               FcPatternEqualSubset
 
@@ -760,7 +760,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcPatternEqualSubset(const FcPattern *pa, const FcPattern *pb,
@@ -773,7 +773,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcPatternFilter
 
@@ -783,7 +783,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcPattern * FcPatternFilter(FcPattern *p, const FcObjectSet *);
@@ -795,7 +795,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcPatternHash
 
@@ -805,7 +805,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar32 FcPatternHash(const FcPattern *p);
@@ -817,7 +817,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcPatternAdd
 
@@ -827,7 +827,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcPatternAdd(FcPattern *p, const char *object, FcValue value,
@@ -843,7 +843,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcPatternAddWeak
 
@@ -853,7 +853,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcPatternAddWeak(FcPattern *p, const char *object, FcValue value,
@@ -866,7 +866,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcPatternAdd-Type
 
@@ -878,7 +878,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcPatternAddInteger(FcPattern *p, const char *object, int i);
@@ -911,7 +911,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcPatternGet
 
@@ -921,7 +921,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcResult FcPatternGet(FcPattern *p, const char *object, int id, FcValue
@@ -935,7 +935,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcPatternGet-Type
 
@@ -948,7 +948,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcResult FcPatternGetInteger(FcPattern *p, const char *object, int n, int
@@ -984,7 +984,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcPatternBuild
 
@@ -995,7 +995,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcPattern * FcPatternBuild(FcPattern *pattern, ...);
@@ -1030,7 +1030,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcPatternDel
 
@@ -1040,7 +1040,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcPatternDel(FcPattern *p, const char *object);
@@ -1052,7 +1052,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcPatternRemove
 
@@ -1063,7 +1063,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcPatternRemove(FcPattern *p, const char *object, int id);
@@ -1076,7 +1076,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcPatternPrint
 
@@ -1086,7 +1086,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcPatternPrint(const FcPattern *p);
@@ -1099,7 +1099,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                               FcDefaultSubstitute
 
@@ -1109,7 +1109,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcDefaultSubstitute(FcPattern *pattern);
@@ -1128,7 +1128,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcNameParse
 
@@ -1138,7 +1138,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcPattern * FcNameParse(const FcChar8 *name);
@@ -1150,7 +1150,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcNameUnparse
 
@@ -1160,7 +1160,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar8 * FcNameUnparse(FcPattern *pat);
@@ -1173,7 +1173,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcPatternFormat
 
@@ -1184,7 +1184,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar8 * FcPatternFormat(FcPattern *pat, const FcChar8 *format);
@@ -1384,7 +1384,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
    --------------------------------------------------------------------------
 
@@ -1419,7 +1419,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcFontSet * FcFontSetCreate(void);
@@ -1430,7 +1430,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcFontSetDestroy
 
@@ -1440,7 +1440,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcFontSetDestroy(FcFontSet *s);
@@ -1452,7 +1452,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcFontSetAdd
 
@@ -1462,7 +1462,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcFontSetAdd(FcFontSet *s, FcPattern *font);
@@ -1476,7 +1476,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcFontSetList
 
@@ -1486,7 +1486,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcFontSet * FcFontSetList(FcConfig *config, FcFontSet **sets, intnsets,
@@ -1501,7 +1501,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcFontSetMatch
 
@@ -1511,7 +1511,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcPattern * FcFontSetMatch(FcConfig *config, FcFontSet **sets, intnsets,
@@ -1528,7 +1528,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcFontSetPrint
 
@@ -1538,7 +1538,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcFontSetPrint(FcFontSet *set);
@@ -1552,7 +1552,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcFontSetSort
 
@@ -1562,7 +1562,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcFontSetSort(FcConfig *config, FcFontSet **sets, intnsets, FcPattern
@@ -1588,7 +1588,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                               FcFontSetSortDestroy
 
@@ -1598,7 +1598,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcFontSetSortDestroy(FcFontSet *set);
@@ -1611,7 +1611,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
    --------------------------------------------------------------------------
 
@@ -1639,7 +1639,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcObjectSet * FcObjectSetCreate(void);
@@ -1650,7 +1650,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcObjectSetAdd
 
@@ -1660,7 +1660,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcObjectSetAdd(FcObjectSet *os, const char *object);
@@ -1673,7 +1673,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcObjectSetDestroy
 
@@ -1683,7 +1683,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcObjectSetDestroy(FcObjectSet *os);
@@ -1694,7 +1694,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcObjectSetBuild
 
@@ -1705,7 +1705,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcObjectSet * FcObjectSetBuild(const char *first, ...);
@@ -1723,7 +1723,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
    --------------------------------------------------------------------------
 
@@ -1770,7 +1770,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcFreeTypeCharSet
 
@@ -1795,7 +1795,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                           FcFreeTypeCharSetAndSpacing
 
@@ -1825,7 +1825,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcFreeTypeQuery
 
@@ -1849,7 +1849,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                               FcFreeTypeQueryFace
 
@@ -1873,7 +1873,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
    --------------------------------------------------------------------------
 
@@ -1902,7 +1902,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcValueDestroy(FcValue v);
@@ -1914,7 +1914,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcValueSave
 
@@ -1924,7 +1924,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcValue FcValueSave(FcValue v);
@@ -1936,7 +1936,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcValuePrint
 
@@ -1946,7 +1946,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcValuePrint(FcValue v);
@@ -1959,7 +1959,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcValueEqual
 
@@ -1969,7 +1969,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcValueEqual(FcValue v_a, FcValue v_b);
@@ -1982,7 +1982,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
    --------------------------------------------------------------------------
 
@@ -2043,7 +2043,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcCharSet * FcCharSetCreate(void);
@@ -2055,7 +2055,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcCharSetDestroy
 
@@ -2065,7 +2065,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcCharSetDestroy(FcCharSet *fcs);
@@ -2077,7 +2077,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcCharSetAddChar
 
@@ -2087,7 +2087,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcCharSetAddChar(FcCharSet *fcs, FcChar32 ucs4);
@@ -2100,7 +2100,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcCharSetDelChar
 
@@ -2110,7 +2110,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcCharSetDelChar(FcCharSet *fcs, FcChar32 ucs4);
@@ -2123,7 +2123,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcCharSetCopy
 
@@ -2133,7 +2133,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcCharSet * FcCharSetCopy(FcCharSet *src);
@@ -2145,7 +2145,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcCharSetEqual
 
@@ -2155,7 +2155,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcCharSetEqual(const FcCharSet *a, const FcCharSet *b);
@@ -2166,7 +2166,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcCharSetIntersect
 
@@ -2176,7 +2176,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcCharSet * FcCharSetIntersect(const FcCharSet *a, const FcCharSet *b);
@@ -2187,7 +2187,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcCharSetUnion
 
@@ -2197,7 +2197,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcCharSet * FcCharSetUnion(const FcCharSet *a, const FcCharSet *b);
@@ -2208,7 +2208,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcCharSetSubtract
 
@@ -2218,7 +2218,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcCharSet * FcCharSetSubtract(const FcCharSet *a, const FcCharSet *b);
@@ -2229,7 +2229,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcCharSetMerge
 
@@ -2239,7 +2239,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcCharSetMerge(FcCharSet *a, const FcCharSet *b, FcBool *changed);
@@ -2253,7 +2253,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcCharSetHasChar
 
@@ -2263,7 +2263,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcCharSetHasChar(const FcCharSet *fcs, FcChar32 ucs4);
@@ -2274,7 +2274,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcCharSetCount
 
@@ -2284,7 +2284,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar32 FcCharSetCount(const FcCharSet *a);
@@ -2295,7 +2295,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                             FcCharSetIntersectCount
 
@@ -2305,7 +2305,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar32 FcCharSetIntersectCount(const FcCharSet *a, const FcCharSet *b);
@@ -2316,7 +2316,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                              FcCharSetSubtractCount
 
@@ -2326,7 +2326,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar32 FcCharSetSubtractCount(const FcCharSet *a, const FcCharSet *b);
@@ -2337,7 +2337,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcCharSetIsSubset
 
@@ -2347,7 +2347,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcCharSetIsSubset(const FcCharSet *a, const FcCharSet *b);
@@ -2358,7 +2358,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcCharSetFirstPage
 
@@ -2368,7 +2368,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar32 FcCharSetFirstPage(const FcCharSet *a,
@@ -2381,7 +2381,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcCharSetNextPage
 
@@ -2391,7 +2391,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar32 FcCharSetNextPage(const FcCharSet *a,
@@ -2404,7 +2404,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcCharSetCoverage
 
@@ -2414,7 +2414,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar32 FcCharSetCoverage(const FcCharSet *a, FcChar32page,
@@ -2428,7 +2428,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcCharSetNew
 
@@ -2438,7 +2438,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcCharSet * FcCharSetNew(void);
@@ -2449,7 +2449,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
    --------------------------------------------------------------------------
 
@@ -2485,7 +2485,9 @@ Version
 
    [86]FcGetLangs -- Get list of languages
 
-   [87]FcLangGetCharSet -- Get character map for a language
+   [87]FcLangNormalize -- Normalize the language string
+
+   [88]FcLangGetCharSet -- Get character map for a language
 
    An FcLangSet is a set of language names (each of which include language
    and an optional territory). They are used when selecting fonts to indicate
@@ -2501,7 +2503,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcLangSet * FcLangSetCreate(void);
@@ -2512,7 +2514,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcLangSetDestroy
 
@@ -2522,7 +2524,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcLangSetDestroy(FcLangSet *ls);
@@ -2534,7 +2536,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcLangSetCopy
 
@@ -2544,7 +2546,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcLangSet * FcLangSetCopy(const FcLangSet *ls);
@@ -2556,7 +2558,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcLangSetAdd
 
@@ -2566,7 +2568,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcLangSetAdd(FcLangSet *ls, const FcChar8 *lang);
@@ -2578,7 +2580,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcLangSetDel
 
@@ -2588,7 +2590,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcLangSetDel(FcLangSet *ls, const FcChar8 *lang);
@@ -2601,7 +2603,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcLangSetUnion
 
@@ -2611,7 +2613,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcLangSet * FcLangSetUnion(const FcLangSet *ls_a, const FcLangSet *ls_b);
@@ -2622,7 +2624,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcLangSetSubtract
 
@@ -2632,7 +2634,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcLangSet * FcLangSetSubtract(const FcLangSet *ls_a, const FcLangSet
@@ -2645,7 +2647,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcLangSetCompare
 
@@ -2655,7 +2657,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcLangResult FcLangSetCompare(const FcLangSet *ls_a, const FcLangSet
@@ -2671,7 +2673,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcLangSetContains
 
@@ -2681,7 +2683,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcLangSetContains(const FcLangSet *ls_a, const FcLangSet *ls_b);
@@ -2694,7 +2696,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcLangSetEqual
 
@@ -2704,7 +2706,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcLangSetEqual(const FcLangSet *ls_a, const FcLangSet *ls_b);
@@ -2716,7 +2718,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcLangSetHash
 
@@ -2726,7 +2728,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar32 FcLangSetHash(const FcLangSet *ls);
@@ -2740,7 +2742,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcLangSetHasLang
 
@@ -2750,7 +2752,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcLangResult FcLangSetHasLang(const FcLangSet *ls, const FcChar8 *lang);
@@ -2765,7 +2767,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcGetDefaultLangs
 
@@ -2775,7 +2777,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcStrSet * FcGetDefaultLangs(voidls);
@@ -2789,7 +2791,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                    FcGetLangs
 
@@ -2799,7 +2801,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcStrSet * FcGetLangs(void);
@@ -2810,7 +2812,28 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
+
+                                FcLangNormalize
+
+Name
+
+   FcLangNormalize -- Normalize the language string
+
+Synopsis
+
+   #include <fontconfig/fontconfig.h>
+
+
+   FcChar8 * FcLangNormalize(const FcChar8 *lang);
+
+Description
+
+   Returns a string to make lang suitable on fontconfig.
+
+Version
+
+   Fontconfig version 2.10.91
 
                                 FcLangGetCharSet
 
@@ -2820,7 +2843,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    const FcCharSet * FcLangGetCharSet(const FcChar8 *lang);
@@ -2831,7 +2854,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
    --------------------------------------------------------------------------
 
@@ -2839,19 +2862,19 @@ Version
 
    Table of Contents
 
-   [88]FcMatrixInit -- initialize an FcMatrix structure
+   [89]FcMatrixInit -- initialize an FcMatrix structure
 
-   [89]FcMatrixCopy -- Copy a matrix
+   [90]FcMatrixCopy -- Copy a matrix
 
-   [90]FcMatrixEqual -- Compare two matrices
+   [91]FcMatrixEqual -- Compare two matrices
 
-   [91]FcMatrixMultiply -- Multiply matrices
+   [92]FcMatrixMultiply -- Multiply matrices
 
-   [92]FcMatrixRotate -- Rotate a matrix
+   [93]FcMatrixRotate -- Rotate a matrix
 
-   [93]FcMatrixScale -- Scale a matrix
+   [94]FcMatrixScale -- Scale a matrix
 
-   [94]FcMatrixShear -- Shear a matrix
+   [95]FcMatrixShear -- Shear a matrix
 
    FcMatrix structures hold an affine transformation in matrix form.
 
@@ -2863,7 +2886,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcMatrixInit(FcMatrix *matrix);
@@ -2874,7 +2897,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcMatrixCopy
 
@@ -2884,7 +2907,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcMatrixCopy(const FcMatrix *matrix);
@@ -2895,7 +2918,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcMatrixEqual
 
@@ -2905,7 +2928,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcMatrixEqual(const FcMatrix *matrix1, const FcMatrix *matrix2);
@@ -2917,7 +2940,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcMatrixMultiply
 
@@ -2927,7 +2950,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcMatrixMultiply(FcMatrix *result, const FcMatrix *matrix1, const
@@ -2940,7 +2963,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcMatrixRotate
 
@@ -2950,7 +2973,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcMatrixRotate(FcMatrix *matrix, double cos, double sin);
@@ -2965,7 +2988,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcMatrixScale
 
@@ -2975,7 +2998,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcMatrixScale(FcMatrix *matrix, double sx, double dy);
@@ -2990,7 +3013,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcMatrixShear
 
@@ -3000,7 +3023,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcMatrixShear(FcMatrix *matrix, double sh, double sv);
@@ -3015,7 +3038,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
    --------------------------------------------------------------------------
 
@@ -3023,64 +3046,64 @@ Version
 
    Table of Contents
 
-   [95]FcConfigCreate -- Create a configuration
+   [96]FcConfigCreate -- Create a configuration
 
-   [96]FcConfigReference -- Increment config reference count
+   [97]FcConfigReference -- Increment config reference count
 
-   [97]FcConfigDestroy -- Destroy a configuration
+   [98]FcConfigDestroy -- Destroy a configuration
 
-   [98]FcConfigSetCurrent -- Set configuration as default
+   [99]FcConfigSetCurrent -- Set configuration as default
 
-   [99]FcConfigGetCurrent -- Return current configuration
+   [100]FcConfigGetCurrent -- Return current configuration
 
-   [100]FcConfigUptoDate -- Check timestamps on config files
+   [101]FcConfigUptoDate -- Check timestamps on config files
 
-   [101]FcConfigHome -- return the current home directory.
+   [102]FcConfigHome -- return the current home directory.
 
-   [102]FcConfigEnableHome -- controls use of the home directory.
+   [103]FcConfigEnableHome -- controls use of the home directory.
 
-   [103]FcConfigBuildFonts -- Build font database
+   [104]FcConfigBuildFonts -- Build font database
 
-   [104]FcConfigGetConfigDirs -- Get config directories
+   [105]FcConfigGetConfigDirs -- Get config directories
 
-   [105]FcConfigGetFontDirs -- Get font directories
+   [106]FcConfigGetFontDirs -- Get font directories
 
-   [106]FcConfigGetConfigFiles -- Get config files
+   [107]FcConfigGetConfigFiles -- Get config files
 
-   [107]FcConfigGetCache -- DEPRECATED used to return per-user cache filename
+   [108]FcConfigGetCache -- DEPRECATED used to return per-user cache filename
 
-   [108]FcConfigGetCacheDirs -- return the list of directories searched for
+   [109]FcConfigGetCacheDirs -- return the list of directories searched for
    cache files
 
-   [109]FcConfigGetFonts -- Get config font set
+   [110]FcConfigGetFonts -- Get config font set
 
-   [110]FcConfigGetBlanks -- Get config blanks
+   [111]FcConfigGetBlanks -- Get config blanks
 
-   [111]FcConfigGetRescanInterval -- Get config rescan interval
+   [112]FcConfigGetRescanInterval -- Get config rescan interval
 
-   [112]FcConfigSetRescanInterval -- Set config rescan interval
+   [113]FcConfigSetRescanInterval -- Set config rescan interval
 
-   [113]FcConfigAppFontAddFile -- Add font file to font database
+   [114]FcConfigAppFontAddFile -- Add font file to font database
 
-   [114]FcConfigAppFontAddDir -- Add fonts from directory to font database
+   [115]FcConfigAppFontAddDir -- Add fonts from directory to font database
 
-   [115]FcConfigAppFontClear -- Remove all app fonts from font database
+   [116]FcConfigAppFontClear -- Remove all app fonts from font database
 
-   [116]FcConfigSubstituteWithPat -- Execute substitutions
+   [117]FcConfigSubstituteWithPat -- Execute substitutions
 
-   [117]FcConfigSubstitute -- Execute substitutions
+   [118]FcConfigSubstitute -- Execute substitutions
 
-   [118]FcFontMatch -- Return best font
+   [119]FcFontMatch -- Return best font
 
-   [119]FcFontSort -- Return list of matching fonts
+   [120]FcFontSort -- Return list of matching fonts
 
-   [120]FcFontRenderPrepare -- Prepare pattern for loading font file
+   [121]FcFontRenderPrepare -- Prepare pattern for loading font file
 
-   [121]FcFontList -- List fonts
+   [122]FcFontList -- List fonts
 
-   [122]FcConfigFilename -- Find a config file
+   [123]FcConfigFilename -- Find a config file
 
-   [123]FcConfigParseAndLoad -- load a configuration file
+   [124]FcConfigParseAndLoad -- load a configuration file
 
    An FcConfig object holds the internal representation of a configuration.
    There is a default configuration which applications may use by passing 0
@@ -3094,7 +3117,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcConfig * FcConfigCreate(void);
@@ -3105,7 +3128,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcConfigReference
 
@@ -3115,7 +3138,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcConfig * FcConfigReference(FcConfig *config);
@@ -3130,7 +3153,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcConfigDestroy
 
@@ -3140,7 +3163,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcConfigDestroy(FcConfig *config);
@@ -3154,7 +3177,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcConfigSetCurrent
 
@@ -3164,7 +3187,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcConfigSetCurrent(FcConfig *config);
@@ -3176,7 +3199,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcConfigGetCurrent
 
@@ -3186,7 +3209,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcConfig * FcConfigGetCurrent(void);
@@ -3197,7 +3220,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcConfigUptoDate
 
@@ -3207,7 +3230,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcConfigUptoDate(FcConfig *config);
@@ -3220,7 +3243,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcConfigHome
 
@@ -3230,7 +3253,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar8 * FcConfigHome(void);
@@ -3242,7 +3265,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcConfigEnableHome
 
@@ -3252,7 +3275,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcConfigEnableHome(FcBool enable);
@@ -3267,7 +3290,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcConfigBuildFonts
 
@@ -3277,7 +3300,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcConfigBuildFonts(FcConfig *config);
@@ -3291,7 +3314,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                              FcConfigGetConfigDirs
 
@@ -3301,7 +3324,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcStrList * FcConfigGetConfigDirs(FcConfig *config);
@@ -3314,7 +3337,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                               FcConfigGetFontDirs
 
@@ -3324,7 +3347,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcStrList * FcConfigGetFontDirs(FcConfig *config);
@@ -3337,7 +3360,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                              FcConfigGetConfigFiles
 
@@ -3347,7 +3370,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcStrList * FcConfigGetConfigFiles(FcConfig *config);
@@ -3359,7 +3382,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcConfigGetCache
 
@@ -3369,7 +3392,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar8 * FcConfigGetCache(FcConfig *config);
@@ -3381,7 +3404,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                               FcConfigGetCacheDirs
 
@@ -3392,7 +3415,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcStrList * FcConfigGetCacheDirs(const FcConfig *config);
@@ -3406,7 +3429,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcConfigGetFonts
 
@@ -3416,7 +3439,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcFontSet * FcConfigGetFonts(FcConfig *config, FcSetName set);
@@ -3429,7 +3452,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcConfigGetBlanks
 
@@ -3439,7 +3462,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBlanks * FcConfigGetBlanks(FcConfig *config);
@@ -3453,7 +3476,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                            FcConfigGetRescanInterval
 
@@ -3463,7 +3486,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    int FcConfigGetRescanInterval(FcConfig *config);
@@ -3478,7 +3501,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                            FcConfigSetRescanInterval
 
@@ -3488,7 +3511,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcConfigSetRescanInterval(FcConfig *config, int rescanInterval);
@@ -3502,7 +3525,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                              FcConfigAppFontAddFile
 
@@ -3512,7 +3535,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcConfigAppFontAddFile(FcConfig *config, const FcChar8 *file);
@@ -3525,7 +3548,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                              FcConfigAppFontAddDir
 
@@ -3535,7 +3558,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcConfigAppFontAddDir(FcConfig *config, const FcChar8 *dir);
@@ -3549,7 +3572,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                               FcConfigAppFontClear
 
@@ -3559,7 +3582,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcConfigAppFontClear(FcConfig *config);
@@ -3571,7 +3594,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                            FcConfigSubstituteWithPat
 
@@ -3581,7 +3604,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcConfigSubstituteWithPat(FcConfig *config, FcPattern *p, FcPattern
@@ -3599,7 +3622,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcConfigSubstitute
 
@@ -3609,7 +3632,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcConfigSubstitute(FcConfig *config, FcPattern *p, FcMatchKind
@@ -3624,7 +3647,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcFontMatch
 
@@ -3634,7 +3657,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcPattern * FcFontMatch(FcConfig *config, FcPattern *p, FcResult *result);
@@ -3649,7 +3672,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                    FcFontSort
 
@@ -3659,7 +3682,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcFontSet * FcFontSort(FcConfig *config, FcPattern *p, FcBool trim,
@@ -3684,7 +3707,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                               FcFontRenderPrepare
 
@@ -3694,7 +3717,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcPattern * FcFontRenderPrepare(FcConfig *config, FcPattern *pat,
@@ -3709,7 +3732,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                    FcFontList
 
@@ -3719,7 +3742,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcFontSet * FcFontList(FcConfig *config, FcPattern *p, FcObjectSet *os);
@@ -3733,7 +3756,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcConfigFilename
 
@@ -3743,7 +3766,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar8 * FcConfigFilename(const FcChar8 *name);
@@ -3764,7 +3787,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                               FcConfigParseAndLoad
 
@@ -3774,7 +3797,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcConfigParseAndLoad(FcConfig *config, const FcChar8 *file, FcBool
@@ -3792,7 +3815,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
    --------------------------------------------------------------------------
 
@@ -3800,11 +3823,11 @@ Version
 
    Table of Contents
 
-   [124]FcNameRegisterObjectTypes -- Register object types
+   [125]FcNameRegisterObjectTypes -- Register object types
 
-   [125]FcNameUnregisterObjectTypes -- Unregister object types
+   [126]FcNameUnregisterObjectTypes -- Unregister object types
 
-   [126]FcNameGetObjectType -- Lookup an object type
+   [127]FcNameGetObjectType -- Lookup an object type
 
    Provides for application-specified font name object types so that new
    pattern elements can be generated from font names.
@@ -3817,20 +3840,18 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcNameRegisterObjectTypes(const FcObjectType *types, int ntype);
 
 Description
 
-   Register ntype new object types. Returns FcFalse if some of the names
-   cannot be registered (due to allocation failure). Otherwise returns
-   FcTrue.
+   Deprecated. Does nothing. Returns FcFalse.
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                           FcNameUnregisterObjectTypes
 
@@ -3840,18 +3861,18 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcNameUnregisterObjectTypes(const FcObjectType *types, int ntype);
 
 Description
 
-   Unregister ntype object types. Returns FcTrue.
+   Deprecated. Does nothing. Returns FcFalse.
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                               FcNameGetObjectType
 
@@ -3861,7 +3882,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    const FcObjectType * FcNameGetObjectType(const char *object);
@@ -3872,7 +3893,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
    --------------------------------------------------------------------------
 
@@ -3880,13 +3901,13 @@ Version
 
    Table of Contents
 
-   [127]FcNameRegisterConstants -- Register symbolic constants
+   [128]FcNameRegisterConstants -- Register symbolic constants
 
-   [128]FcNameUnregisterConstants -- Unregister symbolic constants
+   [129]FcNameUnregisterConstants -- Unregister symbolic constants
 
-   [129]FcNameGetConstant -- Lookup symbolic constant
+   [130]FcNameGetConstant -- Lookup symbolic constant
 
-   [130]FcNameConstant -- Get the value for a symbolic constant
+   [131]FcNameConstant -- Get the value for a symbolic constant
 
    Provides for application-specified symbolic constants for font names.
 
@@ -3898,20 +3919,18 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcNameRegisterConstants(const FcConstant *consts, int nconsts);
 
 Description
 
-   Register nconsts new symbolic constants. Returns FcFalse if the constants
-   cannot be registered (due to allocation failure). Otherwise returns
-   FcTrue.
+   Deprecated. Does nothing. Returns FcFalse.
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                            FcNameUnregisterConstants
 
@@ -3921,19 +3940,18 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcNameUnregisterConstants(const FcConstant *consts, int nconsts);
 
 Description
 
-   Unregister nconsts symbolic constants. Returns FcFalse if the specified
-   constants were not registered. Otherwise returns FcTrue.
+   Deprecated. Does nothing. Returns FcFalse.
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcNameGetConstant
 
@@ -3943,7 +3961,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    const FcConstant * FcNameGetConstant(FcChar8 *string);
@@ -3954,7 +3972,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcNameConstant
 
@@ -3964,7 +3982,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcNameConstant(FcChar8 *string, int *result);
@@ -3976,7 +3994,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
    --------------------------------------------------------------------------
 
@@ -3984,13 +4002,13 @@ Version
 
    Table of Contents
 
-   [131]FcBlanksCreate -- Create an FcBlanks
+   [132]FcBlanksCreate -- Create an FcBlanks
 
-   [132]FcBlanksDestroy -- Destroy and FcBlanks
+   [133]FcBlanksDestroy -- Destroy and FcBlanks
 
-   [133]FcBlanksAdd -- Add a character to an FcBlanks
+   [134]FcBlanksAdd -- Add a character to an FcBlanks
 
-   [134]FcBlanksIsMember -- Query membership in an FcBlanks
+   [135]FcBlanksIsMember -- Query membership in an FcBlanks
 
    An FcBlanks object holds a list of Unicode chars which are expected to be
    blank when drawn. When scanning new fonts, any glyphs which are empty and
@@ -4006,7 +4024,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBlanks * FcBlanksCreate(void);
@@ -4017,7 +4035,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcBlanksDestroy
 
@@ -4027,7 +4045,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcBlanksDestroy(FcBlanks *b);
@@ -4038,7 +4056,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcBlanksAdd
 
@@ -4048,7 +4066,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcBlanksAdd(FcBlanks *b, FcChar32 ucs4);
@@ -4060,7 +4078,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcBlanksIsMember
 
@@ -4070,7 +4088,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcBlanksIsMember(FcBlanks *b, FcChar32 ucs4);
@@ -4082,7 +4100,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
    --------------------------------------------------------------------------
 
@@ -4090,21 +4108,21 @@ Version
 
    Table of Contents
 
-   [135]FcAtomicCreate -- create an FcAtomic object
+   [136]FcAtomicCreate -- create an FcAtomic object
 
-   [136]FcAtomicLock -- lock a file
+   [137]FcAtomicLock -- lock a file
 
-   [137]FcAtomicNewFile -- return new temporary file name
+   [138]FcAtomicNewFile -- return new temporary file name
 
-   [138]FcAtomicOrigFile -- return original file name
+   [139]FcAtomicOrigFile -- return original file name
 
-   [139]FcAtomicReplaceOrig -- replace original with new
+   [140]FcAtomicReplaceOrig -- replace original with new
 
-   [140]FcAtomicDeleteNew -- delete new file
+   [141]FcAtomicDeleteNew -- delete new file
 
-   [141]FcAtomicUnlock -- unlock a file
+   [142]FcAtomicUnlock -- unlock a file
 
-   [142]FcAtomicDestroy -- destroy an FcAtomic object
+   [143]FcAtomicDestroy -- destroy an FcAtomic object
 
    These functions provide a safe way to update configuration files, allowing
    ongoing reading of the old configuration file while locked for writing and
@@ -4119,7 +4137,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcAtomic * FcAtomicCreate(const FcChar8 *file);
@@ -4134,7 +4152,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcAtomicLock
 
@@ -4144,7 +4162,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcAtomicLock(FcAtomic *atomic);
@@ -4156,7 +4174,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcAtomicNewFile
 
@@ -4166,7 +4184,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar8 * FcAtomicNewFile(FcAtomic *atomic);
@@ -4178,7 +4196,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcAtomicOrigFile
 
@@ -4188,7 +4206,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar8 * FcAtomicOrigFile(FcAtomic *atomic);
@@ -4199,7 +4217,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                               FcAtomicReplaceOrig
 
@@ -4209,7 +4227,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcAtomicReplaceOrig(FcAtomic *atomic);
@@ -4222,7 +4240,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcAtomicDeleteNew
 
@@ -4232,7 +4250,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcAtomicDeleteNew(FcAtomic *atomic);
@@ -4243,7 +4261,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcAtomicUnlock
 
@@ -4253,7 +4271,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcAtomicUnlock(FcAtomic *atomic);
@@ -4264,7 +4282,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcAtomicDestroy
 
@@ -4274,7 +4292,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcAtomicDestroy(FcAtomic *atomic);
@@ -4285,7 +4303,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
    --------------------------------------------------------------------------
 
@@ -4293,25 +4311,25 @@ Version
 
    Table of Contents
 
-   [143]FcFileScan -- scan a font file
+   [144]FcFileScan -- scan a font file
 
-   [144]FcFileIsDir -- check whether a file is a directory
+   [145]FcFileIsDir -- check whether a file is a directory
 
-   [145]FcDirScan -- scan a font directory without caching it
+   [146]FcDirScan -- scan a font directory without caching it
 
-   [146]FcDirSave -- DEPRECATED: formerly used to save a directory cache
+   [147]FcDirSave -- DEPRECATED: formerly used to save a directory cache
 
-   [147]FcDirCacheUnlink -- Remove all caches related to dir
+   [148]FcDirCacheUnlink -- Remove all caches related to dir
 
-   [148]FcDirCacheValid -- check directory cache
+   [149]FcDirCacheValid -- check directory cache
 
-   [149]FcDirCacheLoad -- load a directory cache
+   [150]FcDirCacheLoad -- load a directory cache
 
-   [150]FcDirCacheRead -- read or construct a directory cache
+   [151]FcDirCacheRead -- read or construct a directory cache
 
-   [151]FcDirCacheLoadFile -- load a cache file
+   [152]FcDirCacheLoadFile -- load a cache file
 
-   [152]FcDirCacheUnload -- unload a cache file
+   [153]FcDirCacheUnload -- unload a cache file
 
    These routines work with font files and directories, including font
    directory cache files.
@@ -4324,7 +4342,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcFileScan(FcFontSet *set, FcStrSet *dirs, FcFileCache *cache,
@@ -4345,7 +4363,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcFileIsDir
 
@@ -4355,7 +4373,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcFileIsDir(const FcChar8 *file);
@@ -4366,7 +4384,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                    FcDirScan
 
@@ -4376,7 +4394,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcDirScan(FcFontSet *set, FcStrSet *dirs, FcFileCache *cache,
@@ -4392,7 +4410,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                    FcDirSave
 
@@ -4402,7 +4420,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcDirSave(FcFontSet *set, FcStrSet *dirs, const FcChar8 *dir);
@@ -4416,7 +4434,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcDirCacheUnlink
 
@@ -4426,7 +4444,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcDirCacheUnlink(const FcChar8 *dir, FcConfig *config);
@@ -4439,7 +4457,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcDirCacheValid
 
@@ -4449,7 +4467,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcDirCacheValid(const FcChar8 *dir);
@@ -4461,7 +4479,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcDirCacheLoad
 
@@ -4471,7 +4489,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcCache * FcDirCacheLoad(const FcChar8 *dir, FcConfig *config, FcChar8
@@ -4485,7 +4503,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcDirCacheRead
 
@@ -4495,7 +4513,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcCache * FcDirCacheRead(const FcChar8 *dir, FcBool force, FcConfig
@@ -4509,7 +4527,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcDirCacheLoadFile
 
@@ -4519,7 +4537,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcCache * FcDirCacheLoadFile(const FcChar8 *cache_file, struct stat
@@ -4532,7 +4550,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcDirCacheUnload
 
@@ -4542,7 +4560,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcDirCacheUnload(FcCache *cache);
@@ -4554,7 +4572,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
    --------------------------------------------------------------------------
 
@@ -4562,21 +4580,21 @@ Version
 
    Table of Contents
 
-   [153]FcCacheDir -- Return directory of cache
+   [154]FcCacheDir -- Return directory of cache
 
-   [154]FcCacheCopySet -- Returns a copy of the fontset from cache
+   [155]FcCacheCopySet -- Returns a copy of the fontset from cache
 
-   [155]FcCacheSubdir -- Return the i'th subdirectory.
+   [156]FcCacheSubdir -- Return the i'th subdirectory.
 
-   [156]FcCacheNumSubdir -- Return the number of subdirectories in cache.
+   [157]FcCacheNumSubdir -- Return the number of subdirectories in cache.
 
-   [157]FcCacheNumFont -- Returns the number of fonts in cache.
+   [158]FcCacheNumFont -- Returns the number of fonts in cache.
 
-   [158]FcDirCacheClean -- This tries to clean up the cache directory of
+   [159]FcDirCacheClean -- This tries to clean up the cache directory of
    cache_dir. This returns FcTrue if the operation is successfully complete.
    otherwise FcFalse.
 
-   [159]FcCacheCreateTagFile -- Create CACHEDIR.TAG at cache directory.
+   [160]FcCacheCreateTagFile -- Create CACHEDIR.TAG at cache directory.
 
    These routines work with font directory caches, accessing their contents
    in limited ways. It is not expected that normal applications will need to
@@ -4590,7 +4608,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    const FcChar8 * FcCacheDir(const FcCache *cache);
@@ -4601,7 +4619,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcCacheCopySet
 
@@ -4611,7 +4629,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcFontSet * FcCacheCopySet(const FcCache *cache);
@@ -4623,7 +4641,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcCacheSubdir
 
@@ -4633,7 +4651,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    const FcChar8 * FcCacheSubdir(const FcCache *cache, inti);
@@ -4646,7 +4664,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcCacheNumSubdir
 
@@ -4656,7 +4674,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    int FcCacheNumSubdir(const FcCache *cache);
@@ -4667,7 +4685,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcCacheNumFont
 
@@ -4677,7 +4695,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    int FcCacheNumFont(const FcCache *cache);
@@ -4689,7 +4707,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcDirCacheClean
 
@@ -4701,7 +4719,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcDirCacheClean(const FcChar8 *cache_dir, FcBoolverbose);
@@ -4712,7 +4730,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                               FcCacheCreateTagFile
 
@@ -4722,7 +4740,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcCacheCreateTagFile(const FcConfig *config);
@@ -4734,7 +4752,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
    --------------------------------------------------------------------------
 
@@ -4742,25 +4760,25 @@ Version
 
    Table of Contents
 
-   [160]FcStrSetCreate -- create a string set
+   [161]FcStrSetCreate -- create a string set
 
-   [161]FcStrSetMember -- check set for membership
+   [162]FcStrSetMember -- check set for membership
 
-   [162]FcStrSetEqual -- check sets for equality
+   [163]FcStrSetEqual -- check sets for equality
 
-   [163]FcStrSetAdd -- add to a string set
+   [164]FcStrSetAdd -- add to a string set
 
-   [164]FcStrSetAddFilename -- add a filename to a string set
+   [165]FcStrSetAddFilename -- add a filename to a string set
 
-   [165]FcStrSetDel -- delete from a string set
+   [166]FcStrSetDel -- delete from a string set
 
-   [166]FcStrSetDestroy -- destroy a string set
+   [167]FcStrSetDestroy -- destroy a string set
 
-   [167]FcStrListCreate -- create a string iterator
+   [168]FcStrListCreate -- create a string iterator
 
-   [168]FcStrListNext -- get next string in iteration
+   [169]FcStrListNext -- get next string in iteration
 
-   [169]FcStrListDone -- destroy a string iterator
+   [170]FcStrListDone -- destroy a string iterator
 
    A data structure for enumerating strings, used to list directories while
    scanning the configuration as directories are added while scanning.
@@ -4773,7 +4791,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcStrSet * FcStrSetCreate(void);
@@ -4784,7 +4802,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcStrSetMember
 
@@ -4794,7 +4812,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcStrSetMember(FcStrSet *set, const FcChar8 *s);
@@ -4805,7 +4823,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcStrSetEqual
 
@@ -4815,7 +4833,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcStrSetEqual(FcStrSet *set_a, FcStrSet *set_b);
@@ -4827,7 +4845,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcStrSetAdd
 
@@ -4837,7 +4855,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcStrSetAdd(FcStrSet *set, const FcChar8 *s);
@@ -4848,7 +4866,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                               FcStrSetAddFilename
 
@@ -4858,7 +4876,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcStrSetAddFilename(FcStrSet *set, const FcChar8 *s);
@@ -4871,7 +4889,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcStrSetDel
 
@@ -4881,7 +4899,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcStrSetDel(FcStrSet *set, const FcChar8 *s);
@@ -4892,7 +4910,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcStrSetDestroy
 
@@ -4902,7 +4920,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcStrSetDestroy(FcStrSet *set);
@@ -4913,7 +4931,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                 FcStrListCreate
 
@@ -4923,7 +4941,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcStrList * FcStrListCreate(FcStrSet *set);
@@ -4934,7 +4952,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcStrListNext
 
@@ -4944,7 +4962,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar8 * FcStrListNext(FcStrList *list);
@@ -4955,7 +4973,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcStrListDone
 
@@ -4965,7 +4983,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcStrListDone(FcStrList *list);
@@ -4976,7 +4994,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
    --------------------------------------------------------------------------
 
@@ -4984,43 +5002,43 @@ Version
 
    Table of Contents
 
-   [170]FcUtf8ToUcs4 -- convert UTF-8 to UCS4
+   [171]FcUtf8ToUcs4 -- convert UTF-8 to UCS4
 
-   [171]FcUcs4ToUtf8 -- convert UCS4 to UTF-8
+   [172]FcUcs4ToUtf8 -- convert UCS4 to UTF-8
 
-   [172]FcUtf8Len -- count UTF-8 encoded chars
+   [173]FcUtf8Len -- count UTF-8 encoded chars
 
-   [173]FcUtf16ToUcs4 -- convert UTF-16 to UCS4
+   [174]FcUtf16ToUcs4 -- convert UTF-16 to UCS4
 
-   [174]FcUtf16Len -- count UTF-16 encoded chars
+   [175]FcUtf16Len -- count UTF-16 encoded chars
 
-   [175]FcIsLower -- check for lower case ASCII character
+   [176]FcIsLower -- check for lower case ASCII character
 
-   [176]FcIsUpper -- check for upper case ASCII character
+   [177]FcIsUpper -- check for upper case ASCII character
 
-   [177]FcToLower -- convert upper case ASCII to lower case
+   [178]FcToLower -- convert upper case ASCII to lower case
 
-   [178]FcStrCopy -- duplicate a string
+   [179]FcStrCopy -- duplicate a string
 
-   [179]FcStrDowncase -- create a lower case translation of a string
+   [180]FcStrDowncase -- create a lower case translation of a string
 
-   [180]FcStrCopyFilename -- create a complete path from a filename
+   [181]FcStrCopyFilename -- create a complete path from a filename
 
-   [181]FcStrCmp -- compare UTF-8 strings
+   [182]FcStrCmp -- compare UTF-8 strings
 
-   [182]FcStrCmpIgnoreCase -- compare UTF-8 strings ignoring case
+   [183]FcStrCmpIgnoreCase -- compare UTF-8 strings ignoring case
 
-   [183]FcStrStr -- locate UTF-8 substring
+   [184]FcStrStr -- locate UTF-8 substring
 
-   [184]FcStrStrIgnoreCase -- locate UTF-8 substring ignoring ASCII case
+   [185]FcStrStrIgnoreCase -- locate UTF-8 substring ignoring ASCII case
 
-   [185]FcStrPlus -- concatenate two strings
+   [186]FcStrPlus -- concatenate two strings
 
-   [186]FcStrFree -- free a string
+   [187]FcStrFree -- free a string
 
-   [187]FcStrDirname -- directory part of filename
+   [188]FcStrDirname -- directory part of filename
 
-   [188]FcStrBasename -- last component of filename
+   [189]FcStrBasename -- last component of filename
 
    Fontconfig manipulates many UTF-8 strings represented with the FcChar8
    type. These functions are exposed to help applications deal with these
@@ -5034,7 +5052,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    int FcUtf8ToUcs4(FcChar8 *src, FcChar32 *dst, int len);
@@ -5046,7 +5064,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcUcs4ToUtf8
 
@@ -5056,7 +5074,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    int FcUcs4ToUtf8(FcChar32 src, FcChar8 dst[FC_UTF8_MAX_LEN]);
@@ -5068,7 +5086,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                    FcUtf8Len
 
@@ -5078,7 +5096,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcUtf8Len(FcChar8 *src, int len, int *nchar, int *wchar);
@@ -5092,7 +5110,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcUtf16ToUcs4
 
@@ -5102,7 +5120,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    int FcUtf16ToUcs4(FcChar8 *src, FcEndian endian, FcChar32 *dst, int len);
@@ -5115,7 +5133,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                    FcUtf16Len
 
@@ -5125,7 +5143,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcUtf16Len(FcChar8 *src, FcEndian endian, int len, int *nchar, int
@@ -5141,7 +5159,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                    FcIsLower
 
@@ -5151,7 +5169,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcIsLower(FcChar8c);
@@ -5162,7 +5180,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                    FcIsUpper
 
@@ -5172,7 +5190,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcBool FcIsUpper(FcChar8c);
@@ -5183,7 +5201,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                    FcToLower
 
@@ -5193,7 +5211,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar8 FcToLower(FcChar8c);
@@ -5205,7 +5223,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                    FcStrCopy
 
@@ -5215,7 +5233,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar8 * FcStrCopy(const FcChar8 *s);
@@ -5227,7 +5245,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcStrDowncase
 
@@ -5237,7 +5255,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar8 * FcStrDowncase(const FcChar8 *s);
@@ -5249,7 +5267,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcStrCopyFilename
 
@@ -5259,7 +5277,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar8 * FcStrCopyFilename(const FcChar8 *s);
@@ -5276,7 +5294,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                     FcStrCmp
 
@@ -5286,7 +5304,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    int FcStrCmp(const FcChar8 *s1, const FcChar8 *s2);
@@ -5297,7 +5315,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcStrCmpIgnoreCase
 
@@ -5307,7 +5325,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    int FcStrCmpIgnoreCase(const FcChar8 *s1, const FcChar8 *s2);
@@ -5319,7 +5337,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                     FcStrStr
 
@@ -5329,7 +5347,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar8 * FcStrStr(const FcChar8 *s1, const FcChar8 *s2);
@@ -5341,7 +5359,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                FcStrStrIgnoreCase
 
@@ -5351,7 +5369,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar8 * FcStrStrIgnoreCase(const FcChar8 *s1, const FcChar8 *s2);
@@ -5364,7 +5382,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                    FcStrPlus
 
@@ -5374,7 +5392,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar8 * FcStrPlus(const FcChar8 *s1, const FcChar8 *s2);
@@ -5386,7 +5404,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                    FcStrFree
 
@@ -5396,7 +5414,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    void FcStrFree(FcChar8 *s);
@@ -5408,7 +5426,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                   FcStrDirname
 
@@ -5418,7 +5436,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar8 * FcStrDirname(const FcChar8 *file);
@@ -5430,7 +5448,7 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
                                  FcStrBasename
 
@@ -5440,7 +5458,7 @@ Name
 
 Synopsis
 
-   #include <fontconfig.h>
+   #include <fontconfig/fontconfig.h>
 
 
    FcChar8 * FcStrBasename(const FcChar8 *file);
@@ -5453,196 +5471,197 @@ Description
 
 Version
 
-   Fontconfig version 2.10.2
+   Fontconfig version 2.10.91
 
 References
 
    Visible links
-   1. file:///tmp/html-AqcuLC#AEN16
-   2. file:///tmp/html-AqcuLC#AEN19
-   3. file:///tmp/html-AqcuLC#AEN31
-   4. file:///tmp/html-AqcuLC#AEN102
-   5. file:///tmp/html-AqcuLC#FCINITLOADCONFIG
-   6. file:///tmp/html-AqcuLC#FCINITLOADCONFIGANDFONTS
-   7. file:///tmp/html-AqcuLC#FCINIT
-   8. file:///tmp/html-AqcuLC#FCFINI
-   9. file:///tmp/html-AqcuLC#FCGETVERSION
-  10. file:///tmp/html-AqcuLC#FCINITREINITIALIZE
-  11. file:///tmp/html-AqcuLC#FCINITBRINGUPTODATE
-  12. file:///tmp/html-AqcuLC#FCPATTERNCREATE
-  13. file:///tmp/html-AqcuLC#FCPATTERNDUPLICATE
-  14. file:///tmp/html-AqcuLC#FCPATTERNREFERENCE
-  15. file:///tmp/html-AqcuLC#FCPATTERNDESTROY
-  16. file:///tmp/html-AqcuLC#FCPATTERNEQUAL
-  17. file:///tmp/html-AqcuLC#FCPATTERNEQUALSUBSET
-  18. file:///tmp/html-AqcuLC#FCPATTERNFILTER
-  19. file:///tmp/html-AqcuLC#FCPATTERNHASH
-  20. file:///tmp/html-AqcuLC#FCPATTERNADD
-  21. file:///tmp/html-AqcuLC#FCPATTERNADDWEAK
-  22. file:///tmp/html-AqcuLC#FCPATTERNADD-TYPE
-  23. file:///tmp/html-AqcuLC#FCPATTERNGET
-  24. file:///tmp/html-AqcuLC#FCPATTERNGET-TYPE
-  25. file:///tmp/html-AqcuLC#FCPATTERNBUILD
-  26. file:///tmp/html-AqcuLC#FCPATTERNDEL
-  27. file:///tmp/html-AqcuLC#FCPATTERNREMOVE
-  28. file:///tmp/html-AqcuLC#FCPATTERNPRINT
-  29. file:///tmp/html-AqcuLC#FCDEFAULTSUBSTITUTE
-  30. file:///tmp/html-AqcuLC#FCNAMEPARSE
-  31. file:///tmp/html-AqcuLC#FCNAMEUNPARSE
-  32. file:///tmp/html-AqcuLC#FCPATTERNFORMAT
-  33. file:///tmp/html-AqcuLC#FCFONTSETCREATE
-  34. file:///tmp/html-AqcuLC#FCFONTSETDESTROY
-  35. file:///tmp/html-AqcuLC#FCFONTSETADD
-  36. file:///tmp/html-AqcuLC#FCFONTSETLIST
-  37. file:///tmp/html-AqcuLC#FCFONTSETMATCH
-  38. file:///tmp/html-AqcuLC#FCFONTSETPRINT
-  39. file:///tmp/html-AqcuLC#FCFONTSETSORT
-  40. file:///tmp/html-AqcuLC#FCFONTSETSORTDESTROY
-  41. file:///tmp/html-AqcuLC#FCOBJECTSETCREATE
-  42. file:///tmp/html-AqcuLC#FCOBJECTSETADD
-  43. file:///tmp/html-AqcuLC#FCOBJECTSETDESTROY
-  44. file:///tmp/html-AqcuLC#FCOBJECTSETBUILD
-  45. file:///tmp/html-AqcuLC#FCFREETYPECHARINDEX
-  46. file:///tmp/html-AqcuLC#FCFREETYPECHARSET
-  47. file:///tmp/html-AqcuLC#FCFREETYPECHARSETANDSPACING
-  48. file:///tmp/html-AqcuLC#FCFREETYPEQUERY
-  49. file:///tmp/html-AqcuLC#FCFREETYPEQUERYFACE
-  50. file:///tmp/html-AqcuLC#FCVALUEDESTROY
-  51. file:///tmp/html-AqcuLC#FCVALUESAVE
-  52. file:///tmp/html-AqcuLC#FCVALUEPRINT
-  53. file:///tmp/html-AqcuLC#FCVALUEEQUAL
-  54. file:///tmp/html-AqcuLC#FCCHARSETCREATE
-  55. file:///tmp/html-AqcuLC#FCCHARSETDESTROY
-  56. file:///tmp/html-AqcuLC#FCCHARSETADDCHAR
-  57. file:///tmp/html-AqcuLC#FCCHARSETDELCHAR
-  58. file:///tmp/html-AqcuLC#FCCHARSETCOPY
-  59. file:///tmp/html-AqcuLC#FCCHARSETEQUAL
-  60. file:///tmp/html-AqcuLC#FCCHARSETINTERSECT
-  61. file:///tmp/html-AqcuLC#FCCHARSETUNION
-  62. file:///tmp/html-AqcuLC#FCCHARSETSUBTRACT
-  63. file:///tmp/html-AqcuLC#FCCHARSETMERGE
-  64. file:///tmp/html-AqcuLC#FCCHARSETHASCHAR
-  65. file:///tmp/html-AqcuLC#FCCHARSETCOUNT
-  66. file:///tmp/html-AqcuLC#FCCHARSETINTERSECTCOUNT
-  67. file:///tmp/html-AqcuLC#FCCHARSETSUBTRACTCOUNT
-  68. file:///tmp/html-AqcuLC#FCCHARSETISSUBSET
-  69. file:///tmp/html-AqcuLC#FCCHARSETFIRSTPAGE
-  70. file:///tmp/html-AqcuLC#FCCHARSETNEXTPAGE
-  71. file:///tmp/html-AqcuLC#FCCHARSETCOVERAGE
-  72. file:///tmp/html-AqcuLC#FCCHARSETNEW
-  73. file:///tmp/html-AqcuLC#FCLANGSETCREATE
-  74. file:///tmp/html-AqcuLC#FCLANGSETDESTROY
-  75. file:///tmp/html-AqcuLC#FCLANGSETCOPY
-  76. file:///tmp/html-AqcuLC#FCLANGSETADD
-  77. file:///tmp/html-AqcuLC#FCLANGSETDEL
-  78. file:///tmp/html-AqcuLC#FCLANGSETUNION
-  79. file:///tmp/html-AqcuLC#FCLANGSETSUBTRACT
-  80. file:///tmp/html-AqcuLC#FCLANGSETCOMPARE
-  81. file:///tmp/html-AqcuLC#FCLANGSETCONTAINS
-  82. file:///tmp/html-AqcuLC#FCLANGSETEQUAL
-  83. file:///tmp/html-AqcuLC#FCLANGSETHASH
-  84. file:///tmp/html-AqcuLC#FCLANGSETHASLANG
-  85. file:///tmp/html-AqcuLC#FCGETDEFAULTLANGS
-  86. file:///tmp/html-AqcuLC#FCGETLANGS
-  87. file:///tmp/html-AqcuLC#FCLANGGETCHARSET
-  88. file:///tmp/html-AqcuLC#FCMATRIXINIT
-  89. file:///tmp/html-AqcuLC#FCMATRIXCOPY
-  90. file:///tmp/html-AqcuLC#FCMATRIXEQUAL
-  91. file:///tmp/html-AqcuLC#FCMATRIXMULTIPLY
-  92. file:///tmp/html-AqcuLC#FCMATRIXROTATE
-  93. file:///tmp/html-AqcuLC#FCMATRIXSCALE
-  94. file:///tmp/html-AqcuLC#FCMATRIXSHEAR
-  95. file:///tmp/html-AqcuLC#FCCONFIGCREATE
-  96. file:///tmp/html-AqcuLC#FCCONFIGREFERENCE
-  97. file:///tmp/html-AqcuLC#FCCONFIGDESTROY
-  98. file:///tmp/html-AqcuLC#FCCONFIGSETCURRENT
-  99. file:///tmp/html-AqcuLC#FCCONFIGGETCURRENT
- 100. file:///tmp/html-AqcuLC#FCCONFIGUPTODATE
- 101. file:///tmp/html-AqcuLC#FCCONFIGHOME
- 102. file:///tmp/html-AqcuLC#FCCONFIGENABLEHOME
- 103. file:///tmp/html-AqcuLC#FCCONFIGBUILDFONTS
- 104. file:///tmp/html-AqcuLC#FCCONFIGGETCONFIGDIRS
- 105. file:///tmp/html-AqcuLC#FCCONFIGGETFONTDIRS
- 106. file:///tmp/html-AqcuLC#FCCONFIGGETCONFIGFILES
- 107. file:///tmp/html-AqcuLC#FCCONFIGGETCACHE
- 108. file:///tmp/html-AqcuLC#FCCONFIGGETCACHEDIRS
- 109. file:///tmp/html-AqcuLC#FCCONFIGGETFONTS
- 110. file:///tmp/html-AqcuLC#FCCONFIGGETBLANKS
- 111. file:///tmp/html-AqcuLC#FCCONFIGGETRESCANINTERVAL
- 112. file:///tmp/html-AqcuLC#FCCONFIGSETRESCANINTERVAL
- 113. file:///tmp/html-AqcuLC#FCCONFIGAPPFONTADDFILE
- 114. file:///tmp/html-AqcuLC#FCCONFIGAPPFONTADDDIR
- 115. file:///tmp/html-AqcuLC#FCCONFIGAPPFONTCLEAR
- 116. file:///tmp/html-AqcuLC#FCCONFIGSUBSTITUTEWITHPAT
- 117. file:///tmp/html-AqcuLC#FCCONFIGSUBSTITUTE
- 118. file:///tmp/html-AqcuLC#FCFONTMATCH
- 119. file:///tmp/html-AqcuLC#FCFONTSORT
- 120. file:///tmp/html-AqcuLC#FCFONTRENDERPREPARE
- 121. file:///tmp/html-AqcuLC#FCFONTLIST
- 122. file:///tmp/html-AqcuLC#FCCONFIGFILENAME
- 123. file:///tmp/html-AqcuLC#FCCONFIGPARSEANDLOAD
- 124. file:///tmp/html-AqcuLC#FCNAMEREGISTEROBJECTTYPES
- 125. file:///tmp/html-AqcuLC#FCNAMEUNREGISTEROBJECTTYPES
- 126. file:///tmp/html-AqcuLC#FCNAMEGETOBJECTTYPE
- 127. file:///tmp/html-AqcuLC#FCNAMEREGISTERCONSTANTS
- 128. file:///tmp/html-AqcuLC#FCNAMEUNREGISTERCONSTANTS
- 129. file:///tmp/html-AqcuLC#FCNAMEGETCONSTANT
- 130. file:///tmp/html-AqcuLC#FCNAMECONSTANT
- 131. file:///tmp/html-AqcuLC#FCBLANKSCREATE
- 132. file:///tmp/html-AqcuLC#FCBLANKSDESTROY
- 133. file:///tmp/html-AqcuLC#FCBLANKSADD
- 134. file:///tmp/html-AqcuLC#FCBLANKSISMEMBER
- 135. file:///tmp/html-AqcuLC#FCATOMICCREATE
- 136. file:///tmp/html-AqcuLC#FCATOMICLOCK
- 137. file:///tmp/html-AqcuLC#FCATOMICNEWFILE
- 138. file:///tmp/html-AqcuLC#FCATOMICORIGFILE
- 139. file:///tmp/html-AqcuLC#FCATOMICREPLACEORIG
- 140. file:///tmp/html-AqcuLC#FCATOMICDELETENEW
- 141. file:///tmp/html-AqcuLC#FCATOMICUNLOCK
- 142. file:///tmp/html-AqcuLC#FCATOMICDESTROY
- 143. file:///tmp/html-AqcuLC#FCFILESCAN
- 144. file:///tmp/html-AqcuLC#FCFILEISDIR
- 145. file:///tmp/html-AqcuLC#FCDIRSCAN
- 146. file:///tmp/html-AqcuLC#FCDIRSAVE
- 147. file:///tmp/html-AqcuLC#FCDIRCACHEUNLINK
- 148. file:///tmp/html-AqcuLC#FCDIRCACHEVALID
- 149. file:///tmp/html-AqcuLC#FCDIRCACHELOAD
- 150. file:///tmp/html-AqcuLC#FCDIRCACHEREAD
- 151. file:///tmp/html-AqcuLC#FCDIRCACHELOADFILE
- 152. file:///tmp/html-AqcuLC#FCDIRCACHEUNLOAD
- 153. file:///tmp/html-AqcuLC#FCCACHEDIR
- 154. file:///tmp/html-AqcuLC#FCCACHECOPYSET
- 155. file:///tmp/html-AqcuLC#FCCACHESUBDIR
- 156. file:///tmp/html-AqcuLC#FCCACHENUMSUBDIR
- 157. file:///tmp/html-AqcuLC#FCCACHENUMFONT
- 158. file:///tmp/html-AqcuLC#FCDIRCACHECLEAN
- 159. file:///tmp/html-AqcuLC#FCCACHECREATETAGFILE
- 160. file:///tmp/html-AqcuLC#FCSTRSETCREATE
- 161. file:///tmp/html-AqcuLC#FCSTRSETMEMBER
- 162. file:///tmp/html-AqcuLC#FCSTRSETEQUAL
- 163. file:///tmp/html-AqcuLC#FCSTRSETADD
- 164. file:///tmp/html-AqcuLC#FCSTRSETADDFILENAME
- 165. file:///tmp/html-AqcuLC#FCSTRSETDEL
- 166. file:///tmp/html-AqcuLC#FCSTRSETDESTROY
- 167. file:///tmp/html-AqcuLC#FCSTRLISTCREATE
- 168. file:///tmp/html-AqcuLC#FCSTRLISTNEXT
- 169. file:///tmp/html-AqcuLC#FCSTRLISTDONE
- 170. file:///tmp/html-AqcuLC#FCUTF8TOUCS4
- 171. file:///tmp/html-AqcuLC#FCUCS4TOUTF8
- 172. file:///tmp/html-AqcuLC#FCUTF8LEN
- 173. file:///tmp/html-AqcuLC#FCUTF16TOUCS4
- 174. file:///tmp/html-AqcuLC#FCUTF16LEN
- 175. file:///tmp/html-AqcuLC#FCISLOWER
- 176. file:///tmp/html-AqcuLC#FCISUPPER
- 177. file:///tmp/html-AqcuLC#FCTOLOWER
- 178. file:///tmp/html-AqcuLC#FCSTRCOPY
- 179. file:///tmp/html-AqcuLC#FCSTRDOWNCASE
- 180. file:///tmp/html-AqcuLC#FCSTRCOPYFILENAME
- 181. file:///tmp/html-AqcuLC#FCSTRCMP
- 182. file:///tmp/html-AqcuLC#FCSTRCMPIGNORECASE
- 183. file:///tmp/html-AqcuLC#FCSTRSTR
- 184. file:///tmp/html-AqcuLC#FCSTRSTRIGNORECASE
- 185. file:///tmp/html-AqcuLC#FCSTRPLUS
- 186. file:///tmp/html-AqcuLC#FCSTRFREE
- 187. file:///tmp/html-AqcuLC#FCSTRDIRNAME
- 188. file:///tmp/html-AqcuLC#FCSTRBASENAME
+   1. file:///tmp/html-l8lfPm#AEN16
+   2. file:///tmp/html-l8lfPm#AEN19
+   3. file:///tmp/html-l8lfPm#AEN31
+   4. file:///tmp/html-l8lfPm#AEN102
+   5. file:///tmp/html-l8lfPm#FCINITLOADCONFIG
+   6. file:///tmp/html-l8lfPm#FCINITLOADCONFIGANDFONTS
+   7. file:///tmp/html-l8lfPm#FCINIT
+   8. file:///tmp/html-l8lfPm#FCFINI
+   9. file:///tmp/html-l8lfPm#FCGETVERSION
+  10. file:///tmp/html-l8lfPm#FCINITREINITIALIZE
+  11. file:///tmp/html-l8lfPm#FCINITBRINGUPTODATE
+  12. file:///tmp/html-l8lfPm#FCPATTERNCREATE
+  13. file:///tmp/html-l8lfPm#FCPATTERNDUPLICATE
+  14. file:///tmp/html-l8lfPm#FCPATTERNREFERENCE
+  15. file:///tmp/html-l8lfPm#FCPATTERNDESTROY
+  16. file:///tmp/html-l8lfPm#FCPATTERNEQUAL
+  17. file:///tmp/html-l8lfPm#FCPATTERNEQUALSUBSET
+  18. file:///tmp/html-l8lfPm#FCPATTERNFILTER
+  19. file:///tmp/html-l8lfPm#FCPATTERNHASH
+  20. file:///tmp/html-l8lfPm#FCPATTERNADD
+  21. file:///tmp/html-l8lfPm#FCPATTERNADDWEAK
+  22. file:///tmp/html-l8lfPm#FCPATTERNADD-TYPE
+  23. file:///tmp/html-l8lfPm#FCPATTERNGET
+  24. file:///tmp/html-l8lfPm#FCPATTERNGET-TYPE
+  25. file:///tmp/html-l8lfPm#FCPATTERNBUILD
+  26. file:///tmp/html-l8lfPm#FCPATTERNDEL
+  27. file:///tmp/html-l8lfPm#FCPATTERNREMOVE
+  28. file:///tmp/html-l8lfPm#FCPATTERNPRINT
+  29. file:///tmp/html-l8lfPm#FCDEFAULTSUBSTITUTE
+  30. file:///tmp/html-l8lfPm#FCNAMEPARSE
+  31. file:///tmp/html-l8lfPm#FCNAMEUNPARSE
+  32. file:///tmp/html-l8lfPm#FCPATTERNFORMAT
+  33. file:///tmp/html-l8lfPm#FCFONTSETCREATE
+  34. file:///tmp/html-l8lfPm#FCFONTSETDESTROY
+  35. file:///tmp/html-l8lfPm#FCFONTSETADD
+  36. file:///tmp/html-l8lfPm#FCFONTSETLIST
+  37. file:///tmp/html-l8lfPm#FCFONTSETMATCH
+  38. file:///tmp/html-l8lfPm#FCFONTSETPRINT
+  39. file:///tmp/html-l8lfPm#FCFONTSETSORT
+  40. file:///tmp/html-l8lfPm#FCFONTSETSORTDESTROY
+  41. file:///tmp/html-l8lfPm#FCOBJECTSETCREATE
+  42. file:///tmp/html-l8lfPm#FCOBJECTSETADD
+  43. file:///tmp/html-l8lfPm#FCOBJECTSETDESTROY
+  44. file:///tmp/html-l8lfPm#FCOBJECTSETBUILD
+  45. file:///tmp/html-l8lfPm#FCFREETYPECHARINDEX
+  46. file:///tmp/html-l8lfPm#FCFREETYPECHARSET
+  47. file:///tmp/html-l8lfPm#FCFREETYPECHARSETANDSPACING
+  48. file:///tmp/html-l8lfPm#FCFREETYPEQUERY
+  49. file:///tmp/html-l8lfPm#FCFREETYPEQUERYFACE
+  50. file:///tmp/html-l8lfPm#FCVALUEDESTROY
+  51. file:///tmp/html-l8lfPm#FCVALUESAVE
+  52. file:///tmp/html-l8lfPm#FCVALUEPRINT
+  53. file:///tmp/html-l8lfPm#FCVALUEEQUAL
+  54. file:///tmp/html-l8lfPm#FCCHARSETCREATE
+  55. file:///tmp/html-l8lfPm#FCCHARSETDESTROY
+  56. file:///tmp/html-l8lfPm#FCCHARSETADDCHAR
+  57. file:///tmp/html-l8lfPm#FCCHARSETDELCHAR
+  58. file:///tmp/html-l8lfPm#FCCHARSETCOPY
+  59. file:///tmp/html-l8lfPm#FCCHARSETEQUAL
+  60. file:///tmp/html-l8lfPm#FCCHARSETINTERSECT
+  61. file:///tmp/html-l8lfPm#FCCHARSETUNION
+  62. file:///tmp/html-l8lfPm#FCCHARSETSUBTRACT
+  63. file:///tmp/html-l8lfPm#FCCHARSETMERGE
+  64. file:///tmp/html-l8lfPm#FCCHARSETHASCHAR
+  65. file:///tmp/html-l8lfPm#FCCHARSETCOUNT
+  66. file:///tmp/html-l8lfPm#FCCHARSETINTERSECTCOUNT
+  67. file:///tmp/html-l8lfPm#FCCHARSETSUBTRACTCOUNT
+  68. file:///tmp/html-l8lfPm#FCCHARSETISSUBSET
+  69. file:///tmp/html-l8lfPm#FCCHARSETFIRSTPAGE
+  70. file:///tmp/html-l8lfPm#FCCHARSETNEXTPAGE
+  71. file:///tmp/html-l8lfPm#FCCHARSETCOVERAGE
+  72. file:///tmp/html-l8lfPm#FCCHARSETNEW
+  73. file:///tmp/html-l8lfPm#FCLANGSETCREATE
+  74. file:///tmp/html-l8lfPm#FCLANGSETDESTROY
+  75. file:///tmp/html-l8lfPm#FCLANGSETCOPY
+  76. file:///tmp/html-l8lfPm#FCLANGSETADD
+  77. file:///tmp/html-l8lfPm#FCLANGSETDEL
+  78. file:///tmp/html-l8lfPm#FCLANGSETUNION
+  79. file:///tmp/html-l8lfPm#FCLANGSETSUBTRACT
+  80. file:///tmp/html-l8lfPm#FCLANGSETCOMPARE
+  81. file:///tmp/html-l8lfPm#FCLANGSETCONTAINS
+  82. file:///tmp/html-l8lfPm#FCLANGSETEQUAL
+  83. file:///tmp/html-l8lfPm#FCLANGSETHASH
+  84. file:///tmp/html-l8lfPm#FCLANGSETHASLANG
+  85. file:///tmp/html-l8lfPm#FCGETDEFAULTLANGS
+  86. file:///tmp/html-l8lfPm#FCGETLANGS
+  87. file:///tmp/html-l8lfPm#FCLANGNORMALIZE
+  88. file:///tmp/html-l8lfPm#FCLANGGETCHARSET
+  89. file:///tmp/html-l8lfPm#FCMATRIXINIT
+  90. file:///tmp/html-l8lfPm#FCMATRIXCOPY
+  91. file:///tmp/html-l8lfPm#FCMATRIXEQUAL
+  92. file:///tmp/html-l8lfPm#FCMATRIXMULTIPLY
+  93. file:///tmp/html-l8lfPm#FCMATRIXROTATE
+  94. file:///tmp/html-l8lfPm#FCMATRIXSCALE
+  95. file:///tmp/html-l8lfPm#FCMATRIXSHEAR
+  96. file:///tmp/html-l8lfPm#FCCONFIGCREATE
+  97. file:///tmp/html-l8lfPm#FCCONFIGREFERENCE
+  98. file:///tmp/html-l8lfPm#FCCONFIGDESTROY
+  99. file:///tmp/html-l8lfPm#FCCONFIGSETCURRENT
+ 100. file:///tmp/html-l8lfPm#FCCONFIGGETCURRENT
+ 101. file:///tmp/html-l8lfPm#FCCONFIGUPTODATE
+ 102. file:///tmp/html-l8lfPm#FCCONFIGHOME
+ 103. file:///tmp/html-l8lfPm#FCCONFIGENABLEHOME
+ 104. file:///tmp/html-l8lfPm#FCCONFIGBUILDFONTS
+ 105. file:///tmp/html-l8lfPm#FCCONFIGGETCONFIGDIRS
+ 106. file:///tmp/html-l8lfPm#FCCONFIGGETFONTDIRS
+ 107. file:///tmp/html-l8lfPm#FCCONFIGGETCONFIGFILES
+ 108. file:///tmp/html-l8lfPm#FCCONFIGGETCACHE
+ 109. file:///tmp/html-l8lfPm#FCCONFIGGETCACHEDIRS
+ 110. file:///tmp/html-l8lfPm#FCCONFIGGETFONTS
+ 111. file:///tmp/html-l8lfPm#FCCONFIGGETBLANKS
+ 112. file:///tmp/html-l8lfPm#FCCONFIGGETRESCANINTERVAL
+ 113. file:///tmp/html-l8lfPm#FCCONFIGSETRESCANINTERVAL
+ 114. file:///tmp/html-l8lfPm#FCCONFIGAPPFONTADDFILE
+ 115. file:///tmp/html-l8lfPm#FCCONFIGAPPFONTADDDIR
+ 116. file:///tmp/html-l8lfPm#FCCONFIGAPPFONTCLEAR
+ 117. file:///tmp/html-l8lfPm#FCCONFIGSUBSTITUTEWITHPAT
+ 118. file:///tmp/html-l8lfPm#FCCONFIGSUBSTITUTE
+ 119. file:///tmp/html-l8lfPm#FCFONTMATCH
+ 120. file:///tmp/html-l8lfPm#FCFONTSORT
+ 121. file:///tmp/html-l8lfPm#FCFONTRENDERPREPARE
+ 122. file:///tmp/html-l8lfPm#FCFONTLIST
+ 123. file:///tmp/html-l8lfPm#FCCONFIGFILENAME
+ 124. file:///tmp/html-l8lfPm#FCCONFIGPARSEANDLOAD
+ 125. file:///tmp/html-l8lfPm#FCNAMEREGISTEROBJECTTYPES
+ 126. file:///tmp/html-l8lfPm#FCNAMEUNREGISTEROBJECTTYPES
+ 127. file:///tmp/html-l8lfPm#FCNAMEGETOBJECTTYPE
+ 128. file:///tmp/html-l8lfPm#FCNAMEREGISTERCONSTANTS
+ 129. file:///tmp/html-l8lfPm#FCNAMEUNREGISTERCONSTANTS
+ 130. file:///tmp/html-l8lfPm#FCNAMEGETCONSTANT
+ 131. file:///tmp/html-l8lfPm#FCNAMECONSTANT
+ 132. file:///tmp/html-l8lfPm#FCBLANKSCREATE
+ 133. file:///tmp/html-l8lfPm#FCBLANKSDESTROY
+ 134. file:///tmp/html-l8lfPm#FCBLANKSADD
+ 135. file:///tmp/html-l8lfPm#FCBLANKSISMEMBER
+ 136. file:///tmp/html-l8lfPm#FCATOMICCREATE
+ 137. file:///tmp/html-l8lfPm#FCATOMICLOCK
+ 138. file:///tmp/html-l8lfPm#FCATOMICNEWFILE
+ 139. file:///tmp/html-l8lfPm#FCATOMICORIGFILE
+ 140. file:///tmp/html-l8lfPm#FCATOMICREPLACEORIG
+ 141. file:///tmp/html-l8lfPm#FCATOMICDELETENEW
+ 142. file:///tmp/html-l8lfPm#FCATOMICUNLOCK
+ 143. file:///tmp/html-l8lfPm#FCATOMICDESTROY
+ 144. file:///tmp/html-l8lfPm#FCFILESCAN
+ 145. file:///tmp/html-l8lfPm#FCFILEISDIR
+ 146. file:///tmp/html-l8lfPm#FCDIRSCAN
+ 147. file:///tmp/html-l8lfPm#FCDIRSAVE
+ 148. file:///tmp/html-l8lfPm#FCDIRCACHEUNLINK
+ 149. file:///tmp/html-l8lfPm#FCDIRCACHEVALID
+ 150. file:///tmp/html-l8lfPm#FCDIRCACHELOAD
+ 151. file:///tmp/html-l8lfPm#FCDIRCACHEREAD
+ 152. file:///tmp/html-l8lfPm#FCDIRCACHELOADFILE
+ 153. file:///tmp/html-l8lfPm#FCDIRCACHEUNLOAD
+ 154. file:///tmp/html-l8lfPm#FCCACHEDIR
+ 155. file:///tmp/html-l8lfPm#FCCACHECOPYSET
+ 156. file:///tmp/html-l8lfPm#FCCACHESUBDIR
+ 157. file:///tmp/html-l8lfPm#FCCACHENUMSUBDIR
+ 158. file:///tmp/html-l8lfPm#FCCACHENUMFONT
+ 159. file:///tmp/html-l8lfPm#FCDIRCACHECLEAN
+ 160. file:///tmp/html-l8lfPm#FCCACHECREATETAGFILE
+ 161. file:///tmp/html-l8lfPm#FCSTRSETCREATE
+ 162. file:///tmp/html-l8lfPm#FCSTRSETMEMBER
+ 163. file:///tmp/html-l8lfPm#FCSTRSETEQUAL
+ 164. file:///tmp/html-l8lfPm#FCSTRSETADD
+ 165. file:///tmp/html-l8lfPm#FCSTRSETADDFILENAME
+ 166. file:///tmp/html-l8lfPm#FCSTRSETDEL
+ 167. file:///tmp/html-l8lfPm#FCSTRSETDESTROY
+ 168. file:///tmp/html-l8lfPm#FCSTRLISTCREATE
+ 169. file:///tmp/html-l8lfPm#FCSTRLISTNEXT
+ 170. file:///tmp/html-l8lfPm#FCSTRLISTDONE
+ 171. file:///tmp/html-l8lfPm#FCUTF8TOUCS4
+ 172. file:///tmp/html-l8lfPm#FCUCS4TOUTF8
+ 173. file:///tmp/html-l8lfPm#FCUTF8LEN
+ 174. file:///tmp/html-l8lfPm#FCUTF16TOUCS4
+ 175. file:///tmp/html-l8lfPm#FCUTF16LEN
+ 176. file:///tmp/html-l8lfPm#FCISLOWER
+ 177. file:///tmp/html-l8lfPm#FCISUPPER
+ 178. file:///tmp/html-l8lfPm#FCTOLOWER
+ 179. file:///tmp/html-l8lfPm#FCSTRCOPY
+ 180. file:///tmp/html-l8lfPm#FCSTRDOWNCASE
+ 181. file:///tmp/html-l8lfPm#FCSTRCOPYFILENAME
+ 182. file:///tmp/html-l8lfPm#FCSTRCMP
+ 183. file:///tmp/html-l8lfPm#FCSTRCMPIGNORECASE
+ 184. file:///tmp/html-l8lfPm#FCSTRSTR
+ 185. file:///tmp/html-l8lfPm#FCSTRSTRIGNORECASE
+ 186. file:///tmp/html-l8lfPm#FCSTRPLUS
+ 187. file:///tmp/html-l8lfPm#FCSTRFREE
+ 188. file:///tmp/html-l8lfPm#FCSTRDIRNAME
+ 189. file:///tmp/html-l8lfPm#FCSTRBASENAME

@@ -34,7 +34,7 @@ dnl This is the package version number, not the shared library
 dnl version.  This same version number must appear in fontconfig/fontconfig.h
 dnl Yes, it is a pain to synchronize version numbers.  Unfortunately, it's
 dnl not possible to extract the version number here from fontconfig.h
-AM_INIT_AUTOMAKE(fontconfig, 2.10.2)
+AM_INIT_AUTOMAKE(fontconfig, 2.10.91)
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 dnl libtool versioning
@@ -60,6 +60,8 @@ AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_MACRO_DIR([m4])
 
 AC_PROG_CC
+AC_USE_SYSTEM_EXTENSIONS
+AC_SYS_LARGEFILE
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_LIBTOOL_WIN32_DLL
@@ -105,6 +107,8 @@ AC_SUBST(WARN_CFLAGS)
 
 dnl ==========================================================================
 
+AX_CC_FOR_BUILD()
+AC_ARG_VAR(CC_FOR_BUILD, [build system C compiler])
 AM_CONDITIONAL(CROSS_COMPILING, test $cross_compiling = yes)
 AM_CONDITIONAL(ENABLE_SHARED, test "$enable_shared" = "yes")
 
@@ -126,6 +130,7 @@ dnl ==========================================================================
 AC_HEADER_DIRENT
 AC_HEADER_STDC
 AC_CHECK_HEADERS([fcntl.h regex.h stdlib.h string.h unistd.h sys/vfs.h sys/statfs.h sys/param.h sys/mount.h])
+AX_CREATE_STDINT_H([src/fcstdint.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -136,7 +141,7 @@ AC_TYPE_PID_T
 # Checks for library functions.
 AC_FUNC_VPRINTF
 AC_FUNC_MMAP
-AC_CHECK_FUNCS([geteuid getuid link memmove memset mkstemp strchr strrchr strtol getopt getopt_long sysconf ftruncate chsize rand random lrand48 random_r rand_r regcomp regerror regexec regfree fstatvfs fstatfs])
+AC_CHECK_FUNCS([geteuid getuid link memmove memset mkstemp mkostemp _mktemp_s strchr strrchr strtol getopt getopt_long sysconf ftruncate chsize rand random lrand48 random_r rand_r regcomp regerror regexec regfree fstatvfs fstatfs lstat])
 
 dnl AC_CHECK_FUNCS doesn't check for header files.
 dnl posix_fadvise() may be not available in older libc.
@@ -150,7 +155,7 @@ AC_LINK_IFELSE([AC_LANG_SOURCE([[
 	}
 	]])],[
 		AC_MSG_RESULT([yes])
-		AC_DEFINE([HAVE_POSIX_FADVISE], [1], [Define to 1 if you have the `posix_fadvise' function.])
+		AC_DEFINE([HAVE_POSIX_FADVISE], [1], [Define to 1 if you have the 'posix_fadvise' function.])
 	],[AC_MSG_RESULT([no])])
 CFLAGS="$fc_saved_CFLAGS"
 
@@ -566,6 +571,63 @@ AC_SUBST(CONFIGDIR)
 AC_SUBST(xmldir)
 AC_SUBST(XMLDIR)
 
+
+dnl ===========================================================================
+
+#
+# Thread-safety primitives
+#
+
+AC_CACHE_CHECK([for Intel atomic primitives], fc_cv_have_intel_atomic_primitives, [
+	fc_cv_have_intel_atomic_primitives=false
+	AC_TRY_LINK([
+		void memory_barrier (void) { __sync_synchronize (); }
+		int atomic_add (int *i) { return __sync_fetch_and_add (i, 1); }
+		int mutex_trylock (int *m) { return __sync_lock_test_and_set (m, 1); }
+		void mutex_unlock (int *m) { __sync_lock_release (m); }
+		], [], fc_cv_have_intel_atomic_primitives=true
+	)
+])
+if $fc_cv_have_intel_atomic_primitives; then
+	AC_DEFINE(HAVE_INTEL_ATOMIC_PRIMITIVES, 1, [Have Intel __sync_* atomic primitives])
+fi
+
+AC_CACHE_CHECK([for Solaris atomic operations], fc_cv_have_solaris_atomic_ops, [
+	fc_cv_have_solaris_atomic_ops=false
+	AC_TRY_LINK([
+		#include <atomic.h>
+		/* This requires Solaris Studio 12.2 or newer: */
+		#include <mbarrier.h>
+		void memory_barrier (void) { __machine_rw_barrier (); }
+		int atomic_add (volatile unsigned *i) { return atomic_add_int_nv (i, 1); }
+		void *atomic_ptr_cmpxchg (volatile void **target, void *cmp, void *newval) { return atomic_cas_ptr (target, cmp, newval); }
+		], [], fc_cv_have_solaris_atomic_ops=true
+	)
+])
+if $fc_cv_have_solaris_atomic_ops; then
+	AC_DEFINE(HAVE_SOLARIS_ATOMIC_OPS, 1, [Have Solaris __machine_*_barrier and atomic_* operations])
+fi
+
+if test "$os_win32" = no && ! $have_pthread; then
+	AC_CHECK_HEADERS(sched.h)
+	AC_SEARCH_LIBS(sched_yield,rt,AC_DEFINE(HAVE_SCHED_YIELD, 1, [Have sched_yield]))
+fi
+
+have_pthread=false
+if test "$os_win32" = no; then
+	AX_PTHREAD([have_pthread=true])
+fi
+if $have_pthread; then
+	LIBS="$PTHREAD_LIBS $LIBS"
+	CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
+	CC="$PTHREAD_CC"
+	AC_DEFINE(HAVE_PTHREAD, 1, [Have POSIX threads])
+fi
+AM_CONDITIONAL(HAVE_PTHREAD, $have_pthread)
+
+
+dnl ===========================================================================
+
 #
 # Let people not build/install docs if they don't have docbook
 #
@@ -595,7 +657,6 @@ AC_ARG_ENABLE(docs,
 AM_CONDITIONAL(ENABLE_DOCS, test "x$enable_docs" = xyes)
 
 if test "x$enable_docs" = xyes; then
-	DOCSRC="doc"
 	tmp=funcs.$$
 	cat $srcdir/doc/*.fncs | awk '
 	/^@TITLE@/	{ if (!done) { printf ("%s\n", $2); done = 1; } }
@@ -605,11 +666,8 @@ if test "x$enable_docs" = xyes; then
 	echo DOCMAN3 $DOCMAN3
 	rm -f $tmp
 else
-	DOCSRC=""
 	DOCMAN3=""
 fi
-
-AC_SUBST(DOCSRC)
 AC_SUBST(DOCMAN3)
 
 
@@ -637,6 +695,7 @@ fc-match/Makefile
 fc-pattern/Makefile
 fc-query/Makefile
 fc-scan/Makefile
+fc-validate/Makefile
 doc/Makefile
 doc/version.sgml
 test/Makefile

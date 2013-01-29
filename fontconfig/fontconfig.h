@@ -52,7 +52,7 @@ typedef int		FcBool;
 
 #define FC_MAJOR	2
 #define FC_MINOR	10
-#define FC_REVISION	2
+#define FC_REVISION	91
 
 #define FC_VERSION	((FC_MAJOR * 10000) + (FC_MINOR * 100) + (FC_REVISION))
 
@@ -181,10 +181,10 @@ typedef int		FcBool;
 #define FC_LCD_LEGACY	    3
 
 typedef enum _FcType {
-    FcTypeVoid, 
-    FcTypeInteger, 
-    FcTypeDouble, 
-    FcTypeString, 
+    FcTypeVoid,
+    FcTypeInteger,
+    FcTypeDouble,
+    FcTypeString,
     FcTypeBool,
     FcTypeMatrix,
     FcTypeCharSet,
@@ -424,7 +424,7 @@ FcCharSetCreate (void);
 /* deprecated alias for FcCharSetCreate */
 FcPublic FcCharSet *
 FcCharSetNew (void);
-    
+
 FcPublic void
 FcCharSetDestroy (FcCharSet *fcs);
 
@@ -580,6 +580,9 @@ FcInitBringUptoDate (void);
 FcPublic FcStrSet *
 FcGetLangs (void);
 
+FcPublic FcChar8 *
+FcLangNormalize (const FcChar8 *lang);
+
 FcPublic const FcCharSet *
 FcLangGetCharSet (const FcChar8 *lang);
 
@@ -734,21 +737,25 @@ FcMatrixShear (FcMatrix *m, double sh, double sv);
 
 /* fcname.c */
 
+/* Deprecated.  Does nothing.  Returns FcFalse. */
 FcPublic FcBool
 FcNameRegisterObjectTypes (const FcObjectType *types, int ntype);
 
+/* Deprecated.  Does nothing.  Returns FcFalse. */
 FcPublic FcBool
 FcNameUnregisterObjectTypes (const FcObjectType *types, int ntype);
-    
+
 FcPublic const FcObjectType *
 FcNameGetObjectType (const char *object);
 
+/* Deprecated.  Does nothing.  Returns FcFalse. */
 FcPublic FcBool
 FcNameRegisterConstants (const FcConstant *consts, int nconsts);
 
+/* Deprecated.  Does nothing.  Returns FcFalse. */
 FcPublic FcBool
 FcNameUnregisterConstants (const FcConstant *consts, int nconsts);
-    
+
 FcPublic const FcConstant *
 FcNameGetConstant (const FcChar8 *string);
 
