@@ -1,8 +1,8 @@
 %global freetype_version 2.1.4
 
 Name:           fontconfig
-Version:        2.10.0
-Release:        2
+Version:        2.10.2
+Release:        0
 License:        MIT
 Summary:        Font configuration and customization library
 Url:            http://fontconfig.org
@@ -80,7 +80,7 @@ fi
 %postun -p /sbin/ldconfig
 
 %files
-%doc COPYING
+%license COPYING
 %{_libdir}/libfontconfig.so.*
 %{_bindir}/fc-*
 %{_sysconfdir}/fonts/*
