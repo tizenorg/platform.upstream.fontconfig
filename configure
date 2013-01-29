@@ -3053,7 +3053,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=fontconfig
- VERSION=2.10.0
+ VERSION=2.10.2
 
 
 cat >>confdefs.h <<_ACEOF
@@ -3148,6 +3148,7 @@ LIBT_CURRENT_MINUS_AGE=`expr $LIBT_CURRENT - $LIBT_AGE`
 
 
 ac_config_headers="$ac_config_headers config.h"
+
 
 
 ac_ext=c
@@ -8466,6 +8467,10 @@ _lt_linker_boilerplate=`cat conftest.err`
 $RM -r conftest*
 
 
+## CAVEAT EMPTOR:
+## There is no encapsulation within the following macros, do not change
+## the running order or otherwise move them around unless you know exactly
+## what you are doing...
 if test -n "$compiler"; then
 
 lt_prog_compiler_no_builtin_flag=
@@ -13009,7 +13014,7 @@ $as_echo "#define HAVE_MMAP 1" >>confdefs.h
 fi
 rm -f conftest.mmap conftest.txt
 
-for ac_func in geteuid getuid link memmove memset mkstemp strchr strrchr strtol getopt getopt_long sysconf ftruncate chsize rand random lrand48 random_r rand_r regcomp regerror regexec regfree posix_fadvise fstatvfs fstatfs
+for ac_func in geteuid getuid link memmove memset mkstemp strchr strrchr strtol getopt getopt_long sysconf ftruncate chsize rand random lrand48 random_r rand_r regcomp regerror regexec regfree fstatvfs fstatfs
 do :
   as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
 ac_fn_c_check_func "$LINENO" "$ac_func" "$as_ac_var"
@@ -13021,6 +13026,35 @@ _ACEOF
 fi
 done
 
+
+fc_saved_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS $WARN_CFLAGS -Werror"
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for posix_fadvise" >&5
+$as_echo_n "checking for posix_fadvise... " >&6; }
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+	#include <fcntl.h>
+	int main(void) {
+	    return posix_fadvise(0, 0, 0, 0);
+	}
+
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+
+		{ $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+$as_echo "#define HAVE_POSIX_FADVISE 1" >>confdefs.h
+
+
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+CFLAGS="$fc_saved_CFLAGS"
 
 #
 if test "x$ac_cv_func_fstatvfs" = "xyes"; then

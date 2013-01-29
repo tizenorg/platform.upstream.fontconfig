@@ -34,7 +34,7 @@ dnl This is the package version number, not the shared library
 dnl version.  This same version number must appear in fontconfig/fontconfig.h
 dnl Yes, it is a pain to synchronize version numbers.  Unfortunately, it's
 dnl not possible to extract the version number here from fontconfig.h
-AM_INIT_AUTOMAKE(fontconfig, 2.10.0)
+AM_INIT_AUTOMAKE(fontconfig, 2.10.2)
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 dnl libtool versioning
@@ -57,6 +57,7 @@ AC_SUBST(LIBT_CURRENT_MINUS_AGE)
 dnl ==========================================================================
 
 AC_CONFIG_HEADERS(config.h)
+AC_CONFIG_MACRO_DIR([m4])
 
 AC_PROG_CC
 AC_PROG_INSTALL
@@ -135,7 +136,23 @@ AC_TYPE_PID_T
 # Checks for library functions.
 AC_FUNC_VPRINTF
 AC_FUNC_MMAP
-AC_CHECK_FUNCS([geteuid getuid link memmove memset mkstemp strchr strrchr strtol getopt getopt_long sysconf ftruncate chsize rand random lrand48 random_r rand_r regcomp regerror regexec regfree posix_fadvise fstatvfs fstatfs])
+AC_CHECK_FUNCS([geteuid getuid link memmove memset mkstemp strchr strrchr strtol getopt getopt_long sysconf ftruncate chsize rand random lrand48 random_r rand_r regcomp regerror regexec regfree fstatvfs fstatfs])
+
+dnl AC_CHECK_FUNCS doesn't check for header files.
+dnl posix_fadvise() may be not available in older libc.
+fc_saved_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS $WARN_CFLAGS -Werror"
+AC_MSG_CHECKING([for posix_fadvise])
+AC_LINK_IFELSE([AC_LANG_SOURCE([[
+	#include <fcntl.h>
+	int main(void) {
+	    return posix_fadvise(0, 0, 0, 0);
+	}
+	]])],[
+		AC_MSG_RESULT([yes])
+		AC_DEFINE([HAVE_POSIX_FADVISE], [1], [Define to 1 if you have the `posix_fadvise' function.])
+	],[AC_MSG_RESULT([no])])
+CFLAGS="$fc_saved_CFLAGS"
 
 #
 if test "x$ac_cv_func_fstatvfs" = "xyes"; then

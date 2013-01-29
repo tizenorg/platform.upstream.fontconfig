@@ -763,9 +763,9 @@ See Also
 
 Version
 
-   Fontconfig version 2.10.0
+   Fontconfig version 2.10.2
 
 References
 
    Visible links
-   1. file:///tmp/html-2EAnH7#DEBUG
+   1. file:///tmp/html-aDEwSV#DEBUG
