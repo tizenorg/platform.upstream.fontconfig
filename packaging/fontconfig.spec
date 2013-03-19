@@ -6,7 +6,7 @@ Release:        0
 License:        MIT
 Summary:        Font configuration and customization library
 Url:            http://fontconfig.org
-Group:          System/Libraries
+Group:          Graphics/Font Management
 Source:         %{name}-%{version}.tar.bz2
 BuildRequires:  expat-devel
 BuildRequires:  gawk
