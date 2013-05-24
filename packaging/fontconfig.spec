@@ -97,6 +97,7 @@ mkdir -p /var/cache/fontconfig
 # Remove stale caches
 rm -f /var/cache/fontconfig/????????????????????????????????.cache-2
 rm -f /var/cache/fontconfig/stamp
+mkdir -p /opt/var/cache/fontconfig
 chsmack -t /opt/var/cache/fontconfig
 chsmack -a "system::homedir" /opt/var/cache/fontconfig/*
 chsmack -a "system::homedir" /opt/var/cache/fontconfig
