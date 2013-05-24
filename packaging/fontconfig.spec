@@ -13,6 +13,7 @@ Source1001: packaging/fontconfig.manifest
 Requires(pre): /usr/bin/fc-cache, /bin/mkdir /bin/rm, /bin/grep
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
+Requires:    smack-utils
 BuildRequires:  pkgconfig(freetype2) >= %{freetype_version}
 BuildRequires:  gawk
 BuildRequires:  expat-devel
@@ -96,6 +97,10 @@ mkdir -p /var/cache/fontconfig
 # Remove stale caches
 rm -f /var/cache/fontconfig/????????????????????????????????.cache-2
 rm -f /var/cache/fontconfig/stamp
+mkdir -p /opt/var/cache/fontconfig
+chsmack -t /opt/var/cache/fontconfig
+chsmack -a "system::homedir" /opt/var/cache/fontconfig/*
+chsmack -a "system::homedir" /opt/var/cache/fontconfig
 
 # remove 49-sansserif.conf to fix bmc #9024
 #rm -rf /usr/%{_sysconfdir}/fonts/conf.d/49-sansserif.conf
