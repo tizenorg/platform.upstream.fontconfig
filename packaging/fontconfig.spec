@@ -8,6 +8,7 @@ Summary:        Font configuration and customization library
 Url:            http://fontconfig.org
 Group:          Graphics/Font Management
 Source:         %{name}-%{version}.tar.bz2
+Source1001: 	fontconfig.manifest
 BuildRequires:  expat-devel
 BuildRequires:  gawk
 BuildRequires:  perl
@@ -36,6 +37,7 @@ will use fontconfig.
 
 %prep
 %setup -q
+cp %{SOURCE1001} .
 
 %build
 # We don't want to rebuild the docs, but we want to install the included ones.
@@ -80,6 +82,7 @@ fi
 %postun -p /sbin/ldconfig
 
 %files
+%manifest %{name}.manifest
 %license COPYING
 %{_libdir}/libfontconfig.so.*
 %{_bindir}/fc-*
@@ -92,6 +95,7 @@ fi
 /usr/share/xml/fontconfig/fonts.dtd
 
 %files devel
+%manifest %{name}.manifest
 %{_libdir}/libfontconfig.so
 %{_libdir}/pkgconfig/*
 %{_includedir}/fontconfig
