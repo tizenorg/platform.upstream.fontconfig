@@ -98,6 +98,9 @@ mkdir -p /var/cache/fontconfig
 rm -f /var/cache/fontconfig/????????????????????????????????.cache-2
 rm -f /var/cache/fontconfig/stamp
 mkdir -p /opt/var/cache/fontconfig
+mkdir -p /usr/share/fonts
+mkdir -p /usr/share/fallback_fonts
+mkdir -p /usr/share/app_fonts
 chsmack -t /opt/var/cache/fontconfig
 chsmack -a "system::homedir" /opt/var/cache/fontconfig/*
 chsmack -a "system::homedir" /opt/var/cache/fontconfig
