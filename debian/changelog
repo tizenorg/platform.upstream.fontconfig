@@ -1,0 +1,247 @@
+fontconfig (2.9.0-slp2+8) unstable; urgency=low
+
+  * Fix  dependency of freetype version
+  * Git: framework/graphics/fontconfig
+  * Tag: fontconfig_2.9.0-slp2+8
+
+ -- Seongwon Cho <seongwon1.cho@samsung.com>  Mon, 15 Oct 2012 13:31:21 +0900
+
+fontconfig (2.9.0-slp2+7) unstable; urgency=low
+
+  * install license file
+  * Git: framework/graphics/fontconfig
+  * Tag: fontconfig_2.9.0-slp2+7
+
+ -- Seongwon Cho <seongwon1.cho@samsung.com>  Thu, 11 Oct 2012 11:30:51 +0900
+
+fontconfig (2.9.0-slp2+1) unstable; urgency=low
+
+  * fontconfig version upgrade from 2.6.0 to 2.9.0
+  * Git: slp/pkgs/f/fontconfig
+  * Tag: fontconfig_2.9.0-slp2+1
+
+ -- Deokjin Kim <deokjin81.kim@samsung.com>  Wed, 30 May 2012 16:53:17 +0900
+
+fontconfig (2.6.0-11slp3+19) unstable; urgency=low
+
+  * Add /usr/share/app_fonts to font directory list of fonts.conf
+  * Git: slp/pkgs/f/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+19
+
+ -- Deokjin Kim <deokjin81.kim@samsung.com>  Fri, 11 May 2012 17:25:25 +0900
+
+fontconfig (2.6.0-11slp3+18) unstable; urgency=low
+
+  * Add /opt/share/fonts to font directory list of fonts.conf
+  * Git: slp/pkgs/f/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+18
+
+ -- Deokjin Kim <deokjin81.kim@samsung.com>  Wed, 14 Mar 2012 19:17:19 +0900
+
+fontconfig (2.6.0-11slp3+17) unstable; urgency=low
+
+  * Set default font configuration for SLP
+  * Git: slp/pkgs/f/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+17
+
+ -- Minsu Han <minsu81.han@samsung.com>  Thu, 15 Dec 2011 16:05:49 +0900
+
+fontconfig (2.6.0-11slp3+16) unstable; urgency=low
+
+  * Modify maintainer
+  * Git: 165.213.180.234:/slp/pkgs/f/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+16
+
+ -- Minsu Han <minsu81.han@samsung.com>  Tue, 06 Dec 2011 18:56:47 +0900
+
+fontconfig (2.6.0-11slp3+15) unstable; urgency=low
+
+  * Remove defoma dependency
+  * Git: 165.213.180.234:/slp/pkgs/f/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+15
+
+ -- Minsu Han <minsu81.han@samsung.com>  Wed, 24 Aug 2011 17:15:45 +0900
+
+fontconfig (2.6.0-11slp3+14) unstable; urgency=low
+
+  * Repackaging for rollback of freetype
+  * Git: 165.213.180.234:/slp/pkgs/f/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+14
+
+ -- WooHyun Jung <wh0705.jung@samsung.com>  Mon, 11 Apr 2011 12:20:29 +0900
+
+fontconfig (2.6.0-11slp3+13) unstable; urgency=low
+
+  * Reupload according to modification of freetype2
+  * Git: 165.213.180.234:slp/pkgs/f/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+13
+
+ -- Deokjin Kim <deokjin81.kim@samsung.com>  Wed, 06 Apr 2011 17:28:16 +0900
+
+fontconfig (2.6.0-11slp3+12) unstable; urgency=low
+
+  * Bug fix - debian/rules has wrong configuration option. Modify cache-dir path.
+  * Git: 165.213.180.234:slp/pkgs/f/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+12
+
+ -- Minsu Han <minsu81.han@samsung.com>  Fri, 17 Dec 2010 09:47:18 +0900
+
+fontconfig (2.6.0-11slp3+11) unstable; urgency=low
+
+  * Upload again.
+  * Git: 165.213.180.234:/git/slp/pkgs/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+11
+
+ -- Myoungwoon Kim <myoungwoon.kim@samsung.com>  Thu, 14 Oct 2010 11:22:00 +0900
+
+fontconfig (2.6.0-11slp3+10) unstable; urgency=low
+
+  * Remove default Helvetic font configuration and upload again.
+  * Git: 165.213.180.234:/git/slp/pkgs/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+10
+
+ -- Myoungwoon Kim <myoungwoon.kim@samsung.com>  Thu, 14 Oct 2010 10:33:19 +0900
+
+fontconfig (2.6.0-11slp3+9) unstable; urgency=low
+
+  * [debian] make dbg pkg
+  * Git: 165.213.180.234:/git/slp/pkgs/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+9
+
+ -- Seokjae Jeong <seok.j.jeong@samsung.com>  Fri, 08 Oct 2010 15:25:08 +0900
+
+fontconfig (2.6.0-11slp3+8) unstable; urgency=low
+
+  * Applied patches from Karol.
+  * Git: 165.213.180.234:/git/slp/pkgs/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+8
+
+ -- Juyung Seo <juyung.seo@samsung.com>  Sun, 19 Sep 2010 18:40:03 +0900
+
+fontconfig (2.6.0-11slp3+7) unstable; urgency=low
+
+  * Set default fonts as Helvetica.
+  * Git: 165.213.180.234:/git/slp/pkgs/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+7
+
+ -- Juyung Seo <juyung.seo@samsung.com>  Wed, 15 Sep 2010 23:25:13 +0900
+
+fontconfig (2.6.0-11slp3+6) unstable; urgency=low
+
+  * [SLP Font] Reverted fonts.conf.in to the open source codes.
+  * Git: 165.213.180.234:/git/slp/pkgs/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+6
+
+ -- Juyung Seo <juyung.seo@samsung.com>  Wed, 15 Sep 2010 15:08:54 +0900
+
+fontconfig (2.6.0-11slp3+5) unstable; urgency=low
+
+  * Change fonts.conf.in to apply SLP font family name
+  * Git: 165.213.180.234:/git/slp/pkgs/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+5
+
+ -- Myoungwoon Kim <myoungwoon.kim@samsung.com>  Wed, 08 Sep 2010 11:01:35 +0900
+
+fontconfig (2.6.0-11slp3+4) unstable; urgency=low
+
+  * Change the Font configuration file
+  * Git: 165.213.180.234:/git/slp/pkgs/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+4
+
+ -- Myoungwoon Kim <myoungwoon.kim@samsung.com>  Thu, 26 Aug 2010 17:48:48 +0900
+
+fontconfig (2.6.0-11slp3+3) unstable; urgency=low
+
+  * Change the maintainer to Mr. Myoungwoon Kim
+  * Git: 165.213.180.234:/git/slp/pkgs/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+3
+
+ -- Myoungwoon Kim <myoungwoon.kim@samsung.com>  Thu, 26 Aug 2010 14:10:05 +0900
+
+fontconfig (2.6.0-11slp3+2) unstable; urgency=low
+
+  * Upload the SLP fonts(Helvetica family)
+  * Git: 165.213.180.234:/git/slp/pkgs/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+2
+
+ -- Myoungwoon Kim <myoungwoon.kim@samsung.com>  Thu, 26 Aug 2010 10:59:12 +0900
+
+fontconfig (2.6.0-11slp3+1) unstable; urgency=low
+
+  * Change the GP45 touchwiz fonts to SLP fonts(Helvetica family)
+  * Git: 165.213.180.234:/git/slp/pkgs/fontconfig
+  * Tag: fontconfig_2.6.0-11slp3+1
+
+ -- Myoungwoon Kim <myoungwoon.kim@samsung.com>  Wed, 25 Aug 2010 11:59:53 +0900
+
+fontconfig (2.6.0-11slp2) unstable; urgency=low
+
+  * Support names not including as well known as GP font
+
+ -- Jihoon Kim <jihoon48.kim@samsung.com>  Mon, 24 May 2010 16:42:09 +0900
+
+fontconfig (2.6.0-10slp2) unstable; urgency=low
+
+  * Add serif alias
+
+ -- Jihoon Kim <jihoon48.kim@samsung.com>  Wed, 19 May 2010 16:37:47 +0900
+
+fontconfig (2.6.0-9slp2+2) unstable; urgency=low
+
+  * Repackaging
+
+ -- Jihoon Kim <jihoon48.kim@samsung.com>  Thu, 25 Mar 2010 17:52:18 +0900
+
+fontconfig (2.6.0-9slp2+1) unstable; urgency=low
+
+  * Remove unused files, and change the package version name
+
+ -- Jihoon Kim <jihoon48.kim@samsung.com>  Thu, 25 Mar 2010 17:15:04 +0900
+
+fontconfig (2.6.0-8) unstable; urgency=low
+
+  * Default font has been changed
+
+ -- sehwan <sehwan@samsung.com>  Mon, 15 Mar 2010 21:01:03 +0900
+
+fontconfig (2.6.0-7) unstable; urgency=low
+
+  * licensed_fonts path added
+
+ -- Seokjae Jeong <seok.j.jeong@samsung.com>  Thu, 28 Jan 2010 22:28:25 +0900
+
+fontconfig (2.6.0-6) unstable; urgency=low
+
+  * i686 build was messed up, so make a new version
+
+ -- Mike McCormack <mj.mccormack@samsung.com>  Mon, 30 Nov 2009 19:34:40 +0900
+
+fontconfig (2.6.0-5) unstable; urgency=low
+
+  * one more
+
+ -- Kyu Young Kim <ky0928.kim@samsung.com>  Fri, 27 Nov 2009 15:06:05 +0900
+
+fontconfig (2.6.0-4) unstable; urgency=low
+
+  * modify debian files
+
+ -- Kyu Young Kim <ky0928.kim@samsung.com>  Fri, 27 Nov 2009 14:49:38 +0900
+
+fontconfig (2.6.0-3) unstable; urgency=low
+
+  * modify debian files
+
+ -- Kyu Young Kim <ky0928.kim@samsung.com>  Sat, 21 Nov 2009 11:35:53 +0900
+
+fontconfig (2.6.0-2) unstable; urgency=low
+
+  * delete dependency
+
+ -- Kyu Young Kim <ky0928.kim@samsung.com>  Thu, 12 Nov 2009 17:37:12 +0900
+
+fontconfig (2.6.0) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Kyu Young Kim <ky0928.kim@samsung.com>  Thu, 12 Nov 2009 12:01:34 +0900
