@@ -29,7 +29,7 @@ FC_SCAN_SRC=${top_srcdir}/fc-scan
 
 SGML = ${FC_SCAN_SRC}/fc-scan.sgml
 
-INCLUDES=-I${top_srcdir} $(FREETYPE_CFLAGS) $(WARN_CFLAGS)
+AM_CPPFLAGS=-I${top_srcdir} $(FREETYPE_CFLAGS) $(WARN_CFLAGS)
 
 BUILT_MANS=fc-scan.1
 
@@ -39,21 +39,22 @@ endif
 
 EXTRA_DIST=fc-scan.sgml $(BUILT_MANS)
 
+CLEANFILES =
+
 fc_scan_LDADD = ${top_builddir}/src/libfontconfig.la
 
 if USEDOCBOOK
 
 ${man_MANS}: ${SGML}
-	-@rm $@
-	$(AM_V_GEN) $(DOC2MAN) ${SGML}
-	@rm manpage.*
+	$(AM_V_GEN) $(RM) $@; \
+	$(DOC2MAN) ${SGML}; \
+	$(RM) manpage.*
 
 all-local: $(man_MANS)
 
-clean-local:
-	-rm $(man_MANS)
-
+CLEANFILES += ${man_MANS}
 else
 all-local:
-clean-local:
 endif
+
+-include $(top_srcdir)/git.mk

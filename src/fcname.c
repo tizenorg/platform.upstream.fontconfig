@@ -28,274 +28,56 @@
 #include <string.h>
 #include <stdio.h>
 
-/*
- * Please do not change this list, it is used to initialize the object
- * list in this order to match the FC_foo_OBJECT constants. Those
- * constants are written into cache files.
- */
-
-static const FcObjectType _FcBaseObjectTypes[] = {
-    { FC_FAMILY,	FcTypeString, },    /* 1 */
-    { FC_FAMILYLANG,	FcTypeString, },
-    { FC_STYLE,		FcTypeString, },
-    { FC_STYLELANG,	FcTypeString, },
-    { FC_FULLNAME,	FcTypeString, },
-    { FC_FULLNAMELANG,	FcTypeString, },
-    { FC_SLANT,		FcTypeInteger, },
-    { FC_WEIGHT,	FcTypeInteger, },
-    { FC_WIDTH,		FcTypeInteger, },
-    { FC_SIZE,		FcTypeDouble, },
-    { FC_ASPECT,	FcTypeDouble, },
-    { FC_PIXEL_SIZE,	FcTypeDouble, },
-    { FC_SPACING,	FcTypeInteger, },
-    { FC_FOUNDRY,	FcTypeString, },
-    { FC_ANTIALIAS,	FcTypeBool, },
-    { FC_HINT_STYLE,    FcTypeInteger, },
-    { FC_HINTING,	FcTypeBool, },
-    { FC_VERTICAL_LAYOUT,   FcTypeBool, },
-    { FC_AUTOHINT,	FcTypeBool, },
-    { FC_GLOBAL_ADVANCE,    FcTypeBool, },
-    { FC_FILE,		FcTypeString, },
-    { FC_INDEX,		FcTypeInteger, },
-    { FC_RASTERIZER,	FcTypeString, },
-    { FC_OUTLINE,	FcTypeBool, },
-    { FC_SCALABLE,	FcTypeBool, },
-    { FC_DPI,		FcTypeDouble },
-    { FC_RGBA,		FcTypeInteger, },
-    { FC_SCALE,		FcTypeDouble, },
-    { FC_MINSPACE,	FcTypeBool, },
-    { FC_CHAR_WIDTH,	FcTypeInteger },
-    { FC_CHAR_HEIGHT,	FcTypeInteger },
-    { FC_MATRIX,	FcTypeMatrix },
-    { FC_CHARSET,	FcTypeCharSet },
-    { FC_LANG,		FcTypeLangSet },
-    { FC_FONTVERSION,	FcTypeInteger },
-    { FC_CAPABILITY,	FcTypeString },
-    { FC_FONTFORMAT,	FcTypeString },
-    { FC_EMBOLDEN,	FcTypeBool },
-    { FC_EMBEDDED_BITMAP,   FcTypeBool },
-    { FC_DECORATIVE,	FcTypeBool },
-    { FC_LCD_FILTER,	FcTypeInteger }, /* 41 */
+static const FcObjectType FcObjects[] = {
+#define FC_OBJECT(NAME, Type, Cmp) { FC_##NAME, Type },
+#include "fcobjs.h"
+#undef FC_OBJECT
 };
 
-#define NUM_OBJECT_TYPES    (sizeof _FcBaseObjectTypes / sizeof _FcBaseObjectTypes[0])
+#define NUM_OBJECT_TYPES ((int) (sizeof FcObjects / sizeof FcObjects[0]))
 
-typedef struct _FcObjectTypeList    FcObjectTypeList;
-
-struct _FcObjectTypeList {
-    const FcObjectTypeList  *next;
-    const FcObjectType	    *types;
-    int			    ntypes;
-};
-
-static const FcObjectTypeList _FcBaseObjectTypesList = {
-    0,
-    _FcBaseObjectTypes,
-    NUM_OBJECT_TYPES,
-};
-
-static const FcObjectTypeList	*_FcObjectTypes = &_FcBaseObjectTypesList;
-
-#define OBJECT_HASH_SIZE    31
-
-typedef struct _FcObjectBucket {
-    struct _FcObjectBucket  *next;
-    FcChar32		    hash;
-    FcObject		    id;
-} FcObjectBucket;
-
-static FcObjectBucket	*FcObjectBuckets[OBJECT_HASH_SIZE];
-
-static FcObjectType	*FcObjects = (FcObjectType *) _FcBaseObjectTypes;
-static int		FcObjectsNumber = NUM_OBJECT_TYPES;
-static int		FcObjectsSize = 0;
-static FcBool		FcObjectsInited;
-
-static FcObjectType *
-FcObjectInsert (const char *name, FcType type)
-{
-    FcObjectType    *o;
-    if (FcObjectsNumber >= FcObjectsSize)
-    {
-	int		newsize = FcObjectsNumber * 2;
-	FcObjectType	*newobjects;
-	
-	if (FcObjectsSize)
-	    newobjects = realloc (FcObjects, newsize * sizeof (FcObjectType));
-	else
-	{
-	    newobjects = malloc (newsize * sizeof (FcObjectType));
-	    if (newobjects)
-		memcpy (newobjects, FcObjects,
-			FcObjectsNumber * sizeof (FcObjectType));
-	}
-	if (!newobjects)
-	    return NULL;
-	FcObjects = newobjects;
-	FcObjectsSize = newsize;
-    }
-    o = &FcObjects[FcObjectsNumber];
-    o->object = name;
-    o->type = type;
-    ++FcObjectsNumber;
-    return o;
-}
-
-static FcObject
-FcObjectId (FcObjectType *o)
-{
-    return o - FcObjects + 1;
-}
-
-static FcObjectType *
-FcObjectFindByName (const char *object, FcBool insert)
-{
-    FcChar32	    hash = FcStringHash ((const FcChar8 *) object);
-    FcObjectBucket  **p;
-    FcObjectBucket  *b;
-    FcObjectType    *o;
-
-    if (!FcObjectsInited)
-	FcObjectInit ();
-    for (p = &FcObjectBuckets[hash%OBJECT_HASH_SIZE]; (b = *p); p = &(b->next))
-    {
-	o = FcObjects + b->id - 1;
-        if (b->hash == hash && !strcmp (object, (o->object)))
-            return o;
-    }
-    if (!insert)
-	return NULL;
-    /*
-     * Hook it into the hash chain
-     */
-    b = malloc (sizeof(FcObjectBucket));
-    if (!b)
-	return NULL;
-    object = (const char *) FcStrCopy ((FcChar8 *) object);
-    if (!object) {
-	free (b);
-	return NULL;
-    }
-    o = FcObjectInsert (object, -1);
-    b->next = NULL;
-    b->hash = hash;
-    b->id = FcObjectId (o);
-    *p = b;
-    return o;
-}
-
-static FcObjectType *
+static const FcObjectType *
 FcObjectFindById (FcObject object)
 {
-    if (1 <= object && object <= FcObjectsNumber)
-	return FcObjects + object - 1;
-    return NULL;
-}
-
-static FcBool
-FcObjectHashInsert (const FcObjectType *object, FcBool copy)
-{
-    FcChar32	    hash = FcStringHash ((const FcChar8 *) object->object);
-    FcObjectBucket  **p;
-    FcObjectBucket  *b;
-    FcObjectType    *o;
-
-    if (!FcObjectsInited)
-	FcObjectInit ();
-    for (p = &FcObjectBuckets[hash%OBJECT_HASH_SIZE]; (b = *p); p = &(b->next))
-    {
-	o = FcObjects + b->id - 1;
-        if (b->hash == hash && !strcmp (object->object, o->object))
-            return FcFalse;
-    }
-    /*
-     * Hook it into the hash chain
-     */
-    b = malloc (sizeof(FcObjectBucket));
-    if (!b)
-	return FcFalse;
-    if (copy)
-    {
-	o = FcObjectInsert (object->object, object->type);
-	if (!o)
-	{
-	    free (b);
-	    return FcFalse;
-	}
-    }
-    else
-	o = (FcObjectType *) object;
-    b->next = NULL;
-    b->hash = hash;
-    b->id = FcObjectId (o);
-    *p = b;
-    return FcTrue;
-}
-
-static void
-FcObjectHashRemove (const FcObjectType *object, FcBool cleanobj)
-{
-    FcChar32	    hash = FcStringHash ((const FcChar8 *) object->object);
-    FcObjectBucket  **p;
-    FcObjectBucket  *b;
-    FcObjectType    *o;
-
-    if (!FcObjectsInited)
-	FcObjectInit ();
-    for (p = &FcObjectBuckets[hash%OBJECT_HASH_SIZE]; (b = *p); p = &(b->next))
-    {
-	o = FcObjects + b->id - 1;
-        if (b->hash == hash && !strcmp (object->object, o->object))
-	{
-	    *p = b->next;
-	    free (b);
-	    if (cleanobj)
-	    {
-		/* Clean up object array */
-		o->object = NULL;
-		o->type = -1;
-		while (FcObjects[FcObjectsNumber-1].object == NULL)
-		    --FcObjectsNumber;
-	    }
-            break;
-	}
-    }
+    if (1 <= object && object <= NUM_OBJECT_TYPES)
+	return &FcObjects[object - 1];
+    return FcObjectLookupOtherTypeById (object);
 }
 
 FcBool
 FcNameRegisterObjectTypes (const FcObjectType *types, int ntypes)
 {
-    int	i;
-
-    for (i = 0; i < ntypes; i++)
-	if (!FcObjectHashInsert (&types[i], FcTrue))
-	    return FcFalse;
-    return FcTrue;
+    /* Deprecated. */
+    return FcFalse;
 }
 
 FcBool
 FcNameUnregisterObjectTypes (const FcObjectType *types, int ntypes)
 {
-    int	i;
-
-    for (i = 0; i < ntypes; i++)
-	FcObjectHashRemove (&types[i], FcTrue);
-    return FcTrue;
+    /* Deprecated. */
+    return FcFalse;
 }
 
 const FcObjectType *
 FcNameGetObjectType (const char *object)
 {
-    return FcObjectFindByName (object, FcFalse);
+    int id = FcObjectLookupBuiltinIdByName (object);
+
+    if (!id)
+	return FcObjectLookupOtherTypeByName (object);
+
+    return &FcObjects[id - 1];
 }
 
 FcBool
 FcObjectValidType (FcObject object, FcType type)
 {
-    FcObjectType    *t = FcObjectFindById (object);
+    const FcObjectType    *t = FcObjectFindById (object);
 
     if (t) {
-	switch (t->type) {
+	switch ((int) t->type) {
+	case FcTypeUnknown:
+	    return FcTrue;
 	case FcTypeDouble:
 	case FcTypeInteger:
 	    if (type == FcTypeDouble || type == FcTypeInteger)
@@ -305,8 +87,12 @@ FcObjectValidType (FcObject object, FcType type)
 	    if (type == FcTypeLangSet || type == FcTypeString)
 		return FcTrue;
 	    break;
+	case FcTypeRange:
+	    if (type == FcTypeRange || type == FcTypeDouble)
+		return FcTrue;
+	    break;
 	default:
-	    if (t->type == -1 || type == t->type)
+	    if (type == t->type)
 		return FcTrue;
 	    break;
 	}
@@ -318,11 +104,7 @@ FcObjectValidType (FcObject object, FcType type)
 FcObject
 FcObjectFromName (const char * name)
 {
-    FcObjectType    *o = FcObjectFindByName (name, FcTrue);
-
-    if (o)
-	return FcObjectId (o);
-    return 0;
+    return FcObjectLookupIdByName (name);
 }
 
 FcObjectSet *
@@ -333,67 +115,29 @@ FcObjectGetSet (void)
 
 
     os = FcObjectSetCreate ();
-    for (i = 0; i < FcObjectsNumber; i++)
+    for (i = 0; i < NUM_OBJECT_TYPES; i++)
 	FcObjectSetAdd (os, FcObjects[i].object);
 
     return os;
 }
 
-FcBool
-FcObjectInit (void)
-{
-    int	i;
-
-    if (FcObjectsInited)
-	return FcTrue;
-
-    FcObjectsInited = FcTrue;
-    for (i = 0; i < NUM_OBJECT_TYPES; i++)
-	if (!FcObjectHashInsert (&_FcBaseObjectTypes[i], FcFalse))
-	    return FcFalse;
-    return FcTrue;
-}
-
-void
-FcObjectFini (void)
-{
-    int		    i;
-    FcObjectBucket  *b, *next;
-
-    for (i = 0; i < OBJECT_HASH_SIZE; i++)
-    {
-	for (b = FcObjectBuckets[i]; b; b = next)
-	{
-	    next = b->next;
-	    free (b);
-	}
-	FcObjectBuckets[i] = 0;
-    }
-    for (i = 0; i < FcObjectsNumber; i++)
-	if (FcObjects[i].type == -1)
-	    free ((void*) FcObjects[i].object);
-    if (FcObjects != _FcBaseObjectTypes)
-	free (FcObjects);
-    FcObjects = (FcObjectType *) _FcBaseObjectTypes;
-    FcObjectsNumber = NUM_OBJECT_TYPES;
-    FcObjectsSize = 0;
-    FcObjectsInited = FcFalse;
-}
-
 const char *
 FcObjectName (FcObject object)
 {
-    FcObjectType    *o = FcObjectFindById (object);
+    const FcObjectType   *o = FcObjectFindById (object);
 
     if (o)
 	return o->object;
-    return NULL;
+
+    return FcObjectLookupOtherNameById (object);
 }
 
 static const FcConstant _FcBaseConstants[] = {
     { (FcChar8 *) "thin",	    "weight",   FC_WEIGHT_THIN, },
     { (FcChar8 *) "extralight",	    "weight",   FC_WEIGHT_EXTRALIGHT, },
     { (FcChar8 *) "ultralight",	    "weight",   FC_WEIGHT_EXTRALIGHT, },
+    { (FcChar8 *) "demilight",	    "weight",   FC_WEIGHT_DEMILIGHT, },
+    { (FcChar8 *) "semilight",	    "weight",   FC_WEIGHT_DEMILIGHT, },
     { (FcChar8 *) "light",	    "weight",   FC_WEIGHT_LIGHT, },
     { (FcChar8 *) "book",	    "weight",	FC_WEIGHT_BOOK, },
     { (FcChar8 *) "regular",	    "weight",   FC_WEIGHT_REGULAR, },
@@ -413,7 +157,7 @@ static const FcConstant _FcBaseConstants[] = {
     { (FcChar8 *) "ultracondensed", "width",	FC_WIDTH_ULTRACONDENSED },
     { (FcChar8 *) "extracondensed", "width",	FC_WIDTH_EXTRACONDENSED },
     { (FcChar8 *) "condensed",	    "width",	FC_WIDTH_CONDENSED },
-    { (FcChar8 *) "semicondensed", "width",	FC_WIDTH_SEMICONDENSED },
+    { (FcChar8 *) "semicondensed",  "width",	FC_WIDTH_SEMICONDENSED },
     { (FcChar8 *) "normal",	    "width",	FC_WIDTH_NORMAL },
     { (FcChar8 *) "semiexpanded",   "width",	FC_WIDTH_SEMIEXPANDED },
     { (FcChar8 *) "expanded",	    "width",	FC_WIDTH_EXPANDED },
@@ -441,7 +185,7 @@ static const FcConstant _FcBaseConstants[] = {
     { (FcChar8 *) "hinting",	    "hinting",	    FcTrue },
     { (FcChar8 *) "verticallayout", "verticallayout",	FcTrue },
     { (FcChar8 *) "autohint",	    "autohint",	    FcTrue },
-    { (FcChar8 *) "globaladvance",  "globaladvance",	FcTrue },
+    { (FcChar8 *) "globaladvance",  "globaladvance",	FcTrue }, /* deprecated */
     { (FcChar8 *) "outline",	    "outline",	    FcTrue },
     { (FcChar8 *) "scalable",	    "scalable",	    FcTrue },
     { (FcChar8 *) "minspace",	    "minspace",	    FcTrue },
@@ -456,70 +200,29 @@ static const FcConstant _FcBaseConstants[] = {
 
 #define NUM_FC_CONSTANTS   (sizeof _FcBaseConstants/sizeof _FcBaseConstants[0])
 
-typedef struct _FcConstantList FcConstantList;
-
-struct _FcConstantList {
-    const FcConstantList    *next;
-    const FcConstant	    *consts;
-    int			    nconsts;
-};
-
-static const FcConstantList _FcBaseConstantList = {
-    0,
-    _FcBaseConstants,
-    NUM_FC_CONSTANTS
-};
-
-static const FcConstantList	*_FcConstants = &_FcBaseConstantList;
-
 FcBool
 FcNameRegisterConstants (const FcConstant *consts, int nconsts)
 {
-    FcConstantList	*l;
-
-    l = (FcConstantList *) malloc (sizeof (FcConstantList));
-    if (!l)
-	return FcFalse;
-    FcMemAlloc (FC_MEM_CONSTANT, sizeof (FcConstantList));
-    l->consts = consts;
-    l->nconsts = nconsts;
-    l->next = _FcConstants;
-    _FcConstants = l;
-    return FcTrue;
+    /* Deprecated. */
+    return FcFalse;
 }
 
 FcBool
 FcNameUnregisterConstants (const FcConstant *consts, int nconsts)
 {
-    const FcConstantList	*l, **prev;
-
-    for (prev = &_FcConstants;
-	 (l = *prev);
-	 prev = (const FcConstantList **) &(l->next))
-    {
-	if (l->consts == consts && l->nconsts == nconsts)
-	{
-	    *prev = l->next;
-	    FcMemFree (FC_MEM_CONSTANT, sizeof (FcConstantList));
-	    free ((void *) l);
-	    return FcTrue;
-	}
-    }
+    /* Deprecated. */
     return FcFalse;
 }
 
 const FcConstant *
 FcNameGetConstant (const FcChar8 *string)
 {
-    const FcConstantList    *l;
-    int			    i;
+    unsigned int	    i;
 
-    for (l = _FcConstants; l; l = l->next)
-    {
-	for (i = 0; i < l->nconsts; i++)
-	    if (!FcStrCmpIgnoreCase (string, l->consts[i].name))
-		return &l->consts[i];
-    }
+    for (i = 0; i < NUM_FC_CONSTANTS; i++)
+	if (!FcStrCmpIgnoreCase (string, _FcBaseConstants[i].name))
+	    return &_FcBaseConstants[i];
+
     return 0;
 }
 
@@ -572,18 +275,21 @@ FcNameBool (const FcChar8 *v, FcBool *result)
 }
 
 static FcValue
-FcNameConvert (FcType type, FcChar8 *string, FcMatrix *m)
+FcNameConvert (FcType type, FcChar8 *string)
 {
     FcValue	v;
+    FcMatrix	m;
+    double	b, e;
+    char	*p;
 
     v.type = type;
-    switch (v.type) {
+    switch ((int) v.type) {
     case FcTypeInteger:
 	if (!FcNameConstant (string, &v.u.i))
 	    v.u.i = atoi ((char *) string);
 	break;
     case FcTypeString:
-	v.u.s = FcStrStaticName(string);
+	v.u.s = FcStrdup (string);
 	if (!v.u.s)
 	    v.type = FcTypeVoid;
 	break;
@@ -595,8 +301,9 @@ FcNameConvert (FcType type, FcChar8 *string, FcMatrix *m)
 	v.u.d = strtod ((char *) string, 0);
 	break;
     case FcTypeMatrix:
-	v.u.m = m;
-	sscanf ((char *) string, "%lg %lg %lg %lg", &m->xx, &m->xy, &m->yx, &m->yy);
+	FcMatrixInit (&m);
+	sscanf ((char *) string, "%lg %lg %lg %lg", &m.xx, &m.xy, &m.yx, &m.yy);
+	v.u.m = FcMatrixCopy (&m);
 	break;
     case FcTypeCharSet:
 	v.u.c = FcNameParseCharSet (string);
@@ -607,6 +314,20 @@ FcNameConvert (FcType type, FcChar8 *string, FcMatrix *m)
 	v.u.l = FcNameParseLangSet (string);
 	if (!v.u.l)
 	    v.type = FcTypeVoid;
+	break;
+    case FcTypeRange:
+	if (sscanf ((char *) string, "(%lg %lg)", &b, &e) != 2)
+	{
+	    v.u.d = strtod ((char *) string, &p);
+	    if (p != NULL && p[0] != 0)
+	    {
+		v.type = FcTypeVoid;
+		break;
+	    }
+	    v.type = FcTypeDouble;
+	}
+	else
+	    v.u.r = FcRangeCreateDouble (b, e);
 	break;
     default:
 	break;
@@ -619,6 +340,12 @@ FcNameFindNext (const FcChar8 *cur, const char *delim, FcChar8 *save, FcChar8 *l
 {
     FcChar8    c;
 
+    while ((c = *cur))
+    {
+	if (!isspace (c))
+	    break;
+	++cur;
+    }
     while ((c = *cur))
     {
 	if (c == '\\')
@@ -648,7 +375,6 @@ FcNameParse (const FcChar8 *name)
     FcChar8		*e;
     FcChar8		delim;
     FcValue		v;
-    FcMatrix		m;
     const FcObjectType	*t;
     const FcConstant	*c;
 
@@ -699,31 +425,13 @@ FcNameParse (const FcChar8 *name)
 		    name = FcNameFindNext (name, ":,", save, &delim);
 		    if (t)
 		    {
-			v = FcNameConvert (t->type, save, &m);
+			v = FcNameConvert (t->type, save);
 			if (!FcPatternAdd (pat, t->object, v, FcTrue))
 			{
-			    switch (v.type) {
-			    case FcTypeCharSet:
-				FcCharSetDestroy ((FcCharSet *) v.u.c);
-				break;
-			    case FcTypeLangSet:
-				FcLangSetDestroy ((FcLangSet *) v.u.l);
-				break;
-			    default:
-				break;
-			    }
+			    FcValueDestroy (v);
 			    goto bail2;
 			}
-			switch (v.type) {
-			case FcTypeCharSet:
-			    FcCharSetDestroy ((FcCharSet *) v.u.c);
-			    break;
-			case FcTypeLangSet:
-			    FcLangSetDestroy ((FcLangSet *) v.u.l);
-			    break;
-			default:
-			    break;
-			}
+			FcValueDestroy (v);
 		    }
 		    if (delim != ',')
 			break;
@@ -734,7 +442,9 @@ FcNameParse (const FcChar8 *name)
 		if ((c = FcNameGetConstant (save)))
 		{
 		    t = FcNameGetObjectType ((char *) c->object);
-		    switch (t->type) {
+		    if (t == NULL)
+			goto bail2;
+		    switch ((int) t->type) {
 		    case FcTypeInteger:
 		    case FcTypeDouble:
 			if (!FcPatternAddInteger (pat, c->object, c->value))
@@ -788,8 +498,10 @@ FcNameUnparseValue (FcStrBuf	*buf,
 {
     FcChar8	temp[1024];
     FcValue v = FcValueCanonicalize(v0);
+    FcRange r;
 
     switch (v.type) {
+    case FcTypeUnknown:
     case FcTypeVoid:
 	return FcTrue;
     case FcTypeInteger:
@@ -812,6 +524,18 @@ FcNameUnparseValue (FcStrBuf	*buf,
 	return FcNameUnparseLangSet (buf, v.u.l);
     case FcTypeFTFace:
 	return FcTrue;
+    case FcTypeRange:
+	r = FcRangeCanonicalize (v.u.r);
+	if (!FcDoubleIsZero (r.u.d.begin) || !FcDoubleIsZero (r.u.d.end))
+	{
+	    if (FcDoubleCmpEQ (r.u.d.begin, r.u.d.end))
+		sprintf ((char *) temp, "%g", r.u.d.begin);
+	    else
+		sprintf ((char *) temp, "(%g %g)", r.u.d.begin, r.u.d.end);
+	    return FcNameUnparseString (buf, temp, 0);
+	}
+	else
+	    return FcTrue;
     }
     return FcFalse;
 }
@@ -844,14 +568,13 @@ FcNameUnparse (FcPattern *pat)
 FcChar8 *
 FcNameUnparseEscaped (FcPattern *pat, FcBool escape)
 {
-    FcStrBuf		    buf;
-    FcChar8		    buf_static[8192];
+    FcStrBuf		    buf, buf2;
+    FcChar8		    buf_static[8192], buf2_static[256];
     int			    i;
     FcPatternElt	    *e;
-    const FcObjectTypeList  *l;
-    const FcObjectType	    *o;
 
     FcStrBufInit (&buf, buf_static, sizeof (buf_static));
+    FcStrBufInit (&buf2, buf2_static, sizeof (buf2_static));
     e = FcPatternObjectFindElt (pat, FC_FAMILY_OBJECT);
     if (e)
     {
@@ -861,33 +584,39 @@ FcNameUnparseEscaped (FcPattern *pat, FcBool escape)
     e = FcPatternObjectFindElt (pat, FC_SIZE_OBJECT);
     if (e)
     {
-	if (!FcNameUnparseString (&buf, (FcChar8 *) "-", 0))
+	FcChar8 *p;
+
+	if (!FcNameUnparseString (&buf2, (FcChar8 *) "-", 0))
 	    goto bail0;
-	if (!FcNameUnparseValueList (&buf, FcPatternEltValues(e), escape ? (FcChar8 *) FC_ESCAPE_FIXED : 0))
+	if (!FcNameUnparseValueList (&buf2, FcPatternEltValues(e), escape ? (FcChar8 *) FC_ESCAPE_FIXED : 0))
 	    goto bail0;
+	p = FcStrBufDoneStatic (&buf2);
+	FcStrBufDestroy (&buf2);
+	if (strlen ((const char *)p) > 1)
+	    if (!FcStrBufString (&buf, p))
+		goto bail0;
     }
-    for (l = _FcObjectTypes; l; l = l->next)
+    for (i = 0; i < NUM_OBJECT_TYPES; i++)
     {
-	for (i = 0; i < l->ntypes; i++)
+	FcObject id = i + 1;
+	const FcObjectType	    *o;
+	o = &FcObjects[i];
+	if (!strcmp (o->object, FC_FAMILY) ||
+	    !strcmp (o->object, FC_SIZE))
+	    continue;
+    
+	e = FcPatternObjectFindElt (pat, id);
+	if (e)
 	{
-	    o = &l->types[i];
-	    if (!strcmp (o->object, FC_FAMILY) ||
-		!strcmp (o->object, FC_SIZE))
-		continue;
-	
-	    e = FcPatternObjectFindElt (pat, FcObjectFromName (o->object));
-	    if (e)
-	    {
-		if (!FcNameUnparseString (&buf, (FcChar8 *) ":", 0))
-		    goto bail0;
-		if (!FcNameUnparseString (&buf, (FcChar8 *) o->object, escape ? (FcChar8 *) FC_ESCAPE_VARIABLE : 0))
-		    goto bail0;
-		if (!FcNameUnparseString (&buf, (FcChar8 *) "=", 0))
-		    goto bail0;
-		if (!FcNameUnparseValueList (&buf, FcPatternEltValues(e), escape ?
-					     (FcChar8 *) FC_ESCAPE_VARIABLE : 0))
-		    goto bail0;
-	    }
+	    if (!FcNameUnparseString (&buf, (FcChar8 *) ":", 0))
+		goto bail0;
+	    if (!FcNameUnparseString (&buf, (FcChar8 *) o->object, escape ? (FcChar8 *) FC_ESCAPE_VARIABLE : 0))
+		goto bail0;
+	    if (!FcNameUnparseString (&buf, (FcChar8 *) "=", 0))
+		goto bail0;
+	    if (!FcNameUnparseValueList (&buf, FcPatternEltValues(e), escape ?
+					 (FcChar8 *) FC_ESCAPE_VARIABLE : 0))
+		goto bail0;
 	}
     }
     return FcStrBufDone (&buf);

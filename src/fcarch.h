@@ -33,7 +33,7 @@
  * and on 32bit ones, whether double is aligned to one word or two words.
  * Those result in the 6 formats listed below.
  *
- * If any of the assertion errors in fccache.c fail, you need to add a new
+ * If any of the assertion errors in fcarch.c fail, you need to add a new
  * architecture.  Contact the fontconfig mailing list in that case.
  *
  * name		endianness	pointer-size	double-alignment
@@ -46,9 +46,15 @@
  * be64		1234		8		8
  */
 
-#if defined(WORDS_BIGENDIAN) && WORDS_BIGENDIAN
+#if defined(__DARWIN_BYTE_ORDER) && __DARWIN_BYTE_ORDER == __DARWIN_LITTLE_ENDIAN
+# define FC_ARCH_ENDIAN "le"
+#elif defined(__DARWIN_BYTE_ORDER) && __DARWIN_BYTE_ORDER == __DARWIN_BIG_ENDIAN
 # define FC_ARCH_ENDIAN "be"
-#else /* !WORDS_BIGENDIAN */
+#elif defined(__DARWIN_BYTE_ORDER) && __DARWIN_BYTE_ORDER == __DARWIN_PDP_ENDIAN
+# define FC_ARCH_ENDIAN "pe"
+#elif defined(WORDS_BIGENDIAN) && WORDS_BIGENDIAN
+# define FC_ARCH_ENDIAN "be"
+#else
 # define FC_ARCH_ENDIAN "le"
 #endif
 

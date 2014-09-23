@@ -67,17 +67,15 @@ extern int optind, opterr, optopt;
 #endif
 
 /*
- * POSIX has broken stdio so that getc must do thread-safe locking,
+ * POSIX has broken stdio so that putc must do thread-safe locking,
  * this is a serious performance problem for applications doing large
- * amounts of IO with getc (as is done here).  If available, use
- * the getc_unlocked varient instead.
+ * amounts of IO with putc (as is done here).  If available, use
+ * the putc_unlocked varient instead.
  */
  
-#if defined(getc_unlocked) || defined(_IO_getc_unlocked)
-#define GETC(f) getc_unlocked(f)
+#if defined(putc_unlocked) || defined(_IO_putc_unlocked)
 #define PUTC(c,f) putc_unlocked(c,f)
 #else
-#define GETC(f) getc(f)
 #define PUTC(c,f) putc(c,f)
 #endif
 
@@ -150,11 +148,11 @@ usage (char *program, int error)
 {
     FILE *file = error ? stderr : stdout;
 #if HAVE_GETOPT_LONG
-    fprintf (file, "usage: %s [-rv] [--recurse] [--verbose] [*-%s.cache-2|directory]...\n",
+    fprintf (file, "usage: %s [-rv] [--recurse] [--verbose] [*-%s" FC_CACHE_SUFFIX "|directory]...\n",
 	     program, FC_ARCHITECTURE);
     fprintf (file, "       %s [-Vh] [--version] [--help]\n", program);
 #else
-    fprintf (file, "usage: %s [-rvVh] [*-%s.cache-2|directory]...\n",
+    fprintf (file, "usage: %s [-rvVh] [*-%s" FC_CACHE_SUFFIX "|directory]...\n",
 	     program, FC_ARCHITECTURE);
 #endif
     fprintf (file, "Reads font information cache from:\n");
@@ -231,7 +229,7 @@ cache_print_set (FcFontSet *set, FcStrSet *dirs, const FcChar8 *base_name, FcBoo
 	if (s)
 	{
 	    printf ("%s", s);
-	    free (s);
+	    FcStrFree (s);
 	}
     }
     if (verbose && !set->nfont && !ndir)
@@ -300,6 +298,7 @@ main (int argc, char **argv)
 	return 1;
     }
     FcConfigSetCurrent (config);
+    FcConfigDestroy (config);
     
     args = FcStrSetCreate ();
     if (!args)
@@ -316,12 +315,6 @@ main (int argc, char **argv)
 		fprintf (stderr, "%s: malloc failure\n", argv[0]);
 		return 1;
 	    }
-	}
-	arglist = FcStrListCreate (args);
-	if (!arglist)
-	{
-	    fprintf (stderr, "%s: malloc failure\n", argv[0]);
-	    return 1;
 	}
     }
     else
@@ -342,6 +335,7 @@ main (int argc, char **argv)
 	fprintf (stderr, "%s: malloc failure\n", argv[0]);
 	return 1;
     }
+    FcStrSetDestroy (args);
 
     while ((arg = FcStrListNext (arglist)))
     {
@@ -386,6 +380,7 @@ main (int argc, char **argv)
 	if (cache_file)
 	    FcStrFree (cache_file);
     }
+    FcStrListDone (arglist);
 
     FcFini ();
     return 0;

@@ -35,11 +35,25 @@ FcCharSetCreate (void)
     fcs = (FcCharSet *) malloc (sizeof (FcCharSet));
     if (!fcs)
 	return 0;
-    FcMemAlloc (FC_MEM_CHARSET, sizeof (FcCharSet));
-    fcs->ref = 1;
+    FcRefInit (&fcs->ref, 1);
     fcs->num = 0;
     fcs->leaves_offset = 0;
     fcs->numbers_offset = 0;
+    return fcs;
+}
+
+FcCharSet *
+FcCharSetPromote (FcValuePromotionBuffer *vbuf)
+{
+    FcCharSet *fcs = (FcCharSet *) vbuf;
+
+    FC_ASSERT_STATIC (sizeof (FcCharSet) <= sizeof (FcValuePromotionBuffer));
+
+    FcRefSetConst (&fcs->ref);
+    fcs->num = 0;
+    fcs->leaves_offset = 0;
+    fcs->numbers_offset = 0;
+
     return fcs;
 }
 
@@ -56,27 +70,20 @@ FcCharSetDestroy (FcCharSet *fcs)
 
     if (fcs)
     {
-	if (fcs->ref == FC_REF_CONSTANT)
+	if (FcRefIsConst (&fcs->ref))
 	{
 	    FcCacheObjectDereference (fcs);
 	    return;
 	}
-	if (--fcs->ref > 0)
+	if (FcRefDec (&fcs->ref) != 1)
 	    return;
 	for (i = 0; i < fcs->num; i++)
-	{
-	    FcMemFree (FC_MEM_CHARLEAF, sizeof (FcCharLeaf));
 	    free (FcCharSetLeaf (fcs, i));
-	}
 	if (fcs->num)
 	{
-	    /* the numbers here are estimates */
-	    FcMemFree (FC_MEM_CHARSET, fcs->num * sizeof (intptr_t));
 	    free (FcCharSetLeaves (fcs));
-	    FcMemFree (FC_MEM_CHARSET, fcs->num * sizeof (FcChar16));
 	    free (FcCharSetNumbers (fcs));
 	}
-	FcMemFree (FC_MEM_CHARSET, sizeof (FcCharSet));
 	free (fcs);
     }
 }
@@ -157,23 +164,15 @@ FcCharSetPutLeaf (FcCharSet	*fcs,
         unsigned int alloced = 8;
 	leaves = malloc (alloced * sizeof (*leaves));
 	numbers = malloc (alloced * sizeof (*numbers));
-	FcMemAlloc (FC_MEM_CHARSET, alloced * sizeof (*leaves));
-	FcMemAlloc (FC_MEM_CHARSET, alloced * sizeof (*numbers));
       }
       else
       {
         unsigned int alloced = fcs->num;
 	intptr_t *new_leaves, distance;
 
-	FcMemFree (FC_MEM_CHARSET, alloced * sizeof (*leaves));
-	FcMemFree (FC_MEM_CHARSET, alloced * sizeof (*numbers));
-
 	alloced *= 2;
 	new_leaves = realloc (leaves, alloced * sizeof (*leaves));
 	numbers = realloc (numbers, alloced * sizeof (*numbers));
-
-	FcMemAlloc (FC_MEM_CHARSET, alloced * sizeof (*leaves));
-	FcMemAlloc (FC_MEM_CHARSET, alloced * sizeof (*numbers));
 
 	distance = (intptr_t) new_leaves - (intptr_t) leaves;
 	if (new_leaves && distance)
@@ -227,7 +226,6 @@ FcCharSetFindLeafCreate (FcCharSet *fcs, FcChar32 ucs4)
 	free (leaf);
 	return 0;
     }
-    FcMemAlloc (FC_MEM_CHARLEAF, sizeof (FcCharLeaf));
     return leaf;
 }
 
@@ -239,7 +237,6 @@ FcCharSetInsertLeaf (FcCharSet *fcs, FcChar32 ucs4, FcCharLeaf *leaf)
     pos = FcCharSetFindLeafPos (fcs, ucs4);
     if (pos >= 0)
     {
-	FcMemFree (FC_MEM_CHARLEAF, sizeof (FcCharLeaf));
 	free (FcCharSetLeaf (fcs, pos));
 	FcCharSetLeaves(fcs)[pos] = FcPtrToOffset (FcCharSetLeaves(fcs),
 						   leaf);
@@ -255,7 +252,7 @@ FcCharSetAddChar (FcCharSet *fcs, FcChar32 ucs4)
     FcCharLeaf	*leaf;
     FcChar32	*b;
 
-    if (fcs == NULL || fcs->ref == FC_REF_CONSTANT)
+    if (fcs == NULL || FcRefIsConst (&fcs->ref))
 	return FcFalse;
     leaf = FcCharSetFindLeafCreate (fcs, ucs4);
     if (!leaf)
@@ -271,7 +268,7 @@ FcCharSetDelChar (FcCharSet *fcs, FcChar32 ucs4)
     FcCharLeaf	*leaf;
     FcChar32	*b;
 
-    if (fcs == NULL || fcs->ref == FC_REF_CONSTANT)
+    if (fcs == NULL || FcRefIsConst (&fcs->ref))
 	return FcFalse;
     leaf = FcCharSetFindLeaf (fcs, ucs4);
     if (!leaf)
@@ -347,8 +344,8 @@ FcCharSetCopy (FcCharSet *src)
 {
     if (src)
     {
-	if (src->ref != FC_REF_CONSTANT)
-	    src->ref++;
+	if (!FcRefIsConst (&src->ref))
+	    FcRefInc (&src->ref);
 	else
 	    FcCacheObjectReference (src);
     }
@@ -506,7 +503,7 @@ FcCharSetMerge (FcCharSet *a, const FcCharSet *b, FcBool *changed)
     if (!a || !b)
 	return FcFalse;
 
-    if (a->ref == FC_REF_CONSTANT) {
+    if (FcRefIsConst (&a->ref)) {
 	if (changed)
 	    *changed = FcFalse;
 	return FcFalse;
@@ -818,191 +815,123 @@ FcCharSetCoverage (const FcCharSet *a, FcChar32 page, FcChar32 *result)
     return page;
 }
 
-/*
- * ASCII representation of charsets.
- *
- * Each leaf is represented as 9 32-bit values, the code of the first character followed
- * by 8 32 bit values for the leaf itself.  Each value is encoded as 5 ASCII characters,
- * only 85 different values are used to avoid control characters as well as the other
- * characters used to encode font names.  85**5 > 2^32 so things work out, but
- * it's not exactly human readable output.  As a special case, 0 is encoded as a space
- */
-
-static const unsigned char	charToValue[256] = {
-    /*     "" */ 0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,
-    /*   "\b" */ 0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,
-    /* "\020" */ 0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,
-    /* "\030" */ 0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,
-    /*    " " */ 0xff,  0x00,  0xff,  0x01,  0x02,  0x03,  0x04,  0xff,
-    /*    "(" */ 0x05,  0x06,  0x07,  0x08,  0xff,  0xff,  0x09,  0x0a,
-    /*    "0" */ 0x0b,  0x0c,  0x0d,  0x0e,  0x0f,  0x10,  0x11,  0x12,
-    /*    "8" */ 0x13,  0x14,  0xff,  0x15,  0x16,  0xff,  0x17,  0x18,
-    /*    "@" */ 0x19,  0x1a,  0x1b,  0x1c,  0x1d,  0x1e,  0x1f,  0x20,
-    /*    "H" */ 0x21,  0x22,  0x23,  0x24,  0x25,  0x26,  0x27,  0x28,
-    /*    "P" */ 0x29,  0x2a,  0x2b,  0x2c,  0x2d,  0x2e,  0x2f,  0x30,
-    /*    "X" */ 0x31,  0x32,  0x33,  0x34,  0xff,  0x35,  0x36,  0xff,
-    /*    "`" */ 0xff,  0x37,  0x38,  0x39,  0x3a,  0x3b,  0x3c,  0x3d,
-    /*    "h" */ 0x3e,  0x3f,  0x40,  0x41,  0x42,  0x43,  0x44,  0x45,
-    /*    "p" */ 0x46,  0x47,  0x48,  0x49,  0x4a,  0x4b,  0x4c,  0x4d,
-    /*    "x" */ 0x4e,  0x4f,  0x50,  0x51,  0x52,  0x53,  0x54,  0xff,
-    /* "\200" */ 0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,
-    /* "\210" */ 0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,
-    /* "\220" */ 0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,
-    /* "\230" */ 0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,
-    /* "\240" */ 0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,
-    /* "\250" */ 0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,
-    /* "\260" */ 0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,
-    /* "\270" */ 0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,
-    /* "\300" */ 0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,
-    /* "\310" */ 0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,
-    /* "\320" */ 0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,
-    /* "\330" */ 0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,
-    /* "\340" */ 0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,
-    /* "\350" */ 0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,
-    /* "\360" */ 0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,
-    /* "\370" */ 0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,  0xff,
-};
-
-static const FcChar8 valueToChar[0x55] = {
-    /* 0x00 */ '!', '#', '$', '%', '&', '(', ')', '*',
-    /* 0x08 */ '+', '.', '/', '0', '1', '2', '3', '4',
-    /* 0x10 */ '5', '6', '7', '8', '9', ';', '<', '>',
-    /* 0x18 */ '?', '@', 'A', 'B', 'C', 'D', 'E', 'F',
-    /* 0x20 */ 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
-    /* 0x28 */ 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-    /* 0x30 */ 'W', 'X', 'Y', 'Z', '[', ']', '^', 'a',
-    /* 0x38 */ 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-    /* 0x40 */ 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
-    /* 0x48 */ 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
-    /* 0x50 */ 'z', '{', '|', '}', '~',
-};
-
-static FcChar8 *
-FcCharSetParseValue (FcChar8 *string, FcChar32 *value)
-{
-    int		i;
-    FcChar32	v;
-    FcChar32	c;
-
-    if (*string == ' ')
-    {
-	v = 0;
-	string++;
-    }
-    else
-    {
-	v = 0;
-	for (i = 0; i < 5; i++)
-	{
-	    if (!(c = (FcChar32) (unsigned char) *string++))
-		return 0;
-	    c = charToValue[c];
-	    if (c == 0xff)
-		return 0;
-	    v = v * 85 + c;
-	}
-    }
-    *value = v;
-    return string;
-}
-
 static FcBool
-FcCharSetUnparseValue (FcStrBuf *buf, FcChar32 value)
+FcNameParseRange (FcChar8 **string, FcChar32 *pfirst, FcChar32 *plast)
 {
-    int	    i;
-    if (value == 0)
-    {
-	return FcStrBufChar (buf, ' ');
-    }
-    else
-    {
-	FcChar8	string[6];
-	FcChar8	*s = string + 5;
-	string[5] = '\0';
-	for (i = 0; i < 5; i++)
+	char *s = (char *) *string;
+	char *t;
+	long first, last;
+
+	while (isspace(*s))
+	    s++;
+	t = s;
+	errno = 0;
+	first = last = strtol (s, &s, 16);
+	if (errno)
+	    return FcFalse;
+	while (isspace(*s))
+	    s++;
+	if (*s == '-')
 	{
-	    *--s = valueToChar[value % 85];
-	    value /= 85;
-	}
-	for (i = 0; i < 5; i++)
-	    if (!FcStrBufChar (buf, *s++))
+	    s++;
+	    errno = 0;
+	    last = strtol (s, &s, 16);
+	    if (errno)
 		return FcFalse;
-    }
-    return FcTrue;
+	}
+
+	if (s == t || first < 0 || last < 0 || last < first || last > 0x10ffff)
+	     return FcFalse;
+
+	*string = (FcChar8 *) s;
+	*pfirst = first;
+	*plast = last;
+	return FcTrue;
 }
 
 FcCharSet *
 FcNameParseCharSet (FcChar8 *string)
 {
     FcCharSet	*c;
-    FcChar32	ucs4;
-    FcCharLeaf	*leaf;
-    FcCharLeaf	temp;
-    FcChar32	bits;
-    int		i;
+    FcChar32	first, last;
 
     c = FcCharSetCreate ();
     if (!c)
 	goto bail0;
     while (*string)
     {
-	string = FcCharSetParseValue (string, &ucs4);
-	if (!string)
-	    goto bail1;
-	bits = 0;
-	for (i = 0; i < 256/32; i++)
-	{
-	    string = FcCharSetParseValue (string, &temp.map[i]);
-	    if (!string)
+	FcChar32 u;
+
+	if (!FcNameParseRange (&string, &first, &last))
 		goto bail1;
-	    bits |= temp.map[i];
-	}
-	if (bits)
-	{
-	    leaf = malloc (sizeof (FcCharLeaf));
-	    if (!leaf)
-		goto bail1;
-	    *leaf = temp;
-	    if (!FcCharSetInsertLeaf (c, ucs4, leaf))
-		goto bail1;
-	}
+
+	for (u = first; u < last + 1; u++)
+	    FcCharSetAddChar (c, u);
     }
     return c;
 bail1:
-    if (c->num)
-    {
-	FcMemFree (FC_MEM_CHARSET, c->num * sizeof (FcCharLeaf *));
-	free (FcCharSetLeaves (c));
-    }
-    if (c->num)
-    {
-	FcMemFree (FC_MEM_CHARSET, c->num * sizeof (FcChar16));
-	free (FcCharSetNumbers (c));
-    }
-    FcMemFree (FC_MEM_CHARSET, sizeof (FcCharSet));
-    free (c);
+    FcCharSetDestroy (c);
 bail0:
     return NULL;
+}
+
+static void
+FcNameUnparseUnicode (FcStrBuf *buf, FcChar32 u)
+{
+    FcChar8	    buf_static[64];
+    snprintf ((char *) buf_static, sizeof (buf_static), "%x", u);
+    FcStrBufString (buf, buf_static);
 }
 
 FcBool
 FcNameUnparseCharSet (FcStrBuf *buf, const FcCharSet *c)
 {
     FcCharSetIter   ci;
+    FcChar32	    first, last;
     int		    i;
 #ifdef CHECK
     int		    len = buf->len;
 #endif
 
+    first = last = 0x7FFFFFFF;
+
     for (FcCharSetIterStart (c, &ci);
 	 ci.leaf;
 	 FcCharSetIterNext (c, &ci))
     {
-	if (!FcCharSetUnparseValue (buf, ci.ucs4))
-	    return FcFalse;
 	for (i = 0; i < 256/32; i++)
-	    if (!FcCharSetUnparseValue (buf, ci.leaf->map[i]))
-		return FcFalse;
+	{
+	    FcChar32 bits = ci.leaf->map[i];
+	    FcChar32 u = ci.ucs4 + i * 32;
+
+	    while (bits)
+	    {
+		if (bits & 1)
+		{
+			if (u != last + 1)
+			{
+			    if (last != first)
+			    {
+				FcStrBufChar (buf, '-');
+				FcNameUnparseUnicode (buf, last);
+			    }
+			    if (last != 0x7FFFFFFF)
+				FcStrBufChar (buf, ' ');
+			    /* Start new range. */
+			    first = u;
+			    FcNameUnparseUnicode (buf, u);
+			}
+			last = u;
+		}
+		bits >>= 1;
+		u++;
+	    }
+	}
+    }
+    if (last != first)
+    {
+	FcStrBufChar (buf, '-');
+	FcNameUnparseUnicode (buf, last);
     }
 #ifdef CHECK
     {
@@ -1116,7 +1045,6 @@ FcCharLeafEntCreate (FcCharSetFreezer *freezer)
 	freezer->current_block = freezer->leaf_blocks[freezer->leaf_block_count-1] = malloc (FC_CHAR_LEAF_BLOCK * sizeof (FcCharLeafEnt));
 	if (!freezer->current_block)
 	    return 0;
-	FcMemAlloc (FC_MEM_CHARLEAF, FC_CHAR_LEAF_BLOCK * sizeof (FcCharLeafEnt));
 	freezer->leaf_remain = FC_CHAR_LEAF_BLOCK;
     }
     freezer->leaf_remain--;
@@ -1190,7 +1118,7 @@ FcCharSetFreezeOrig (FcCharSetFreezer *freezer, const FcCharSet *orig, const FcC
 }
 
 static FcCharSet *
-FcCharSetFreezeBase (FcCharSetFreezer *freezer, FcCharSet *fcs, const FcCharSet *orig)
+FcCharSetFreezeBase (FcCharSetFreezer *freezer, FcCharSet *fcs)
 {
     FcChar32		hash = FcCharSetHash (fcs);
     FcCharSetEnt	**bucket = &freezer->set_hash_table[hash % FC_CHAR_SET_HASH_SIZE];
@@ -1223,11 +1151,10 @@ FcCharSetFreezeBase (FcCharSetFreezer *freezer, FcCharSet *fcs, const FcCharSet 
     ent = malloc (size);
     if (!ent)
 	return 0;
-    FcMemAlloc (FC_MEM_CHARSET, size);
 
     freezer->charsets_allocated++;
 
-    ent->set.ref = FC_REF_CONSTANT;
+    FcRefSetConst (&ent->set.ref);
     ent->set.num = fcs->num;
     if (fcs->num)
     {
@@ -1289,7 +1216,7 @@ FcCharSetFreeze (FcCharSetFreezer *freezer, const FcCharSet *fcs)
 	if (!FcCharSetInsertLeaf (b, FcCharSetNumbers(fcs)[i] << 8, l))
 	    goto bail1;
     }
-    n = FcCharSetFreezeBase (freezer, b, fcs);
+    n = FcCharSetFreezeBase (freezer, b);
     if (!FcCharSetFreezeOrig (freezer, fcs, n))
     {
 	n = NULL;
@@ -1299,16 +1226,9 @@ FcCharSetFreeze (FcCharSetFreezer *freezer, const FcCharSet *fcs)
     freezer->leaves_seen += fcs->num;
 bail1:
     if (b->num)
-    {
-	FcMemFree (FC_MEM_CHARSET, b->num * sizeof (FcCharLeaf *));
 	free (FcCharSetLeaves (b));
-    }
     if (b->num)
-    {
-	FcMemFree (FC_MEM_CHARSET, b->num * sizeof (FcChar16));
 	free (FcCharSetNumbers (b));
-    }
-    FcMemFree (FC_MEM_CHARSET, sizeof (FcCharSet));
     free (b);
 bail0:
     return n;
@@ -1340,9 +1260,6 @@ FcCharSetFreezerDestroy (FcCharSetFreezer *freezer)
 	for (ent = freezer->set_hash_table[i]; ent; ent = next)
 	{
 	    next = ent->next;
-	    FcMemFree (FC_MEM_CHARSET, (sizeof (FcCharSetEnt) +
-					ent->set.num * sizeof (FcCharLeaf *) +
-					ent->set.num * sizeof (FcChar16)));
 	    free (ent);
 	}
     }
@@ -1358,10 +1275,7 @@ FcCharSetFreezerDestroy (FcCharSetFreezer *freezer)
     }
 
     for (i = 0; i < freezer->leaf_block_count; i++)
-    {
 	free (freezer->leaf_blocks[i]);
-	FcMemFree (FC_MEM_CHARLEAF, FC_CHAR_LEAF_BLOCK * sizeof (FcCharLeafEnt));
-    }
 
     free (freezer->leaf_blocks);
     free (freezer);
@@ -1374,7 +1288,7 @@ FcCharSetSerializeAlloc (FcSerialize *serialize, const FcCharSet *cs)
     FcChar16	    *numbers;
     int		    i;
 
-    if (cs->ref != FC_REF_CONSTANT)
+    if (!FcRefIsConst (&cs->ref))
     {
 	if (!serialize->cs_freezer)
 	{
@@ -1413,7 +1327,7 @@ FcCharSetSerialize(FcSerialize *serialize, const FcCharSet *cs)
     FcCharLeaf	*leaf, *leaf_serialized;
     int		i;
 
-    if (cs->ref != FC_REF_CONSTANT && serialize->cs_freezer)
+    if (!FcRefIsConst (&cs->ref) && serialize->cs_freezer)
     {
 	cs = FcCharSetFindFrozen (serialize->cs_freezer, cs);
 	if (!cs)
@@ -1424,7 +1338,7 @@ FcCharSetSerialize(FcSerialize *serialize, const FcCharSet *cs)
     if (!cs_serialized)
 	return NULL;
 
-    cs_serialized->ref = FC_REF_CONSTANT;
+    FcRefSetConst (&cs_serialized->ref);
     cs_serialized->num = cs->num;
 
     if (cs->num)

@@ -25,6 +25,8 @@
 
 	<dir>@FC_DEFAULT_FONTS@</dir>
 	@FC_FONTPATH@
+	<dir prefix="xdg">fonts</dir>
+	<!-- the following element will be removed in the future -->
 	<dir>~/.fonts</dir>
 
 <!--
@@ -34,7 +36,7 @@
 		<test qual="any" name="family">
 			<string>mono</string>
 		</test>
-		<edit name="family" mode="assign">
+		<edit name="family" mode="assign" binding="same">
 			<string>monospace</string>
 		</edit>
 	</match>
@@ -46,7 +48,7 @@
 		<test qual="any" name="family">
 			<string>sans serif</string>
 		</test>
-		<edit name="family" mode="assign">
+		<edit name="family" mode="assign" binding="same">
 			<string>sans-serif</string>
 		</edit>
 	</match>
@@ -58,7 +60,7 @@
 		<test qual="any" name="family">
 			<string>sans</string>
 		</test>
-		<edit name="family" mode="assign">
+		<edit name="family" mode="assign" binding="same">
 			<string>sans-serif</string>
 		</edit>
 	</match>
@@ -66,11 +68,13 @@
 <!--
   Load local system customization file
 -->
-	<include ignore_missing="yes">conf.d</include>
+	<include ignore_missing="yes">@CONFIGDIR@</include>
 
 <!-- Font cache directory list -->
 
 	<cachedir>@FC_CACHEDIR@</cachedir>
+	<cachedir prefix="xdg">fontconfig</cachedir>
+	<!-- the following element will be removed in the future -->
 	<cachedir>~/.fontconfig</cachedir>
 
 	<config>
@@ -95,6 +99,9 @@
 			<int>0x1680</int>	<!-- OGHAM SPACE MARK -->
 			<int>0x17B4</int>	<!-- KHMER VOWEL INHERENT AQ -->
 			<int>0x17B5</int>	<!-- KHMER VOWEL INHERENT AA -->
+			<int>0x180B</int>	<!-- MONGOLIAN FREE VARIATION SELECTOR ONE -->
+			<int>0x180C</int>	<!-- MONGOLIAN FREE VARIATION SELECTOR TWO -->
+			<int>0x180D</int>	<!-- MONGOLIAN FREE VARIATION SELECTOR THREE -->
 			<int>0x180E</int>	<!-- MONGOLIAN VOWEL SEPARATOR -->
 			<int>0x2000</int>	<!-- EN QUAD -->
 			<int>0x2001</int>	<!-- EM QUAD -->
@@ -125,6 +132,11 @@
 			<int>0x2061</int>	<!-- FUNCTION APPLICATION -->
 			<int>0x2062</int>	<!-- INVISIBLE TIMES -->
 			<int>0x2063</int>	<!-- INVISIBLE SEPARATOR -->
+			<int>0x2064</int>	<!-- INVISIBLE PLUS -->
+			<int>0x2066</int>	<!-- LEFT-TO-RIGHT ISOLATE -->
+			<int>0x2067</int>	<!-- RIGHT-TO-LEFT ISOLATE -->
+			<int>0x2068</int>	<!-- FIRST STRONG ISOLATE -->
+			<int>0x2069</int>	<!-- POP DIRECTIONAL ISOLATE -->
 			<int>0x206A</int>	<!-- INHIBIT SYMMETRIC SWAPPING -->
 			<int>0x206B</int>	<!-- ACTIVATE SYMMETRIC SWAPPING -->
 			<int>0x206C</int>	<!-- INHIBIT ARABIC FORM SHAPING -->

@@ -136,14 +136,14 @@ main (int argc, char **argv)
     i = 1;
 #endif
 
-    if (!FcInit ())
-    {
-	fprintf (stderr, "Can't init font config library\n");
-	return 1;
-    }
     if (argv[i])
     {
 	pat = FcNameParse ((FcChar8 *) argv[i]);
+	if (!pat)
+	{
+	    fputs ("Unable to parse the pattern\n", stderr);
+	    return 1;
+	}
 	while (argv[++i])
 	{
 	    if (!os)
@@ -183,7 +183,7 @@ main (int argc, char **argv)
 		if (s)
 		{
 		    printf ("%s", s);
-		    free (s);
+		    FcStrFree (s);
 		}
 	    }
 	}

@@ -81,13 +81,15 @@ DOC_FUNCS_FNCS =		\
 	fcobjectset.fncs	\
 	fcobjecttype.fncs	\
 	fcpattern.fncs		\
+	fcrange.fncs		\
 	fcstring.fncs		\
 	fcstrset.fncs		\
 	fcvalue.fncs		\
+	fcweight.fncs		\
 	$(NULL)
-SGML_FILES =				\
-	$(srcdir)/fontconfig-user.sgml	\
-	$(srcdir)/fontconfig-devel.sgml	\
+SGML_FILES =			\
+	fontconfig-user.sgml	\
+	fontconfig-devel.sgml	\
 	$(NULL)
 LOCAL_SGML_FILES =			\
 	local-fontconfig-user.sgml	\
@@ -121,6 +123,7 @@ noinst_PROGRAMS =	\
 edit_sgml_SOURCES =	\
 	edit-sgml.c	\
 	$(NULL)
+edit_sgml_CC = $(CC_FOR_BUILD)
 #
 check_SCRIPTS =			\
 	check-missing-doc	\
@@ -153,59 +156,66 @@ noinst_PROGRAMS +=	\
 htmldoc_DATA += $(HTML_DIR)/*
 
 ##
-if CROSS_COMPILING
 .fncs.sgml:
-	@echo Warning: cannot rebuild $@ when cross-compiling
-else
-.fncs.sgml: edit-sgml$(EXEEXT) $(srcdir)/func.sgml
-	-@rm $@
-	$(AM_V_GEN) $(builddir)/edit-sgml$(EXEEXT) $(srcdir)/func.sgml < '$*.fncs' > $*.sgml
-endif
-.sgml.txt: $(DOCS_DEPS)
-	-@rm $@
-	$(AM_V_GEN) $(DOC2TXT) $*.sgml
-.sgml.pdf: $(DOCS_DEPS)
-	-@rm $@
-	$(AM_V_GEN) $(DOC2PDF) $*.sgml
-.sgml.html: $(DOCS_DEPS)
-	-@rm $@
-	$(AM_V_GEN) $(DOC2HTML) -u $*.sgml > $@
+	$(AM_V_GEN) $(RM) $@; \
+	$(builddir)/edit-sgml$(EXEEXT) $(srcdir)/func.sgml < '$(srcdir)/$*.fncs' > $*.sgml
+.sgml.txt:
+	$(AM_V_GEN) $(RM) $@; \
+	$(DOC2TXT) $*.sgml
+.sgml.pdf:
+	$(AM_V_GEN) $(RM) $@; \
+	$(DOC2PDF) $*.sgml
+.sgml.html:
+	$(AM_V_GEN) $(RM) $@; \
+	$(DOC2HTML) -u $*.sgml > $@
 ##
 fonts-conf.5: local-fontconfig-user.sgml version.sgml confdir.sgml
-	-@rm $@
-	$(AM_V_GEN) $(DOC2MAN) local-fontconfig-user.sgml && \
-	rm manpage.*
+	$(AM_V_GEN) $(RM) $@; \
+	$(DOC2MAN) local-fontconfig-user.sgml && \
+	$(RM) manpage.*
 ##
 $(man3_MANS): func.refs
 func.refs: local-fontconfig-devel.sgml $(DOCS_DEPS)
-	-@rm $@
-	[ "x$(builddir)" != "x$(srcdir)" ] &&		\
-	for f in $(DOC_FUNCS_SGML); do			\
-		rm -f $(builddir)/$$f || :;		\
-		$(LN_S) $(srcdir)/$$f $(builddir)/$$f;	\
-	done || :
-	$(AM_V_GEN) $(DOC2MAN) -o devel-man local-fontconfig-devel.sgml && \
+	$(AM_V_GEN) $(RM) $@; \
+	$(DOC2MAN) -o devel-man local-fontconfig-devel.sgml && \
 	mv devel-man/manpage.refs func.refs &&	\
 	mv devel-man/*.3 . &&			\
-	rm devel-man/manpage.* &&		\
-	rmdir devel-man
+	$(RM) devel-man/manpage.* &&		\
+	rmdir devel-man || rm $@ || :
 confdir.sgml: $(srcdir)/confdir.sgml.in
 	$(AM_V_GEN) sed -e 's,@CONFDIR\@,${CONFDIR},' $(srcdir)/$@.in | awk '{if (NR > 1) printf("\n"); printf("%s", $$0);}' > $@
 ##
+$(DOC_FUNCS_SGML): $(DOC_FUNCS_FNCS) edit-sgml$(EXEEXT) $(srcdir)/func.sgml
+$(TXT_FILES): $(DOCS_DEPS)
+$(PDF_FILES): $(DOCS_DEPS)
+$(HTML_FILES): $(DOCS_DEPS)
 $(HTML_DIR)/*: $(HTML_DIR)
 $(HTML_DIR): local-fontconfig-devel.sgml $(DOCS_DEPS)
-	-@rm -r $@
-	$(AM_V_GEN) $(DOC2HTML) -V '%use-id-as-filename%' -o $@ local-fontconfig-devel.sgml
+	$(AM_V_GEN) $(RM) -r $@; \
+	$(DOC2HTML) -V '%use-id-as-filename%' -o $@ local-fontconfig-devel.sgml
 local-fontconfig-user.sgml: $(srcdir)/fontconfig-user.sgml
-	$(AM_V_GEN) $(LN_S) $(srcdir)/fontconfig-user.sgml $@
+	$(AM_V_GEN) $(LN_S) $(srcdir)/fontconfig-user.sgml $@;	\
+	[ ! -f $(builddir)/fontconfig-user.sgml ] && cp -a $(srcdir)/fontconfig-user.sgml $(builddir)/fontconfig-user.sgml || :
 local-fontconfig-devel.sgml: $(srcdir)/fontconfig-devel.sgml
-	$(AM_V_GEN) $(LN_S) $(srcdir)/fontconfig-devel.sgml $@
+	$(AM_V_GEN) $(LN_S) $(srcdir)/fontconfig-devel.sgml $@;	\
+	[ ! -f $(builddir)/fontconfig-devel.sgml ] && cp -a $(srcdir)/fontconfig-devel.sgml $(builddir)/fontconfig-devel.sgml || :
 #
 all-local: $(BUILT_DOCS) $(HTML_DIR)/*
 clean-local:
-	-rm -r $(HTML_DIR) devel-man
+	$(RM) -r $(HTML_DIR) devel-man
+	[ "x$(builddir)" != "x$(srcdir)" ] && $(RM) $(builddir)/*.sgml || :
+dist-local-check-docs-enabled:
+	@true
 else
 htmldoc_DATA += $(srcdir)/$(HTML_DIR)/*
 all-local:
 clean-local:
+dist-local-check-docs-enabled:
+	@echo "*** --enable-man must be used in order to make dist"
+	@false
 endif
+
+# force doc rebulid after configure
+dist-hook-local: dist-local-check-docs-enabled
+
+-include $(top_srcdir)/git.mk

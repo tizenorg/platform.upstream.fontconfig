@@ -1,3 +1,0 @@
-@PREFIX@/include/fontconfig/*
-@PREFIX@/lib/pkgconfig/fontconfig.pc
-@PREFIX@/lib/libfontconfig*.a

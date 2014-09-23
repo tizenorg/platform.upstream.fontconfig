@@ -27,7 +27,7 @@ FC_CAT_SRC=${top_srcdir}/fc-cat
 
 SGML = ${FC_CAT_SRC}/fc-cat.sgml
 
-INCLUDES=-I${top_srcdir} $(WARN_CFLAGS)
+AM_CPPFLAGS=-I${top_srcdir} $(WARN_CFLAGS)
 
 bin_PROGRAMS=fc-cat
 
@@ -39,21 +39,22 @@ endif
 
 EXTRA_DIST=fc-cat.sgml ${BUILT_MANS}
 
+CLEANFILES =
+
 fc_cat_LDADD = ${top_builddir}/src/libfontconfig.la
 
 if USEDOCBOOK
 
 ${man_MANS}: ${SGML}	
-	-@rm $@
-	$(DOC2MAN) ${SGML}
-	@rm -f manpage.*
+	$(AM_V_GEN) $(RM) $@; \
+	$(DOC2MAN) ${SGML}; \
+	$(RM) manpage.*
 
 all-local: $(man_MANS)
 
-clean-local:
-	-rm $(man_MANS)
-
+CLEANFILES += ${man_MANS}
 else
 all-local:
-clean-local:
 endif
+
+-include $(top_srcdir)/git.mk

@@ -50,12 +50,12 @@
 #include "fcint.h"
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <time.h>
 
 #ifdef _WIN32
+#include <direct.h>
 #define mkdir(path,mode) _mkdir(path)
 #endif
 
@@ -78,7 +78,6 @@ FcAtomicCreate (const FcChar8   *file)
     FcAtomic	*atomic = malloc (total_len);
     if (!atomic)
 	return 0;
-    FcMemAlloc (FC_MEM_ATOMIC, total_len);
 
     atomic->file = (FcChar8 *) (atomic + 1);
     strcpy ((char *) atomic->file, (char *) file);
@@ -99,15 +98,17 @@ FcAtomicCreate (const FcChar8   *file)
 FcBool
 FcAtomicLock (FcAtomic *atomic)
 {
-    int		fd = -1;
-    FILE	*f = 0;
     int		ret;
     struct stat	lck_stat;
 
 #ifdef HAVE_LINK
+    int		fd = -1;
+    FILE	*f = 0;
+    FcBool	no_link = FcFalse;
+
     strcpy ((char *) atomic->tmp, (char *) atomic->file);
     strcat ((char *) atomic->tmp, TMP_NAME);
-    fd = mkstemp ((char *) atomic->tmp);
+    fd = FcMakeTempfile ((char *) atomic->tmp);
     if (fd < 0)
 	return FcFalse;
     f = fdopen (fd, "w");
@@ -130,6 +131,14 @@ FcAtomicLock (FcAtomic *atomic)
 	return FcFalse;
     }
     ret = link ((char *) atomic->tmp, (char *) atomic->lck);
+    if (ret < 0 && (errno == EPERM || errno == ENOTSUP))
+    {
+	/* the filesystem where atomic->lck points to may not supports
+	 * the hard link. so better try to fallback
+	 */
+	ret = mkdir ((char *) atomic->lck, 0600);
+	no_link = FcTrue;
+    }
     (void) unlink ((char *) atomic->tmp);
 #else
     ret = mkdir ((char *) atomic->lck, 0600);
@@ -148,8 +157,16 @@ FcAtomicLock (FcAtomic *atomic)
 	    if ((long int) (now - lck_stat.st_mtime) > 10 * 60)
 	    {
 #ifdef HAVE_LINK
-		if (unlink ((char *) atomic->lck) == 0)
-		    return FcAtomicLock (atomic);
+		if (no_link)
+		{
+		    if (rmdir ((char *) atomic->lck) == 0)
+			return FcAtomicLock (atomic);
+		}
+		else
+		{
+		    if (unlink ((char *) atomic->lck) == 0)
+			return FcAtomicLock (atomic);
+		}
 #else
 		if (rmdir ((char *) atomic->lck) == 0)
 		    return FcAtomicLock (atomic);
@@ -178,7 +195,7 @@ FcBool
 FcAtomicReplaceOrig (FcAtomic *atomic)
 {
 #ifdef _WIN32
-    unlink (atomic->file);
+    unlink ((const char *) atomic->file);
 #endif
     if (rename ((char *) atomic->new, (char *) atomic->file) < 0)
 	return FcFalse;
@@ -195,7 +212,8 @@ void
 FcAtomicUnlock (FcAtomic *atomic)
 {
 #ifdef HAVE_LINK
-    unlink ((char *) atomic->lck);
+    if (unlink ((char *) atomic->lck) == -1)
+	rmdir ((char *) atomic->lck);
 #else
     rmdir ((char *) atomic->lck);
 #endif
@@ -204,11 +222,6 @@ FcAtomicUnlock (FcAtomic *atomic)
 void
 FcAtomicDestroy (FcAtomic *atomic)
 {
-    FcMemFree (FC_MEM_ATOMIC, sizeof (FcAtomic) +
-	       strlen ((char *) atomic->file) * 4 + 4 +
-	       sizeof (NEW_NAME) + sizeof (LCK_NAME) +
-	       sizeof (TMP_NAME));
-
     free (atomic);
 }
 #define __fcatomic__

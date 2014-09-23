@@ -23,19 +23,8 @@
 
 #include <stdio.h>
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-/* If architecture is hardcoded, skip the assert tests */
-
-#ifndef FC_ARCHITECTURE
-
-#include "fcarch.h"
-
-/* Make sure the cache structure is consistent with what we expect */
-
 #include "fcint.h"
+#include "fcarch.h"
 
 FC_ASSERT_STATIC (1 == sizeof (char));
 FC_ASSERT_STATIC (2 == sizeof (FcChar16));
@@ -56,17 +45,15 @@ FC_ASSERT_STATIC (SIZEOF_VOID_P == sizeof (FcStrSet *));
 FC_ASSERT_STATIC (SIZEOF_VOID_P == sizeof (FcCharLeaf **));
 FC_ASSERT_STATIC (SIZEOF_VOID_P == sizeof (FcChar16 *));
 
-FC_ASSERT_STATIC (0x08 + 1*ALIGNOF_DOUBLE == sizeof (FcValue));
+FC_ASSERT_STATIC (0x08 + 1*FC_MAX(SIZEOF_VOID_P,ALIGNOF_DOUBLE) == sizeof (FcValue));
 FC_ASSERT_STATIC (0x00 + 2*SIZEOF_VOID_P == sizeof (FcPatternElt));
 FC_ASSERT_STATIC (0x08 + 2*SIZEOF_VOID_P == sizeof (FcPattern));
 FC_ASSERT_STATIC (0x08 + 2*SIZEOF_VOID_P == sizeof (FcCharSet));
 FC_ASSERT_STATIC (0x08 + 6*SIZEOF_VOID_P == sizeof (FcCache));
 
-#endif
-
 
 int
-main (int argc, char **argv)
+main (int argc FC_UNUSED, char **argv FC_UNUSED)
 {
     printf ("%s\n", FC_ARCHITECTURE);
     return 0;

@@ -1,10 +1,10 @@
-#sbs-git:slp/pkgs/f/fontconfig fontconfig 2.6.0 70f07428c05d43eef8009f4dfbe28723b040e865
+#fontconfig 2.11.1 286cdc9c10b0453c25950103b6a1f7170d15bfdc (Revert "[fcmatch] When matching, reserve score 0 for when elements don't exist")
 %global freetype_version 2.1.4
 
 Name:       fontconfig
 Summary:    Font configuration and customization library
-Version:    2.9.0
-Release:    8
+Version:    2.11.1
+Release:    1
 Group:      System/Libraries
 License:    MIT
 URL:        http://fontconfig.org
@@ -54,7 +54,10 @@ export HASDOCBOOK=no
     --with-freetype-config=%{_bindir}/freetype-config \
     --with-add-fonts=/opt/share/fonts,/usr/share/app_fonts,/usr/share/fallback_fonts \
     --with-cache-dir=/var/cache/fontconfig \
-    --with-confdir=/usr/etc/fonts \
+	--with-baseconfigdir=/usr/etc/fonts \
+    --with-configdir=/usr/etc/fonts/conf.d \
+    --with-templatedir=/usr/etc/fonts/conf.avail \
+	--with-xmldir=/usr/etc/fonts \
     --disable-docs
 
 make %{?jobs:-j%jobs}
@@ -80,6 +83,7 @@ rm -rf %{buildroot}
 
 # All font packages depend on this package, so we create
 # and own /usr/share/fonts
+mydir=$RPM_BUILD_ROOT%{_datadir}/fonts
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/fonts
 mkdir -p %{buildroot}/usr/share/license
 cat COPYING > %{buildroot}/usr/share/license/%{name}
@@ -95,8 +99,7 @@ umask 0022
 
 mkdir -p /var/cache/fontconfig
 # Remove stale caches
-rm -f /var/cache/fontconfig/????????????????????????????????.cache-2
-rm -f /var/cache/fontconfig/stamp
+rm -f /var/cache/fontconfig/????????????????????????????????.cache-4
 mkdir -p /opt/var/cache/fontconfig
 mkdir -p /usr/share/fonts
 mkdir -p /usr/share/fallback_fonts
@@ -104,6 +107,12 @@ mkdir -p /usr/share/app_fonts
 chsmack -t /opt/var/cache/fontconfig
 chsmack -a "system::homedir" /opt/var/cache/fontconfig/*
 chsmack -a "system::homedir" /opt/var/cache/fontconfig
+rm -rf /opt/home/app/.cache/fontconfig
+mkdir -p /opt/home/app/.cache/fontconfig
+chmod 755 /opt/home/app/.cache/fontconfig
+chown app:app /opt/home/app/.cache/fontconfig
+chsmack -t /opt/home/app/.cache/fontconfig
+chsmack -a "system::homedir" /opt/home/app/.cache/fontconfig
 
 # remove 49-sansserif.conf to fix bmc #9024
 #rm -rf /usr/%{_sysconfdir}/fonts/conf.d/49-sansserif.conf

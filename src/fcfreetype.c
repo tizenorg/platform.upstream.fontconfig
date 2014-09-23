@@ -558,6 +558,139 @@ FcFontCapabilities(FT_Face face);
 
 #define NUM_FC_MAC_ROMAN_FAKE	(int) (sizeof (fcMacRomanFake) / sizeof (fcMacRomanFake[0]))
 
+
+/* From http://www.unicode.org/Public/MAPPINGS/VENDORS/APPLE/ROMAN.TXT */
+static const FcChar16 fcMacRomanNonASCIIToUnicode[128] = {
+  /*0x80*/ 0x00C4, /* LATIN CAPITAL LETTER A WITH DIAERESIS */
+  /*0x81*/ 0x00C5, /* LATIN CAPITAL LETTER A WITH RING ABOVE */
+  /*0x82*/ 0x00C7, /* LATIN CAPITAL LETTER C WITH CEDILLA */
+  /*0x83*/ 0x00C9, /* LATIN CAPITAL LETTER E WITH ACUTE */
+  /*0x84*/ 0x00D1, /* LATIN CAPITAL LETTER N WITH TILDE */
+  /*0x85*/ 0x00D6, /* LATIN CAPITAL LETTER O WITH DIAERESIS */
+  /*0x86*/ 0x00DC, /* LATIN CAPITAL LETTER U WITH DIAERESIS */
+  /*0x87*/ 0x00E1, /* LATIN SMALL LETTER A WITH ACUTE */
+  /*0x88*/ 0x00E0, /* LATIN SMALL LETTER A WITH GRAVE */
+  /*0x89*/ 0x00E2, /* LATIN SMALL LETTER A WITH CIRCUMFLEX */
+  /*0x8A*/ 0x00E4, /* LATIN SMALL LETTER A WITH DIAERESIS */
+  /*0x8B*/ 0x00E3, /* LATIN SMALL LETTER A WITH TILDE */
+  /*0x8C*/ 0x00E5, /* LATIN SMALL LETTER A WITH RING ABOVE */
+  /*0x8D*/ 0x00E7, /* LATIN SMALL LETTER C WITH CEDILLA */
+  /*0x8E*/ 0x00E9, /* LATIN SMALL LETTER E WITH ACUTE */
+  /*0x8F*/ 0x00E8, /* LATIN SMALL LETTER E WITH GRAVE */
+  /*0x90*/ 0x00EA, /* LATIN SMALL LETTER E WITH CIRCUMFLEX */
+  /*0x91*/ 0x00EB, /* LATIN SMALL LETTER E WITH DIAERESIS */
+  /*0x92*/ 0x00ED, /* LATIN SMALL LETTER I WITH ACUTE */
+  /*0x93*/ 0x00EC, /* LATIN SMALL LETTER I WITH GRAVE */
+  /*0x94*/ 0x00EE, /* LATIN SMALL LETTER I WITH CIRCUMFLEX */
+  /*0x95*/ 0x00EF, /* LATIN SMALL LETTER I WITH DIAERESIS */
+  /*0x96*/ 0x00F1, /* LATIN SMALL LETTER N WITH TILDE */
+  /*0x97*/ 0x00F3, /* LATIN SMALL LETTER O WITH ACUTE */
+  /*0x98*/ 0x00F2, /* LATIN SMALL LETTER O WITH GRAVE */
+  /*0x99*/ 0x00F4, /* LATIN SMALL LETTER O WITH CIRCUMFLEX */
+  /*0x9A*/ 0x00F6, /* LATIN SMALL LETTER O WITH DIAERESIS */
+  /*0x9B*/ 0x00F5, /* LATIN SMALL LETTER O WITH TILDE */
+  /*0x9C*/ 0x00FA, /* LATIN SMALL LETTER U WITH ACUTE */
+  /*0x9D*/ 0x00F9, /* LATIN SMALL LETTER U WITH GRAVE */
+  /*0x9E*/ 0x00FB, /* LATIN SMALL LETTER U WITH CIRCUMFLEX */
+  /*0x9F*/ 0x00FC, /* LATIN SMALL LETTER U WITH DIAERESIS */
+  /*0xA0*/ 0x2020, /* DAGGER */
+  /*0xA1*/ 0x00B0, /* DEGREE SIGN */
+  /*0xA2*/ 0x00A2, /* CENT SIGN */
+  /*0xA3*/ 0x00A3, /* POUND SIGN */
+  /*0xA4*/ 0x00A7, /* SECTION SIGN */
+  /*0xA5*/ 0x2022, /* BULLET */
+  /*0xA6*/ 0x00B6, /* PILCROW SIGN */
+  /*0xA7*/ 0x00DF, /* LATIN SMALL LETTER SHARP S */
+  /*0xA8*/ 0x00AE, /* REGISTERED SIGN */
+  /*0xA9*/ 0x00A9, /* COPYRIGHT SIGN */
+  /*0xAA*/ 0x2122, /* TRADE MARK SIGN */
+  /*0xAB*/ 0x00B4, /* ACUTE ACCENT */
+  /*0xAC*/ 0x00A8, /* DIAERESIS */
+  /*0xAD*/ 0x2260, /* NOT EQUAL TO */
+  /*0xAE*/ 0x00C6, /* LATIN CAPITAL LETTER AE */
+  /*0xAF*/ 0x00D8, /* LATIN CAPITAL LETTER O WITH STROKE */
+  /*0xB0*/ 0x221E, /* INFINITY */
+  /*0xB1*/ 0x00B1, /* PLUS-MINUS SIGN */
+  /*0xB2*/ 0x2264, /* LESS-THAN OR EQUAL TO */
+  /*0xB3*/ 0x2265, /* GREATER-THAN OR EQUAL TO */
+  /*0xB4*/ 0x00A5, /* YEN SIGN */
+  /*0xB5*/ 0x00B5, /* MICRO SIGN */
+  /*0xB6*/ 0x2202, /* PARTIAL DIFFERENTIAL */
+  /*0xB7*/ 0x2211, /* N-ARY SUMMATION */
+  /*0xB8*/ 0x220F, /* N-ARY PRODUCT */
+  /*0xB9*/ 0x03C0, /* GREEK SMALL LETTER PI */
+  /*0xBA*/ 0x222B, /* INTEGRAL */
+  /*0xBB*/ 0x00AA, /* FEMININE ORDINAL INDICATOR */
+  /*0xBC*/ 0x00BA, /* MASCULINE ORDINAL INDICATOR */
+  /*0xBD*/ 0x03A9, /* GREEK CAPITAL LETTER OMEGA */
+  /*0xBE*/ 0x00E6, /* LATIN SMALL LETTER AE */
+  /*0xBF*/ 0x00F8, /* LATIN SMALL LETTER O WITH STROKE */
+  /*0xC0*/ 0x00BF, /* INVERTED QUESTION MARK */
+  /*0xC1*/ 0x00A1, /* INVERTED EXCLAMATION MARK */
+  /*0xC2*/ 0x00AC, /* NOT SIGN */
+  /*0xC3*/ 0x221A, /* SQUARE ROOT */
+  /*0xC4*/ 0x0192, /* LATIN SMALL LETTER F WITH HOOK */
+  /*0xC5*/ 0x2248, /* ALMOST EQUAL TO */
+  /*0xC6*/ 0x2206, /* INCREMENT */
+  /*0xC7*/ 0x00AB, /* LEFT-POINTING DOUBLE ANGLE QUOTATION MARK */
+  /*0xC8*/ 0x00BB, /* RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK */
+  /*0xC9*/ 0x2026, /* HORIZONTAL ELLIPSIS */
+  /*0xCA*/ 0x00A0, /* NO-BREAK SPACE */
+  /*0xCB*/ 0x00C0, /* LATIN CAPITAL LETTER A WITH GRAVE */
+  /*0xCC*/ 0x00C3, /* LATIN CAPITAL LETTER A WITH TILDE */
+  /*0xCD*/ 0x00D5, /* LATIN CAPITAL LETTER O WITH TILDE */
+  /*0xCE*/ 0x0152, /* LATIN CAPITAL LIGATURE OE */
+  /*0xCF*/ 0x0153, /* LATIN SMALL LIGATURE OE */
+  /*0xD0*/ 0x2013, /* EN DASH */
+  /*0xD1*/ 0x2014, /* EM DASH */
+  /*0xD2*/ 0x201C, /* LEFT DOUBLE QUOTATION MARK */
+  /*0xD3*/ 0x201D, /* RIGHT DOUBLE QUOTATION MARK */
+  /*0xD4*/ 0x2018, /* LEFT SINGLE QUOTATION MARK */
+  /*0xD5*/ 0x2019, /* RIGHT SINGLE QUOTATION MARK */
+  /*0xD6*/ 0x00F7, /* DIVISION SIGN */
+  /*0xD7*/ 0x25CA, /* LOZENGE */
+  /*0xD8*/ 0x00FF, /* LATIN SMALL LETTER Y WITH DIAERESIS */
+  /*0xD9*/ 0x0178, /* LATIN CAPITAL LETTER Y WITH DIAERESIS */
+  /*0xDA*/ 0x2044, /* FRACTION SLASH */
+  /*0xDB*/ 0x20AC, /* EURO SIGN */
+  /*0xDC*/ 0x2039, /* SINGLE LEFT-POINTING ANGLE QUOTATION MARK */
+  /*0xDD*/ 0x203A, /* SINGLE RIGHT-POINTING ANGLE QUOTATION MARK */
+  /*0xDE*/ 0xFB01, /* LATIN SMALL LIGATURE FI */
+  /*0xDF*/ 0xFB02, /* LATIN SMALL LIGATURE FL */
+  /*0xE0*/ 0x2021, /* DOUBLE DAGGER */
+  /*0xE1*/ 0x00B7, /* MIDDLE DOT */
+  /*0xE2*/ 0x201A, /* SINGLE LOW-9 QUOTATION MARK */
+  /*0xE3*/ 0x201E, /* DOUBLE LOW-9 QUOTATION MARK */
+  /*0xE4*/ 0x2030, /* PER MILLE SIGN */
+  /*0xE5*/ 0x00C2, /* LATIN CAPITAL LETTER A WITH CIRCUMFLEX */
+  /*0xE6*/ 0x00CA, /* LATIN CAPITAL LETTER E WITH CIRCUMFLEX */
+  /*0xE7*/ 0x00C1, /* LATIN CAPITAL LETTER A WITH ACUTE */
+  /*0xE8*/ 0x00CB, /* LATIN CAPITAL LETTER E WITH DIAERESIS */
+  /*0xE9*/ 0x00C8, /* LATIN CAPITAL LETTER E WITH GRAVE */
+  /*0xEA*/ 0x00CD, /* LATIN CAPITAL LETTER I WITH ACUTE */
+  /*0xEB*/ 0x00CE, /* LATIN CAPITAL LETTER I WITH CIRCUMFLEX */
+  /*0xEC*/ 0x00CF, /* LATIN CAPITAL LETTER I WITH DIAERESIS */
+  /*0xED*/ 0x00CC, /* LATIN CAPITAL LETTER I WITH GRAVE */
+  /*0xEE*/ 0x00D3, /* LATIN CAPITAL LETTER O WITH ACUTE */
+  /*0xEF*/ 0x00D4, /* LATIN CAPITAL LETTER O WITH CIRCUMFLEX */
+  /*0xF0*/ 0xF8FF, /* Apple logo */
+  /*0xF1*/ 0x00D2, /* LATIN CAPITAL LETTER O WITH GRAVE */
+  /*0xF2*/ 0x00DA, /* LATIN CAPITAL LETTER U WITH ACUTE */
+  /*0xF3*/ 0x00DB, /* LATIN CAPITAL LETTER U WITH CIRCUMFLEX */
+  /*0xF4*/ 0x00D9, /* LATIN CAPITAL LETTER U WITH GRAVE */
+  /*0xF5*/ 0x0131, /* LATIN SMALL LETTER DOTLESS I */
+  /*0xF6*/ 0x02C6, /* MODIFIER LETTER CIRCUMFLEX ACCENT */
+  /*0xF7*/ 0x02DC, /* SMALL TILDE */
+  /*0xF8*/ 0x00AF, /* MACRON */
+  /*0xF9*/ 0x02D8, /* BREVE */
+  /*0xFA*/ 0x02D9, /* DOT ABOVE */
+  /*0xFB*/ 0x02DA, /* RING ABOVE */
+  /*0xFC*/ 0x00B8, /* CEDILLA */
+  /*0xFD*/ 0x02DD, /* DOUBLE ACUTE ACCENT */
+  /*0xFE*/ 0x02DB, /* OGONEK */
+  /*0xFF*/ 0x02C7, /* CARON */
+};
+
 #if USE_ICONV
 #include <iconv.h>
 #endif
@@ -696,6 +829,35 @@ FcSfntNameTranscode (FT_SfntName *sname)
 	*u8 = '\0';
 	goto done;
     }
+    if (!strcmp (fromcode, FC_ENCODING_MAC_ROMAN))
+    {
+	FcChar8	    *src = sname->string;
+	int	    src_len = sname->string_len;
+	int	    olen;
+	FcChar8	    *u8;
+	FcChar32    ucs4;
+
+	/*
+	 * Convert Latin1 to Utf8. Freed below
+	 */
+	utf8 = malloc (src_len * 3 + 1);
+	if (!utf8)
+	    return 0;
+
+	u8 = utf8;
+	while (src_len > 0)
+	{
+	    ucs4 = *src++;
+	    if (ucs4 >= 128)
+	        ucs4 = fcMacRomanNonASCIIToUnicode[ucs4 - 128];
+	    src_len--;
+	    olen = FcUcs4ToUtf8 (ucs4, u8);
+	    u8 += olen;
+	}
+	*u8 = '\0';
+	goto done;
+    }
+
 #if USE_ICONV
     cd = iconv_open ("UTF-8", fromcode);
     if (cd && cd != (iconv_t) (-1))
@@ -775,47 +937,26 @@ FcSfntNameLanguage (FT_SfntName *sname)
 /* Order is significant.  For example, some B&H fonts are hinted by
    URW++, and both strings appear in the notice. */
 
-static const char notice_foundry_data[] =
-	"Bigelow\0b&h\0"
-	"Adobe\0adobe\0"
-	"Bitstream\0bitstream\0"
-	"Monotype\0monotype\0"
-	"Linotype\0linotype\0"
-	"LINOTYPE-HELL\0linotype\0"
-	"IBM\0ibm\0"
-	"URW\0urw\0"
-	"International Typeface Corporation\0itc\0"
-	"Tiro Typeworks\0tiro\0"
-	"XFree86\0xfree86\0"
-	"Microsoft\0microsoft\0"
-	"Omega\0omega\0"
-	"Font21\0hwan\0"
-	"HanYang System\0hanyang";
-
-struct _notice_foundry {
-    /* these are the offsets into the
-     * notice_foundry_data array.
-     */
-    unsigned char notice_offset;
-    unsigned char foundry_offset;
-};
-
-static const struct _notice_foundry FcNoticeFoundries[] = {
-    { 0, 8 },
-    { 12, 18 },
-    { 24, 34 },
-    { 44, 53 },
-    { 62, 71 },
-    { 80, 94 },
-    { 103, 107 },
-    { 111, 115 },
-    { 119, 154 },
-    { 158, 173 },
-    { 178, 186 },
-    { 194, 204 },
-    { 214, 220 },
-    { 226, 233 },
-    { 238, 253 }
+static const char *FcNoticeFoundries[][2] =
+    {
+     {"Adobe", "adobe"},
+     {"Bigelow", "b&h"},
+     {"Bitstream", "bitstream"},
+     {"Gnat", "culmus"},
+     {"Iorsh", "culmus"},
+     {"HanYang System", "hanyang"},
+     {"Font21", "hwan"},
+     {"IBM", "ibm"},
+     {"International Typeface Corporation", "itc"},
+     {"Linotype", "linotype"},
+     {"LINOTYPE-HELL", "linotype"},
+     {"Microsoft", "microsoft"},
+     {"Monotype", "monotype"},
+     {"Omega", "omega"},
+     {"Tiro Typeworks", "tiro"},
+     {"URW", "urw"},
+     {"XFree86", "xfree86"},
+     {"Xorg", "xorg"},
 };
 
 #define NUM_NOTICE_FOUNDRIES	(int) (sizeof (FcNoticeFoundries) / sizeof (FcNoticeFoundries[0]))
@@ -828,9 +969,8 @@ FcNoticeFoundry(const FT_String *notice)
     if (notice)
 	for(i = 0; i < NUM_NOTICE_FOUNDRIES; i++)
         {
-            const struct _notice_foundry *nf = &FcNoticeFoundries[i];
-            const char *n = notice_foundry_data + nf->notice_offset;
-            const char *f = notice_foundry_data + nf->foundry_offset;
+            const char *n = FcNoticeFoundries[i][0];
+            const char *f = FcNoticeFoundries[i][1];
 
 	    if (strstr ((const char *) notice, n))
 		return (const FcChar8 *) f;
@@ -871,6 +1011,7 @@ static const struct {
     { "B&H",  "b&h"},
     { "BITS", "bitstream"},
     { "CANO", "cannon"},
+    { "CLM",  "culmus"},
     { "DYNA", "dynalab"},
     { "EPSN", "epson"},
     { "FJ",   "fujitsu"},
@@ -954,6 +1095,8 @@ static const FcStringConst  weightConsts[] = {
     { (FC8) "thin",		FC_WEIGHT_THIN },
     { (FC8) "extralight",	FC_WEIGHT_EXTRALIGHT },
     { (FC8) "ultralight",	FC_WEIGHT_ULTRALIGHT },
+    { (FC8) "demilight",	FC_WEIGHT_DEMILIGHT },
+    { (FC8) "semilight",	FC_WEIGHT_SEMILIGHT },
     { (FC8) "light",		FC_WEIGHT_LIGHT },
     { (FC8) "book",		FC_WEIGHT_BOOK },
     { (FC8) "regular",		FC_WEIGHT_REGULAR },
@@ -1005,7 +1148,6 @@ static const FcStringConst  slantConsts[] = {
 
 #define NUM_SLANT_CONSTS    (int) (sizeof (slantConsts) / sizeof (slantConsts[0]))
 
-#define FcIsSlant(s)	    FcStringIsConst(s,slantConsts,NUM_SLANT_CONSTS)
 #define FcContainsSlant(s)  FcStringContainsConst (s,slantConsts,NUM_SLANT_CONSTS)
 
 static const FcStringConst  decorativeConsts[] = {
@@ -1019,7 +1161,6 @@ static const FcStringConst  decorativeConsts[] = {
 
 #define NUM_DECORATIVE_CONSTS	(int) (sizeof (decorativeConsts) / sizeof (decorativeConsts[0]))
 
-#define FcIsDecorative(s)   FcStringIsConst(s,decorativeConsts,NUM_DECORATIVE_CONSTS)
 #define FcContainsDecorative(s)	FcStringContainsConst (s,decorativeConsts,NUM_DECORATIVE_CONSTS)
 
 static double
@@ -1119,11 +1260,18 @@ FcFreeTypeQueryFace (const FT_Face  face,
     int		    nstyle_lang = 0;
     int		    nfullname = 0;
     int		    nfullname_lang = 0;
-    int		    p, platform;
-    int		    n, nameid;
+    unsigned int    p, n;
+    int		    platform, nameid;
 
     FcChar8	    *style = 0;
     int		    st;
+    char	    psname[256];
+    const char	    *tmp;
+
+    FcRange	    *r = NULL;
+    double	    lower_size = 0.0L, upper_size = DBL_MAX;
+
+    FcInitDebug (); /* We might be called with no initizalization whatsoever. */
 
     pat = FcPatternCreate ();
     if (!pat)
@@ -1179,10 +1327,11 @@ FcFreeTypeQueryFace (const FT_Face  face,
 
 	    for (snamei = 0; snamei < snamec; snamei++)
 	    {
-		FcChar8		*utf8;
+		FcChar8		*utf8, *pp;
 		const FcChar8	*lang;
 		const char	*elt = 0, *eltlang = 0;
 		int		*np = 0, *nlangp = 0;
+		size_t		len;
 
 		if (FT_Get_Sfnt_Name (face, snamei, &sname) != 0)
 		    continue;
@@ -1200,7 +1349,7 @@ FcFreeTypeQueryFace (const FT_Face  face,
 		}
 		else
 		{
-		    int	    sp;
+		    unsigned int	sp;
 
 		    for (sp = 0; sp < NUM_PLATFORM_ORDER; sp++)
 			if (sname.platform_id == platform_order[sp])
@@ -1221,7 +1370,6 @@ FcFreeTypeQueryFace (const FT_Face  face,
 		case TT_NAME_ID_PREFERRED_FAMILY:
 		case TT_NAME_ID_FONT_FAMILY:
 #if 0	
-		case TT_NAME_ID_PS_NAME:
 		case TT_NAME_ID_UNIQUE_ID:
 #endif
 		    if (FcDebug () & FC_DBG_SCANV)
@@ -1253,6 +1401,18 @@ FcFreeTypeQueryFace (const FT_Face  face,
 #endif
 		case TT_NAME_ID_PREFERRED_SUBFAMILY:
 		case TT_NAME_ID_FONT_SUBFAMILY:
+		    if (utf8)
+		    {
+			pp = utf8;
+			while (*pp == ' ')
+			    pp++;
+			len = strlen ((const char *) pp);
+			memmove (utf8, pp, len + 1);
+			pp = utf8 + len - 1;
+			while (*pp == ' ')
+			    pp--;
+			*(pp + 1) = 0;
+		    }
 		    if (FcDebug () & FC_DBG_SCANV)
 			printf ("found style  (n %2d p %d e %d l 0x%04x) %s\n",
 				sname.name_id, sname.platform_id,
@@ -1288,10 +1448,10 @@ FcFreeTypeQueryFace (const FT_Face  face,
 		    free (utf8);
 		    if (lang)
 		    {
-			/* pad lang list with 'xx' to line up with elt */
+			/* pad lang list with 'und' to line up with elt */
 			while (*nlangp < *np)
 			{
-			    if (!FcPatternAddString (pat, eltlang, (FcChar8 *) "xx"))
+			    if (!FcPatternAddString (pat, eltlang, (FcChar8 *) "und"))
 				goto bail1;
 			    ++*nlangp;
 			}
@@ -1327,7 +1487,7 @@ FcFreeTypeQueryFace (const FT_Face  face,
 	++nstyle;
     }
 
-    if (!nfamily)
+    if (!nfamily && file && *file)
     {
 	FcChar8	*start, *end;
 	FcChar8	*family;
@@ -1355,7 +1515,53 @@ FcFreeTypeQueryFace (const FT_Face  face,
 	++nfamily;
     }
 
-    if (!FcPatternAddString (pat, FC_FILE, file))
+    /* Add the PostScript name into the cache */
+    tmp = FT_Get_Postscript_Name (face);
+    if (!tmp)
+    {
+	FcChar8 *family, *familylang = NULL;
+	size_t len;
+	int n = 0;
+
+	/* Workaround when FT_Get_Postscript_Name didn't give any name.
+	 * try to find out the English family name and convert.
+	 */
+	while (FcPatternObjectGetString (pat, FC_FAMILYLANG_OBJECT, n, &familylang) == FcResultMatch)
+	{
+	    if (FcStrCmp (familylang, (const FcChar8 *)"en") == 0)
+		break;
+	    n++;
+	    familylang = NULL;
+	}
+	if (!familylang)
+	    n = 0;
+
+	if (FcPatternObjectGetString (pat, FC_FAMILY_OBJECT, n, &family) != FcResultMatch)
+	    goto bail1;
+	len = strlen ((const char *)family);
+	/* the literal name in PostScript Language is limited to 127 characters though,
+	 * It is the architectural limit. so assuming 255 characters may works enough.
+	 */
+	for (i = 0; i < len && i < 255; i++)
+	{
+	    /* those characters are not allowed to be the literal name in PostScript */
+	    static const char exclusive_chars[] = "\x04()/<>[]{}\t\f\r\n ";
+
+	    if (strchr(exclusive_chars, family[i]) != NULL)
+		psname[i] = '-';
+	    else
+		psname[i] = family[i];
+	}
+	psname[i] = 0;
+    }
+    else
+    {
+	strcpy (psname, tmp);
+    }
+    if (!FcPatternAddString (pat, FC_POSTSCRIPT_NAME, (const FcChar8 *)psname))
+	goto bail1;
+
+    if (file && *file && !FcPatternAddString (pat, FC_FILE, file))
 	goto bail1;
 
     if (!FcPatternAddInteger (pat, FC_INDEX, id))
@@ -1422,28 +1628,7 @@ FcFreeTypeQueryFace (const FT_Face  face,
 
     if (os2 && os2->version != 0xffff)
     {
-	if (os2->usWeightClass == 0)
-	    ;
-	else if (os2->usWeightClass < 150)
-	    weight = FC_WEIGHT_THIN;
-	else if (os2->usWeightClass < 250)
-	    weight = FC_WEIGHT_EXTRALIGHT;
-	else if (os2->usWeightClass < 350)
-	    weight = FC_WEIGHT_LIGHT;
-	else if (os2->usWeightClass < 450)
-	    weight = FC_WEIGHT_REGULAR;
-	else if (os2->usWeightClass < 550)
-	    weight = FC_WEIGHT_MEDIUM;
-	else if (os2->usWeightClass < 650)
-	    weight = FC_WEIGHT_SEMIBOLD;
-	else if (os2->usWeightClass < 750)
-	    weight = FC_WEIGHT_BOLD;
-	else if (os2->usWeightClass < 850)
-	    weight = FC_WEIGHT_EXTRABOLD;
-	else if (os2->usWeightClass < 925)
-	    weight = FC_WEIGHT_BLACK;
-	else if (os2->usWeightClass < 1000)
-	    weight = FC_WEIGHT_EXTRABLACK;
+	weight = FcWeightFromOpenType (os2->usWeightClass);
 	if ((FcDebug() & FC_DBG_SCANV) && weight != -1)
 	    printf ("\tos2 weight class %d maps to weight %d\n",
 		    os2->usWeightClass, weight);
@@ -1471,6 +1656,39 @@ FcFreeTypeQueryFace (const FT_Face  face,
 	    goto bail1;
 	}
 	free (complex_);
+    }
+
+#if defined (HAVE_TT_OS2_USUPPEROPTICALPOINTSIZE) && defined (HAVE_TT_OS2_USLOWEROPTICALPOINTSIZE)
+    if (os2 && os2->version >= 0x0005 && os2->version != 0xffff)
+    {
+	/* usLowerPointSize and usUpperPointSize is actually twips */
+	lower_size = os2->usLowerOpticalPointSize / 20.0L;
+	upper_size = os2->usUpperOpticalPointSize / 20.0L;
+    }
+#endif
+    if (os2)
+    {
+	r = FcRangeCreateDouble (lower_size, upper_size);
+	if (!FcPatternAddRange (pat, FC_SIZE, r))
+	{
+	    FcRangeDestroy (r);
+	    goto bail1;
+	}
+	FcRangeDestroy (r);
+    }
+    else
+    {
+	for (i = 0; i < face->num_fixed_sizes; i++)
+	{
+	    double d = FcGetPixelSize (face, i);
+	    r = FcRangeCreateDouble (d, d);
+	    if (!FcPatternAddRange (pat, FC_SIZE, r))
+	    {
+		FcRangeDestroy (r);
+		goto bail1;
+	    }
+	    FcRangeDestroy (r);
+	}
     }
 
     /*
@@ -1545,7 +1763,7 @@ FcFreeTypeQueryFace (const FT_Face  face,
 	}
 	if (width == -1 &&
 	    FT_Get_BDF_Property (face, "SETWIDTH_NAME", &prop) == 0 &&
-	    prop.type == BDF_PROPERTY_TYPE_ATOM)
+	    prop.type == BDF_PROPERTY_TYPE_ATOM && prop.u.atom != NULL)
 	{
 	    width = FcIsWidth ((FcChar8 *) prop.u.atom);
 	    if (FcDebug () & FC_DBG_SCANV)
@@ -1623,6 +1841,7 @@ FcFreeTypeQueryFace (const FT_Face  face,
     if (!FcPatternAddBool (pat, FC_DECORATIVE, decorative))
 	goto bail1;
 
+
     /*
      * Compute the unicode coverage for the font
      */
@@ -1634,7 +1853,7 @@ FcFreeTypeQueryFace (const FT_Face  face,
     /* For PCF fonts, override the computed spacing with the one from
        the property */
     if(FT_Get_BDF_Property(face, "SPACING", &prop) == 0 &&
-       prop.type == BDF_PROPERTY_TYPE_ATOM) {
+       prop.type == BDF_PROPERTY_TYPE_ATOM && prop.u.atom != NULL) {
         if(!strcmp(prop.u.atom, "c") || !strcmp(prop.u.atom, "C"))
             spacing = FC_CHARCELL;
         else if(!strcmp(prop.u.atom, "m") || !strcmp(prop.u.atom, "M"))
@@ -1695,7 +1914,8 @@ FcFreeTypeQueryFace (const FT_Face  face,
     {
 	const char *font_format = FT_Get_X11_Font_Format (face);
 	if (font_format)
-	    FcPatternAddString (pat, FC_FONTFORMAT, (FcChar8 *) font_format);
+	    if (!FcPatternAddString (pat, FC_FONTFORMAT, (FcChar8 *) font_format))
+		goto bail2;
     }
 #endif
 
@@ -2249,7 +2469,7 @@ FcFreeTypeCheckGlyph (FT_Face face, FcChar32 ucs4,
 
     *advance = slot->metrics.horiAdvance;
 
-    switch (slot->format) {
+    switch ((int) slot->format) {
     case ft_glyph_format_bitmap:
 	/*
 	 * Bitmaps are assumed to be reasonable; if
@@ -2561,7 +2781,8 @@ FcFreeTypeCharSet (FT_Face face, FcBlanks *blanks)
  * except for 'DFLT'.
  */
 #define FcIsSpace(x)	    (040 == (x))
-#define FcIsValidScript(x)  (FcIsLower(x) || FcIsUpper (x) || FcIsSpace(x))
+#define FcIsDigit(c)	    (('0' <= (c) && (c) <= '9'))
+#define FcIsValidScript(x)  (FcIsLower(x) || FcIsUpper (x) || FcIsDigit(x) || FcIsSpace(x))
 			
 static void
 addtag(FcChar8 *complex_, FT_ULong tag)
@@ -2574,7 +2795,7 @@ addtag(FcChar8 *complex_, FT_ULong tag)
     tagstring[3] = (FcChar8)(tag);
     tagstring[4] = '\0';
 
-    /* skip tags which aren't alphabetic, under the assumption that
+    /* skip tags which aren't alphanumeric, under the assumption that
      * they're probably broken
      */
     if (!FcIsValidScript(tagstring[0]) ||
@@ -2585,7 +2806,7 @@ addtag(FcChar8 *complex_, FT_ULong tag)
 
     if (*complex_ != '\0')
 	strcat ((char *) complex_, " ");
-    strcat ((char *) complex_, "otlayout:");
+    strcat ((char *) complex_, OTLAYOUT_HEAD);
     strcat ((char *) complex_, (char *) tagstring);
 }
 

@@ -126,12 +126,6 @@ main (int argc, char **argv)
     if (i == argc)
 	usage (argv[0], 1);
 
-    if (!FcInit ())
-    {
-	fprintf (stderr, "Can't init font config library\n");
-	return 1;
-    }
-
     fs = FcFontSetCreate ();
 
     for (; i < argc; i++)
@@ -168,7 +162,7 @@ main (int argc, char **argv)
 	    if (s)
 	    {
 		printf ("%s", s);
-		free (s);
+		FcStrFree (s);
 	    }
 	}
 	else

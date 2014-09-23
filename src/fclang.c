@@ -25,6 +25,8 @@
 #include "fcint.h"
 #include "fcftint.h"
 
+/* Objects MT-safe for readonly access. */
+
 typedef struct {
     const FcChar8    	lang[8];
     const FcCharSet	charset;
@@ -43,11 +45,14 @@ struct _FcLangSet {
     FcChar32	map[NUM_LANG_SET_MAP];
 };
 
+static int FcLangSetIndex (const FcChar8 *lang);
+
+
 static void
 FcLangSetBitSet (FcLangSet    *ls,
 		 unsigned int  id)
 {
-  int bucket;
+  unsigned int bucket;
 
   id = fcLangCharSetIndices[id];
   bucket = id >> 5;
@@ -61,7 +66,7 @@ static FcBool
 FcLangSetBitGet (const FcLangSet *ls,
 		 unsigned int     id)
 {
-  int bucket;
+  unsigned int bucket;
 
   id = fcLangCharSetIndices[id];
   bucket = id >> 5;
@@ -75,7 +80,7 @@ static void
 FcLangSetBitReset (FcLangSet    *ls,
 		   unsigned int  id)
 {
-  int bucket;
+  unsigned int bucket;
 
   id = fcLangCharSetIndices[id];
   bucket = id >> 5;
@@ -171,6 +176,170 @@ FcFreeTypeLangSet (const FcCharSet  *charset,
 
 
     return ls;
+}
+
+FcChar8 *
+FcLangNormalize (const FcChar8 *lang)
+{
+    FcChar8 *result = NULL, *s, *orig;
+    char *territory, *encoding, *modifier;
+    size_t llen, tlen = 0, mlen = 0;
+
+    if (!lang || !*lang)
+	return NULL;
+
+    if (FcStrCmpIgnoreCase (lang, (const FcChar8 *)"C") == 0 ||
+	FcStrCmpIgnoreCase (lang, (const FcChar8 *)"POSIX") == 0)
+    {
+	result = FcStrCopy ((const FcChar8 *)"en");
+	goto bail;
+    }
+
+    s = FcStrCopy (lang);
+    if (!s)
+	goto bail;
+
+    /* from the comments in glibc:
+     *
+     * LOCALE can consist of up to four recognized parts for the XPG syntax:
+     *
+     *            language[_territory[.codeset]][@modifier]
+     *
+     * Beside the first all of them are allowed to be missing.  If the
+     * full specified locale is not found, the less specific one are
+     * looked for.  The various part will be stripped off according to
+     * the following order:
+     *            (1) codeset
+     *            (2) normalized codeset
+     *            (3) territory
+     *            (4) modifier
+     *
+     * So since we don't take care of the codeset part here, what patterns
+     * we need to deal with is:
+     *
+     *   1. language_territory@modifier
+     *   2. language@modifier
+     *   3. language
+     *
+     * then. and maybe no need to try language_territory here.
+     */
+    modifier = strchr ((const char *) s, '@');
+    if (modifier)
+    {
+	*modifier = 0;
+	modifier++;
+	mlen = strlen (modifier);
+    }
+    encoding = strchr ((const char *) s, '.');
+    if (encoding)
+    {
+	*encoding = 0;
+	encoding++;
+	if (modifier)
+	{
+	    memmove (encoding, modifier, mlen + 1);
+	    modifier = encoding;
+	}
+    }
+    territory = strchr ((const char *) s, '_');
+    if (!territory)
+	territory = strchr ((const char *) s, '-');
+    if (territory)
+    {
+	*territory = 0;
+	territory++;
+	tlen = strlen (territory);
+    }
+    llen = strlen ((const char *) s);
+    if (llen < 2 || llen > 3)
+    {
+	fprintf (stderr, "Fontconfig warning: ignoring %s: not a valid language tag\n",
+		 lang);
+	goto bail0;
+    }
+    if (territory && (tlen < 2 || tlen > 3))
+    {
+	fprintf (stderr, "Fontconfig warning: ignoring %s: not a valid region tag\n",
+		 lang);
+	goto bail0;
+    }
+    if (territory)
+	territory[-1] = '-';
+    if (modifier)
+	modifier[-1] = '@';
+    orig = FcStrDowncase (s);
+    if (!orig)
+	goto bail0;
+    if (territory)
+    {
+	if (FcDebug () & FC_DBG_LANGSET)
+	    printf("Checking the existence of %s.orth\n", s);
+	if (FcLangSetIndex (s) < 0)
+	{
+	    memmove (territory - 1, territory + tlen, (mlen > 0 ? mlen + 1 : 0) + 1);
+	    if (modifier)
+		modifier = territory;
+	}
+	else
+	{
+	    result = s;
+	    /* we'll miss the opportunity to reduce the correct size
+	     * of the allocated memory for the string after that.
+	     */
+	    s = NULL;
+	    goto bail1;
+	}
+    }
+    if (modifier)
+    {
+	if (FcDebug () & FC_DBG_LANGSET)
+	    printf("Checking the existence of %s.orth\n", s);
+	if (FcLangSetIndex (s) < 0)
+	    modifier[-1] = 0;
+	else
+	{
+	    result = s;
+	    /* we'll miss the opportunity to reduce the correct size
+	     * of the allocated memory for the string after that.
+	     */
+	    s = NULL;
+	    goto bail1;
+	}
+    }
+    if (FcDebug () & FC_DBG_LANGSET)
+	printf("Checking the existence of %s.orth\n", s);
+    if (FcLangSetIndex (s) < 0)
+    {
+	/* there seems no languages matched in orth.
+	 * add the language as is for fallback.
+	 */
+	result = orig;
+	orig = NULL;
+    }
+    else
+    {
+	result = s;
+	/* we'll miss the opportunity to reduce the correct size
+	 * of the allocated memory for the string after that.
+	 */
+	s = NULL;
+    }
+  bail1:
+    if (orig)
+	FcStrFree (orig);
+  bail0:
+    if (s)
+	free (s);
+  bail:
+    if (FcDebug () & FC_DBG_LANGSET)
+    {
+	if (result)
+	    printf ("normalized: %s -> %s\n", lang, result);
+	else
+	    printf ("Unable to normalize %s\n", lang);
+    }
+
+    return result;
 }
 
 #define FcLangEnd(c)	((c) == '-' || (c) == '\0')
@@ -284,7 +453,6 @@ FcLangSetCreate (void)
     ls = malloc (sizeof (FcLangSet));
     if (!ls)
 	return 0;
-    FcMemAlloc (FC_MEM_LANGSET, sizeof (FcLangSet));
     memset (ls->map, '\0', sizeof (ls->map));
     ls->map_size = NUM_LANG_SET_MAP;
     ls->extra = 0;
@@ -296,7 +464,6 @@ FcLangSetDestroy (FcLangSet *ls)
 {
     if (ls->extra)
 	FcStrSetDestroy (ls->extra);
-    FcMemFree (FC_MEM_LANGSET, sizeof (FcLangSet));
     free (ls);
 }
 
@@ -536,34 +703,41 @@ FcLangSetCompare (const FcLangSet *lsa, const FcLangSet *lsb)
 
 /*
  * Used in computing values -- mustn't allocate any storage
- * XXX Not thread-safe
  */
 FcLangSet *
-FcLangSetPromote (const FcChar8 *lang)
+FcLangSetPromote (const FcChar8 *lang, FcValuePromotionBuffer *vbuf)
 {
-    static FcLangSet	ls;
-    static FcStrSet	strs;
-    static FcChar8	*str;
-    int			id;
+    int		id;
+    typedef struct {
+	FcLangSet  ls;
+	FcStrSet   strs;
+	FcChar8   *str;
+    } FcLangSetPromotionBuffer;
+    FcLangSetPromotionBuffer *buf = (FcLangSetPromotionBuffer *) vbuf;
 
-    memset (ls.map, '\0', sizeof (ls.map));
-    ls.map_size = NUM_LANG_SET_MAP;
-    ls.extra = 0;
-    id = FcLangSetIndex (lang);
-    if (id > 0)
+    FC_ASSERT_STATIC (sizeof (FcLangSetPromotionBuffer) <= sizeof (FcValuePromotionBuffer));
+
+    memset (buf->ls.map, '\0', sizeof (buf->ls.map));
+    buf->ls.map_size = NUM_LANG_SET_MAP;
+    buf->ls.extra = 0;
+    if (lang)
     {
-	FcLangSetBitSet (&ls, id);
+	id = FcLangSetIndex (lang);
+	if (id > 0)
+	{
+	    FcLangSetBitSet (&buf->ls, id);
+	}
+	else
+	{
+	    buf->ls.extra = &buf->strs;
+	    buf->strs.num = 1;
+	    buf->strs.size = 1;
+	    buf->strs.strs = &buf->str;
+	    FcRefInit (&buf->strs.ref, 1);
+	    buf->str = (FcChar8 *) lang;
+	}
     }
-    else
-    {
-	ls.extra = &strs;
-	strs.num = 1;
-	strs.size = 1;
-	strs.strs = &str;
-	strs.ref = 1;
-	str = (FcChar8 *) lang;
-    }
-    return &ls;
+    return &buf->ls;
 }
 
 FcChar32
@@ -856,9 +1030,11 @@ FcLangSetOperate(const FcLangSet	*a,
 						 const FcChar8	*s))
 {
     FcLangSet	*langset = FcLangSetCopy (a);
-    FcStrList	*sl = FcStrListCreate (FcLangSetGetLangs (b));
+    FcStrSet	*set = FcLangSetGetLangs (b);
+    FcStrList	*sl = FcStrListCreate (set);
     FcChar8	*str;
 
+    FcStrSetDestroy (set);
     while ((str = FcStrListNext (sl)))
     {
 	func (langset, str);
