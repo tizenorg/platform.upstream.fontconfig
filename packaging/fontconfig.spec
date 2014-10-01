@@ -99,7 +99,7 @@ umask 0022
 
 mkdir -p /var/cache/fontconfig
 # Remove stale caches
-rm -f /var/cache/fontconfig/????????????????????????????????.cache-4
+rm -f /var/cache/fontconfig/*
 mkdir -p /opt/var/cache/fontconfig
 mkdir -p /usr/share/fonts
 mkdir -p /usr/share/fallback_fonts
@@ -109,6 +109,10 @@ chsmack -a "system::homedir" /opt/var/cache/fontconfig/*
 chsmack -a "system::homedir" /opt/var/cache/fontconfig
 rm -rf /opt/home/app/.cache/fontconfig
 mkdir -p /opt/home/app/.cache/fontconfig
+chmod 755 /opt/home/app/.cache
+chown app:app /opt/home/app/.cache
+chsmack -t /opt/home/app/.cache
+chsmack -a "system::homedir" /opt/home/app/.cache
 chmod 755 /opt/home/app/.cache/fontconfig
 chown app:app /opt/home/app/.cache/fontconfig
 chsmack -t /opt/home/app/.cache/fontconfig
