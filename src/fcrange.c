@@ -133,10 +133,16 @@ FcRangeIsInRange (const FcRange *a, const FcRange *b)
 
     ca = FcRangeCanonicalize (a);
     cb = FcRangeCanonicalize (b);
+
+// 20141008 Tizen patch for Webkit Complex text
+#if 0
     if (ca.is_inclusive & cb.is_inclusive)
 	f = ca.u.d.end <= cb.u.d.end;
     else
 	f = ca.u.d.end < cb.u.d.end;
+#else
+	f = ca.u.d.end <= cb.u.d.end;
+#endif
 
     return FcDoubleCmpGE (ca.u.d.begin, cb.u.d.begin) && f;
 }

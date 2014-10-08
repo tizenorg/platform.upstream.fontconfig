@@ -105,7 +105,6 @@ mkdir -p /usr/share/fonts
 mkdir -p /usr/share/fallback_fonts
 mkdir -p /usr/share/app_fonts
 chsmack -t /opt/var/cache/fontconfig
-chsmack -a "system::homedir" /opt/var/cache/fontconfig/*
 chsmack -a "system::homedir" /opt/var/cache/fontconfig
 rm -rf /opt/home/app/.cache/fontconfig
 mkdir -p /opt/home/app/.cache/fontconfig
@@ -126,7 +125,7 @@ chsmack -a "system::homedir" /opt/home/app/.cache/fontconfig
 #  copy of fontconfig might install the binary instead of the first)
 # The HOME setting is to avoid problems if HOME hasn't been reset
 if [ -x /usr/bin/fc-cache ] && /usr/bin/fc-cache --version 2>&1 | grep -q %{version} ; then
-HOME=/root /usr/bin/fc-cache -f
+fc-cache -rf --system-only
 fi
 
 %postun -p /sbin/ldconfig
