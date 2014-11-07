@@ -1,19 +1,20 @@
 %global freetype_version 2.1.4
 
 Name:           fontconfig
-Version:        2.10.91
+Version:        2.11.1
 Release:        0
 License:        MIT
 Summary:        Font configuration and customization library
 Url:            http://fontconfig.org
-Group:          Graphics/Font Management
+Group:          Graphics & UI Framework/Fonts
 Source:         %{name}-%{version}.tar.bz2
-Source1001: 	fontconfig.manifest
+Source1001:     fontconfig.manifest
 BuildRequires:  expat-devel
 BuildRequires:  gawk
 BuildRequires:  perl
+BuildRequires:  gperf
 BuildRequires:  pkgconfig(freetype2) >= %{freetype_version}
-Requires(pre): /usr/bin/fc-cache, /usr/bin/mkdir /usr/bin/rm, /usr/bin/grep
+Requires(pre):  /usr/bin/fc-cache, /usr/bin/mkdir /usr/bin/rm, /usr/bin/grep
 
 %description
 Fontconfig is designed to locate fonts within the
@@ -22,7 +23,7 @@ applications.
 
 %package devel
 Summary:        Font configuration and customization library
-Group:          Development/Libraries
+Group:          Graphics & UI Framework/Fonts
 Requires:       %{name} = %{version}
 Requires:       fontconfig = %{version}
 Requires:       freetype-devel >= %{freetype_version}
@@ -42,8 +43,7 @@ cp %{SOURCE1001} .
 %build
 # We don't want to rebuild the docs, but we want to install the included ones.
 export HASDOCBOOK=no
-
-%reconfigure --disable-static \
+%autogen --disable-static \
     --with-expat=/usr \
     --with-expat-include=%{_includedir} \
     --with-expat-lib=%{_libdir} \
@@ -54,10 +54,10 @@ export HASDOCBOOK=no
     --with-templatedir=%{_sysconfdir}/fonts/conf.avail \
     --disable-docs
 
-make %{?_smp_mflags}
+%__make %{?_smp_mflags}
 
 %check
-make check
+%__make check
 
 %install
 
@@ -92,7 +92,7 @@ fi
 %config %{_sysconfdir}/fonts/conf.avail/*.conf
 %config(noreplace) %{_sysconfdir}/fonts/conf.d/*.conf
 %dir %{_localstatedir}/cache/fontconfig
-/usr/share/xml/fontconfig/fonts.dtd
+%{_datadir}/xml/fontconfig/fonts.dtd
 
 %files devel
 %manifest %{name}.manifest
