@@ -1,9 +1,9 @@
-#fontconfig 2.11.1 286cdc9c10b0453c25950103b6a1f7170d15bfdc (Revert "[fcmatch] When matching, reserve score 0 for when elements don't exist")
-%global freetype_version 2.1.4
+#fontconfig 2.11.92 d6d5adeb7940c0d0beb86489c2a1c2ce59e5c044 (Fix symbol cmap handling)
+%global freetype_version 2.5.0
 
 Name:       fontconfig
 Summary:    Font configuration and customization library
-Version:    2.11.1
+Version:    2.11.92
 Release:    1
 Group:      System/Libraries
 License:    MIT
