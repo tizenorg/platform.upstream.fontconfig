@@ -42,6 +42,9 @@ EXTRA_DIST=fc-validate.sgml $(BUILT_MANS)
 CLEANFILES =
 
 fc_validate_LDADD = ${top_builddir}/src/libfontconfig.la $(FREETYPE_LIBS)
+### TIZEN_ONLY(20150404): Apply ASLR to executable files.
+fc_validate_LDFLAGS = -pie
+fc_validate_CFLAGS = -fPIE
 
 if USEDOCBOOK
 
