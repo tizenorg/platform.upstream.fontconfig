@@ -40,6 +40,9 @@ endif
 EXTRA_DIST=fc-query.sgml $(BUILT_MANS)
 
 fc_query_LDADD = ${top_builddir}/src/libfontconfig.la
+### TIZEN_ONLY(20150404): Apply ASLR to executable files.
+fc_query_LDFLAGS = -pie
+fc_query_CFLAGS = -fPIE
 
 if USEDOCBOOK
 
