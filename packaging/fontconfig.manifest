@@ -2,4 +2,14 @@
         <request>
                 <domain name="_"/>
         </request>
+        <assign>
+                <filesystem path="/usr/bin/fc-cache" exec_label="none"/>
+                <filesystem path="/usr/bin/fc-cat" exec_label="none"/>
+                <filesystem path="/usr/bin/fc-list" exec_label="none"/>
+                <filesystem path="/usr/bin/fc-match" exec_label="none"/>
+                <filesystem path="/usr/bin/fc-pattern" exec_label="none"/>
+                <filesystem path="/usr/bin/fc-query" exec_label="none"/>
+                <filesystem path="/usr/bin/fc-scan" exec_label="none"/>
+                <filesystem path="/usr/bin/fc-validate" exec_label="none"/>
+        </assign>
 </manifest>
