@@ -3,7 +3,7 @@
 
 Name:       fontconfig
 Summary:    Font configuration and customization library
-Version:    2.11.92
+Version:    2.11.93
 Release:    1
 Group:      System/Libraries
 License:    MIT
