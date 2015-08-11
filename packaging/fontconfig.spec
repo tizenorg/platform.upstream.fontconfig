@@ -14,7 +14,7 @@ BuildRequires:  gawk
 BuildRequires:  perl
 BuildRequires:  gperf
 BuildRequires:  pkgconfig(freetype2) >= %{freetype_version}
-Requires(pre):  /usr/bin/fc-cache, /usr/bin/mkdir /usr/bin/rm, /usr/bin/grep
+Requires(pre):  /usr/bin/fc-cache, /usr/bin/mkdir /usr/bin/rm, /usr/bin/grep, /usr/bin/chsmack
 
 %description
 Fontconfig is designed to locate fonts within the
@@ -74,6 +74,8 @@ mkdir -p /var/cache/fontconfig
 # Remove stale caches
 rm -f /var/cache/fontconfig/????????????????????????????????.cache-2
 rm -f /var/cache/fontconfig/stamp
+
+chsmack -a System::Shared -t /var/cache/fontconfig
 
 if [ -x /usr/bin/fc-cache ] && /usr/bin/fc-cache --version 2>&1 | grep -q %{version} ; then
 HOME=/root /usr/bin/fc-cache -f
