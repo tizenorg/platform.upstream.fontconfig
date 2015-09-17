@@ -42,6 +42,9 @@ EXTRA_DIST=fc-cat.sgml ${BUILT_MANS}
 CLEANFILES =
 
 fc_cat_LDADD = ${top_builddir}/src/libfontconfig.la
+### TIZEN_ONLY(20150404): Apply ASLR to executable files.
+fc_cat_LDFLAGS = -pie
+fc_cat_CFLAGS = -fPIE
 
 if USEDOCBOOK
 
