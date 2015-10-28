@@ -36,13 +36,14 @@
 #endif
 
 static FcConfig *
-FcInitFallbackConfig (void)
+FcInitFallbackConfig (const FcChar8 *sysroot)
 {
     FcConfig	*config;
 
     config = FcConfigCreate ();
     if (!config)
 	goto bail0;
+    FcConfigSetSysRoot (config, sysroot);
     if (!FcConfigAddDir (config, (FcChar8 *) FC_DEFAULT_FONTS))
 	goto bail1;
     if (!FcConfigAddCacheDir (config, (FcChar8 *) FC_CACHEDIR))
@@ -65,19 +66,25 @@ FcGetVersion (void)
  * Load the configuration files
  */
 FcConfig *
-FcInitLoadConfig (void)
+FcInitLoadOwnConfig (FcConfig *config)
 {
-    FcConfig	*config;
+    if (!config)
+    {
+	config = FcConfigCreate ();
+	if (!config)
+	    return NULL;
+    }
 
     FcInitDebug ();
-    config = FcConfigCreate ();
-    if (!config)
-	return NULL;
 
     if (!FcConfigParseAndLoad (config, 0, FcTrue))
     {
+	const FcChar8 *sysroot = FcConfigGetSysRoot (config);
+	FcConfig *fallback = FcInitFallbackConfig (sysroot);
+
 	FcConfigDestroy (config);
-	return FcInitFallbackConfig ();
+
+	return fallback;
     }
 
     if (config->cacheDirs && config->cacheDirs->num == 0)
@@ -106,13 +113,19 @@ FcInitLoadConfig (void)
 	if (!FcConfigAddCacheDir (config, (FcChar8 *) FC_CACHEDIR) ||
 	    !FcConfigAddCacheDir (config, (FcChar8 *) prefix))
 	{
+	    FcConfig *fallback;
+	    const FcChar8 *sysroot;
+
 	  bail:
+	    sysroot = FcConfigGetSysRoot (config);
 	    fprintf (stderr,
 		     "Fontconfig error: out of memory");
 	    if (prefix)
 		FcStrFree (prefix);
+	    fallback = FcInitFallbackConfig (sysroot);
 	    FcConfigDestroy (config);
-	    return FcInitFallbackConfig ();
+
+	    return fallback;
 	}
 	FcStrFree (prefix);
     }
@@ -120,15 +133,19 @@ FcInitLoadConfig (void)
     return config;
 }
 
+FcConfig *
+FcInitLoadConfig (void)
+{
+    return FcInitLoadOwnConfig (NULL);
+}
+
 /*
  * Load the configuration files and scan for available fonts
  */
 FcConfig *
-FcInitLoadConfigAndFonts (void)
+FcInitLoadOwnConfigAndFonts (FcConfig *config)
 {
-    FcConfig	*config = FcInitLoadConfig ();
-
-    FcInitDebug ();
+    config = FcInitLoadOwnConfig (config);
     if (!config)
 	return 0;
     if (!FcConfigBuildFonts (config))
@@ -137,6 +154,12 @@ FcInitLoadConfigAndFonts (void)
 	return 0;
     }
     return config;
+}
+
+FcConfig *
+FcInitLoadConfigAndFonts (void)
+{
+    return FcInitLoadOwnConfigAndFonts (NULL);
 }
 
 /*
@@ -166,11 +189,18 @@ FcBool
 FcInitReinitialize (void)
 {
     FcConfig	*config;
+    FcBool	ret;
 
     config = FcInitLoadConfigAndFonts ();
     if (!config)
 	return FcFalse;
-    return FcConfigSetCurrent (config);
+    ret = FcConfigSetCurrent (config);
+    /* FcConfigSetCurrent() increases the refcount.
+     * decrease it here to avoid the memory leak.
+     */
+    FcConfigDestroy (config);
+
+    return ret;
 }
 
 FcBool
@@ -179,6 +209,8 @@ FcInitBringUptoDate (void)
     FcConfig	*config = FcConfigGetCurrent ();
     time_t	now;
 
+    if (!config)
+	return FcFalse;
     /*
      * rescanInterval == 0 disables automatic up to date
      */

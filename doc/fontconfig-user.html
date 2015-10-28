@@ -157,9 +157,10 @@ CLASS="PROGRAMLISTING"
   file            String  The filename holding the font
   index           Int     The index of the font within the file
   ftface          FT_Face Use the specified FreeType face object
-  rasterizer      String  Which rasterizer is in use
+  rasterizer      String  Which rasterizer is in use (deprecated)
   outline         Bool    Whether the glyphs are outlines
   scalable        Bool    Whether glyphs can be scaled
+  color           Bool    Whether any glyphs have color
   scale           Double  Scale factor for point-&#62;pixel conversions
   dpi             Double  Target dots per inch
   rgba            Int     unknown, rgb, bgr, vrgb, vbgr,
@@ -171,7 +172,15 @@ CLASS="PROGRAMLISTING"
                           font supports
   fontversion     Int     Version number of the font
   capability      String  List of layout capabilities in the font
+  fontformat      String  String name of the font format
   embolden        Bool    Rasterizer should synthetically embolden the font
+  embeddedbitmap  Bool    Use the embedded bitmap instead of the outline
+  decorative      Bool    Whether the style is a decorative variant
+  fontfeatures    String  List of the feature tags in OpenType to be enabled
+  namelang        String  Language name to be used for the default value of
+                          familylang, stylelang, and fullnamelang
+  prgname         String  String  Name of the running program
+  postscriptname  String  Font family name in PostScript
     </PRE
 ></TD
 ></TR
@@ -493,7 +502,7 @@ CLASS="LITERAL"
 >&#60;architecture&#62;</TT
 >.cache-<TT
 CLASS="LITERAL"
->&#60;version</TT
+>&#60;version&#62;</TT
 >'',
 where <TT
 CLASS="LITERAL"
@@ -788,6 +797,8 @@ CLASS="PROGRAMLISTING"
   "prepend_first"         Insert at head of list  Insert at head of list
   "append"                Append after matching   Append at end of list
   "append_last"           Append at end of list   Append at end of list
+  "delete"                Delete matching value   Delete all values
+  "delete_all"            Delete all values       Delete all values
     </PRE
 ></TD
 ></TR
@@ -946,6 +957,8 @@ CLASS="PROGRAMLISTING"
   extralight      weight          40
   ultralight      weight          40
   light           weight          50
+  demilight       weight          55
+  semilight       weight          55
   book            weight          75
   regular         weight          80
   normal          weight          80
@@ -1526,7 +1539,7 @@ NAME="AEN276"
 ><H2
 >Version</H2
 ><P
->Fontconfig version 2.10.91
+>Fontconfig version 2.11.93
 
 	    </P
 ></DIV

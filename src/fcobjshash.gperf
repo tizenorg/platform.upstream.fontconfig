@@ -57,3 +57,8 @@ int id;
 "decorative",FC_DECORATIVE_OBJECT
 "lcdfilter",FC_LCD_FILTER_OBJECT
 "namelang",FC_NAMELANG_OBJECT
+"fontfeatures",FC_FONT_FEATURES_OBJECT
+"prgname",FC_PRGNAME_OBJECT
+"hash",FC_HASH_OBJECT
+"postscriptname",FC_POSTSCRIPT_NAME_OBJECT
+"color",FC_COLOR_OBJECT

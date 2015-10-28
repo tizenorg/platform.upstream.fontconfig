@@ -48,35 +48,47 @@
 
 #include "fcwindows.h"
 
-/* mingw32 does not have MemoryBarrier.
- * MemoryBarrier may be defined as a macro or a function.
- * Just make a failsafe version for ourselves. */
-#ifdef MemoryBarrier
-#define HBMemoryBarrier MemoryBarrier
-#else
-static inline void HBMemoryBarrier (void) {
+/* MinGW has a convoluted history of supporting MemoryBarrier
+ * properly.  As such, define a function to wrap the whole
+ * thing. */
+static inline void _FCMemoryBarrier (void) {
+#if !defined(MemoryBarrier)
   long dummy = 0;
   InterlockedExchange (&dummy, 1);
-}
+#else
+  MemoryBarrier ();
 #endif
+}
 
 typedef LONG fc_atomic_int_t;
 #define fc_atomic_int_add(AI, V)	InterlockedExchangeAdd (&(AI), (V))
 
-#define fc_atomic_ptr_get(P)		(HBMemoryBarrier (), (void *) *(P))
+#define fc_atomic_ptr_get(P)		(_FCMemoryBarrier (), (void *) *(P))
 #define fc_atomic_ptr_cmpexch(P,O,N)	(InterlockedCompareExchangePointer ((void **) (P), (void *) (N), (void *) (O)) == (void *) (O))
 
 
 #elif !defined(FC_NO_MT) && defined(__APPLE__)
 
 #include <libkern/OSAtomic.h>
+#ifdef __MAC_OS_X_MIN_REQUIRED
+#include <AvailabilityMacros.h>
+#elif defined(__IPHONE_OS_MIN_REQUIRED)
+#include <Availability.h>
+#endif
 
 typedef int fc_atomic_int_t;
 #define fc_atomic_int_add(AI, V)	(OSAtomicAdd32Barrier ((V), &(AI)) - (V))
 
 #define fc_atomic_ptr_get(P)		(OSMemoryBarrier (), (void *) *(P))
+#if (MAC_OS_X_VERSION_MIN_REQUIRED > MAC_OS_X_VERSION_10_4 || __IPHONE_VERSION_MIN_REQUIRED >= 20100)
 #define fc_atomic_ptr_cmpexch(P,O,N)	OSAtomicCompareAndSwapPtrBarrier ((void *) (O), (void *) (N), (void **) (P))
-
+#else
+#if __ppc64__ || __x86_64__
+#define fc_atomic_ptr_cmpexch(P,O,N)	OSAtomicCompareAndSwap64Barrier ((int64_t) (O), (int64_t) (N), (int64_t*) (P))
+#else
+#define fc_atomic_ptr_cmpexch(P,O,N)	OSAtomicCompareAndSwap32Barrier ((int32_t) (O), (int32_t) (N), (int32_t*) (P))
+#endif
+#endif
 
 #elif !defined(FC_NO_MT) && defined(HAVE_INTEL_ATOMIC_PRIMITIVES)
 

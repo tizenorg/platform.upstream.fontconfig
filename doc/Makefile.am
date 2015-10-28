@@ -53,7 +53,10 @@ SUFFIXES =	\
 TESTS =				\
 	check-missing-doc	\
 	$(NULL)
-TESTS_ENVIRONMENT=top_srcdir=${top_srcdir} sh
+TESTS_ENVIRONMENT = \
+	top_srcdir=${top_srcdir}; export top_srcdir; \
+	$(NULL)
+LOG_COMPILER = sh
 #
 DOC2HTML = docbook2html
 DOC2TXT  = docbook2txt
@@ -78,9 +81,11 @@ DOC_FUNCS_FNCS =		\
 	fcobjectset.fncs	\
 	fcobjecttype.fncs	\
 	fcpattern.fncs		\
+	fcrange.fncs		\
 	fcstring.fncs		\
 	fcstrset.fncs		\
 	fcvalue.fncs		\
+	fcweight.fncs		\
 	$(NULL)
 SGML_FILES =			\
 	fontconfig-user.sgml	\

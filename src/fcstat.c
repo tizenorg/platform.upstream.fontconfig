@@ -20,9 +20,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
 #include "fcint.h"
 #include "fcarch.h"
 #include <dirent.h>
@@ -33,6 +30,9 @@
 #ifdef HAVE_SYS_VFS_H
 #include <sys/vfs.h>
 #endif
+#ifdef HAVE_SYS_STATVFS_H
+#include <sys/statvfs.h>
+#endif
 #ifdef HAVE_SYS_STATFS_H
 #include <sys/statfs.h>
 #endif
@@ -42,6 +42,7 @@
 #ifdef HAVE_SYS_MOUNT_H
 #include <sys/mount.h>
 #endif
+#include <errno.h>
 
 #ifdef _WIN32
 #ifdef __GNUC__
@@ -170,20 +171,93 @@ FcDirChecksumScandirSorter(const struct dirent **lhs, const struct dirent **rhs)
     return strcmp((*lhs)->d_name, (*rhs)->d_name);
 }
 
+static void
+free_dirent (struct dirent **p)
+{
+    struct dirent **x;
+
+    for (x = p; *x != NULL; x++)
+	free (*x);
+
+    free (p);
+}
+
+int
+FcScandir (const char		*dirp,
+	   struct dirent	***namelist,
+	   int (*filter) (const struct dirent *),
+	   int (*compar) (const struct dirent **, const struct dirent **));
+
+int
+FcScandir (const char		*dirp,
+	   struct dirent	***namelist,
+	   int (*filter) (const struct dirent *),
+	   int (*compar) (const struct dirent **, const struct dirent **))
+{
+    DIR *d;
+    struct dirent *dent, *p, **dlist, **dlp;
+    size_t lsize = 128, n = 0;
+
+    d = opendir (dirp);
+    if (!d)
+	return -1;
+
+    dlist = (struct dirent **) malloc (sizeof (struct dirent *) * lsize);
+    if (!dlist)
+    {
+	closedir (d);
+	errno = ENOMEM;
+
+	return -1;
+    }
+    *dlist = NULL;
+    while ((dent = readdir (d)))
+    {
+	if (!filter || (filter) (dent))
+	{
+	    size_t dentlen = FcPtrToOffset (dent, dent->d_name) + strlen (dent->d_name) + 1;
+	    dentlen = ((dentlen + ALIGNOF_VOID_P - 1) & ~(ALIGNOF_VOID_P - 1));
+	    p = (struct dirent *) malloc (dentlen);
+	    memcpy (p, dent, dentlen);
+	    if ((n + 1) >= lsize)
+	    {
+		lsize += 128;
+		dlp = (struct dirent **) realloc (dlist, sizeof (struct dirent *) * lsize);
+		if (!dlp)
+		{
+		    free_dirent (dlist);
+		    closedir (d);
+		    errno = ENOMEM;
+
+		    return -1;
+		}
+		dlist = dlp;
+	    }
+	    dlist[n++] = p;
+	    dlist[n] = NULL;
+	}
+    }
+    closedir (d);
+
+    qsort (dlist, n, sizeof (struct dirent *), (int (*) (const void *, const void *))compar);
+
+    *namelist = dlist;
+
+    return n;
+}
+
 static int
 FcDirChecksum (const FcChar8 *dir, time_t *checksum)
 {
     struct Adler32 ctx;
     struct dirent **files;
     int n;
-#ifndef HAVE_STRUCT_DIRENT_D_TYPE
     int ret = 0;
     size_t len = strlen ((const char *)dir);
-#endif
 
     Adler32Init (&ctx);
 
-    n = scandir ((const char *)dir, &files,
+    n = FcScandir ((const char *)dir, &files,
 #ifdef HAVE_STRUCT_DIRENT_D_TYPE
 		 &FcDirChecksumScandirFilter,
 #else
@@ -200,7 +274,9 @@ FcDirChecksum (const FcChar8 *dir, time_t *checksum)
 
 #ifdef HAVE_STRUCT_DIRENT_D_TYPE
 	dtype = files[n]->d_type;
-#else
+	if (dtype == DT_UNKNOWN)
+	{
+#endif
 	struct stat statb;
 	char f[PATH_MAX + 1];
 
@@ -217,20 +293,18 @@ FcDirChecksum (const FcChar8 *dir, time_t *checksum)
 	    goto bail;
 
 	dtype = statb.st_mode;
+#ifdef HAVE_STRUCT_DIRENT_D_TYPE
+	}
 #endif
 	Adler32Update (&ctx, files[n]->d_name, dlen + 1);
 	Adler32Update (&ctx, (char *)&dtype, sizeof (int));
 
-#ifndef HAVE_STRUCT_DIRENT_D_TYPE
       bail:
-#endif
 	free (files[n]);
     }
     free (files);
-#ifndef HAVE_STRUCT_DIRENT_D_TYPE
     if (ret == -1)
 	return -1;
-#endif
 
     *checksum = Adler32Finish (&ctx);
 
@@ -352,3 +426,7 @@ FcIsFsMtimeBroken (const FcChar8 *dir)
 
     return FcFalse;
 }
+
+#define __fcstat__
+#include "fcaliastail.h"
+#undef __fcstat__
