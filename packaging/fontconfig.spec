@@ -15,7 +15,8 @@ BuildRequires:  expat-devel
 BuildRequires:  perl
 BuildRequires:  gperf
 BuildRequires:  python
-Requires(pre):  /usr/bin/fc-cache, /usr/bin/mkdir /usr/bin/rm, /usr/bin/grep, /usr/bin/chsmack
+BuildRequires:  pkgconfig(libtzplatform-config)
+Requires(pre):  %{TZ_SYS_BIN}/fc-cache, %{TZ_SYS_BIN}/mkdir %{TZ_SYS_BIN}/rm, %{TZ_SYS_BIN}/grep, %{TZ_SYS_BIN}/chsmack
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 
@@ -48,16 +49,16 @@ cp %{SOURCE1001} .
 export HASDOCBOOK=no
 
 %reconfigure --disable-static \
-    --with-expat=/usr \
+    --with-expat=%{_prefix} \
     --with-expat-include=%{_includedir} \
     --with-expat-lib=%{_libdir} \
-    --with-freetype-config=%{_bindir}/freetype-config \
-    --with-add-fonts=/opt/share/fonts,/usr/share/app_fonts,/usr/share/fallback_fonts \
-    --with-cache-dir=/var/cache/fontconfig \
-	--with-baseconfigdir=/usr/etc/fonts \
-    --with-configdir=/usr/etc/fonts/conf.d \
-    --with-templatedir=/usr/etc/fonts/conf.avail \
-	--with-xmldir=/usr/etc/fonts \
+    --with-freetype-config=%{TZ_SYS_BIN}/freetype-config \
+    --with-add-fonts=%{TZ_SYS_RO_SHARE}/fonts,%{TZ_SYS_RO_SHARE}/app_fonts,%{TZ_SYS_RO_SHARE}/fallback_fonts \
+    --with-cache-dir=%{TZ_SYS_VAR}/cache/fontconfig \
+    --with-baseconfigdir=%{TZ_SYS_RO_ETC}/fonts \
+    --with-configdir=%{TZ_SYS_RO_ETC}/fonts/conf.d \
+    --with-templatedir=%{TZ_SYS_RO_ETC}/fonts/conf.avail \
+    --with-xmldir=%{TZ_SYS_RO_ETC}/fonts \
     --disable-docs
 
 make %{?jobs:-j%jobs}
@@ -70,10 +71,10 @@ rm -rf %{buildroot}
 
 # All font packages depend on this package, so we create
 # and own /usr/share/fonts
-mydir=$RPM_BUILD_ROOT%{_datadir}/fonts
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/fonts
-mkdir -p %{buildroot}/usr/share/license
-cat COPYING > %{buildroot}/usr/share/license/%{name}
+mydir=$RPM_BUILD_ROOT%{TZ_SYS_RO_SHARE}/fonts
+mkdir -p $RPM_BUILD_ROOT%{TZ_SYS_RO_SHARE}/fonts
+mkdir -p %{buildroot}%{TZ_SYS_RO_SHARE}/license
+cat COPYING > %{buildroot}%{TZ_SYS_RO_SHARE}/license/%{name}
 
 # Remove unpackaged files. no need when configure --disable-static
 #rm $RPM_BUILD_ROOT%{_libdir}/*.la
@@ -84,25 +85,25 @@ cat COPYING > %{buildroot}/usr/share/license/%{name}
 
 umask 0022
 
-mkdir -p /var/cache/fontconfig
+mkdir -p %{TZ_SYS_VAR}/cache/fontconfig
 # Remove stale caches
-rm -f /var/cache/fontconfig/*
-mkdir -p /opt/var/cache/fontconfig
-mkdir -p /usr/share/fonts
-mkdir -p /usr/share/fallback_fonts
-mkdir -p /usr/share/app_fonts
-chsmack -t /opt/var/cache/fontconfig
-chsmack -a System::Shared /opt/var/cache/fontconfig
-rm -rf /opt/home/app/.cache/fontconfig
-mkdir -p /opt/home/app/.cache/fontconfig
-chmod 755 /opt/home/app/.cache
-chown app:app /opt/home/app/.cache
-chsmack -t /opt/home/app/.cache
-chsmack -a System::Shared /opt/home/app/.cache
-chmod 755 /opt/home/app/.cache/fontconfig
-chown app:app /opt/home/app/.cache/fontconfig
-chsmack -t /opt/home/app/.cache/fontconfig
-chsmack -a System::Shared /opt/home/app/.cache/fontconfig
+rm -f %{TZ_SYS_VAR}/cache/fontconfig/*
+mkdir -p %{TZ_SYS_VAR}/cache/fontconfig
+mkdir -p %{TZ_SYS_RO_SHARE}/fonts
+mkdir -p %{TZ_SYS_RO_SHARE}/fallback_fonts
+mkdir -p %{TZ_SYS_RO_SHARE}/app_fonts
+chsmack -t %{TZ_SYS_VAR}/cache/fontconfig
+chsmack -a System::Shared %{TZ_SYS_VAR}/cache/fontconfig
+rm -rf %{TZ_USER_CACHE}/fontconfig
+mkdir -p %{TZ_USER_CACHE}/fontconfig
+chmod 755 %{TZ_USER_CACHE}
+chown app:app %{TZ_USER_CACHE}
+chsmack -t %{TZ_USER_CACHE}
+chsmack -a System::Shared %{TZ_USER_CACHE}
+chmod 755 %{TZ_USER_CACHE}/fontconfig
+chown app:app %{TZ_USER_CACHE}/fontconfig
+chsmack -t %{TZ_USER_CACHE}/fontconfig
+chsmack -a System::Shared %{TZ_USER_CACHE}/fontconfig
 
 # remove 49-sansserif.conf to fix bmc #9024
 #rm -rf /usr/%{_sysconfdir}/fonts/conf.d/49-sansserif.conf
@@ -111,7 +112,7 @@ chsmack -a System::Shared /opt/home/app/.cache/fontconfig
 # The check for existance is needed on dual-arch installs (the second
 #  copy of fontconfig might install the binary instead of the first)
 # The HOME setting is to avoid problems if HOME hasn't been reset
-if [ -x /usr/bin/fc-cache ] && /usr/bin/fc-cache --version 2>&1 | grep -q %{version} ; then
+if [ -x %{TZ_SYS_BIN}/fc-cache ] && %{TZ_SYS_BIN}/fc-cache --version 2>&1 | grep -q %{version} ; then
 fc-cache -rf --system-only
 fi
 
@@ -123,15 +124,15 @@ fi
 %defattr(-, root, root)
 %doc README AUTHORS COPYING
 %{_libdir}/libfontconfig.so.*
-%{_bindir}/fc-*
-/usr/%{_sysconfdir}/fonts/*
-%dir /usr/%{_sysconfdir}/fonts/conf.avail
-%dir %{_datadir}/fonts
-%doc /usr/%{_sysconfdir}/fonts/conf.d/README
-%config /usr/%{_sysconfdir}/fonts/conf.avail/*.conf
-%config(noreplace) /usr/%{_sysconfdir}/fonts/conf.d/*.conf
-%dir /var/cache/fontconfig
-/usr/share/license/%{name}
+%{TZ_SYS_BIN}/fc-*
+%{TZ_SYS_RO_ETC}/fonts/*
+%dir %{TZ_SYS_RO_ETC}/fonts/conf.avail
+%dir %{TZ_SYS_RO_SHARE}/fonts
+%doc %{TZ_SYS_RO_ETC}/fonts/conf.d/README
+%config %{TZ_SYS_RO_ETC}/fonts/conf.avail/*.conf
+%config(noreplace) %{TZ_SYS_RO_ETC}/fonts/conf.d/*.conf
+%dir %{TZ_SYS_VAR}/cache/fontconfig
+%{TZ_SYS_RO_SHARE}/license/%{name}
 
 %files devel
 %manifest fontconfig.manifest
