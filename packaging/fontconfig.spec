@@ -94,16 +94,19 @@ mkdir -p %{TZ_SYS_RO_SHARE}/fallback_fonts
 mkdir -p %{TZ_SYS_RO_SHARE}/app_fonts
 chsmack -t %{TZ_SYS_VAR}/cache/fontconfig
 chsmack -a System::Shared %{TZ_SYS_VAR}/cache/fontconfig
-rm -rf %{TZ_USER_CACHE}/fontconfig
-mkdir -p %{TZ_USER_CACHE}/fontconfig
-chmod 755 %{TZ_USER_CACHE}
-chown app:app %{TZ_USER_CACHE}
-chsmack -t %{TZ_USER_CACHE}
-chsmack -a System::Shared %{TZ_USER_CACHE}
-chmod 755 %{TZ_USER_CACHE}/fontconfig
-chown app:app %{TZ_USER_CACHE}/fontconfig
-chsmack -t %{TZ_USER_CACHE}/fontconfig
-chsmack -a System::Shared %{TZ_USER_CACHE}/fontconfig
+
+# Skip making fontconfig cache folder for users. (/opt/home/app/.cache)
+# The path will be changed according to a name of user.
+#rm -rf %{TZ_USER_CACHE}/fontconfig
+#mkdir -p %{TZ_USER_CACHE}/fontconfig
+#chmod 755 %{TZ_USER_CACHE}
+#chown app:app %{TZ_USER_CACHE}
+#chsmack -t %{TZ_USER_CACHE}
+#chsmack -a System::Shared %{TZ_USER_CACHE}
+#chmod 755 %{TZ_USER_CACHE}/fontconfig
+#chown app:app %{TZ_USER_CACHE}/fontconfig
+#chsmack -t %{TZ_USER_CACHE}/fontconfig
+#chsmack -a System::Shared %{TZ_USER_CACHE}/fontconfig
 
 # remove 49-sansserif.conf to fix bmc #9024
 #rm -rf /usr/%{_sysconfdir}/fonts/conf.d/49-sansserif.conf
