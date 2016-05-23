@@ -8,13 +8,15 @@ Group:          Graphics & UI Framework/Fonts
 License:        MIT
 URL:            http://fontconfig.org
 Source0:        http://fontconfig.org/release/fontconfig-%{version}.tar.gz
-Source1001:     packaging/fontconfig.manifest
+Source100:      fontconfig.conf
+Source1001:     fontconfig.manifest
 BuildRequires:  pkgconfig(freetype2) >= %{freetype_version}
 BuildRequires:  gawk
 BuildRequires:  expat-devel
 BuildRequires:  perl
 BuildRequires:  gperf
 BuildRequires:  python
+BuildRequires:  systemd-devel
 BuildRequires:  pkgconfig(libtzplatform-config)
 Requires(pre):  %{TZ_SYS_BIN}/fc-cache, %{TZ_SYS_BIN}/mkdir %{TZ_SYS_BIN}/rm, %{TZ_SYS_BIN}/grep, %{TZ_SYS_BIN}/chsmack
 Requires(post): /sbin/ldconfig
@@ -69,6 +71,9 @@ rm -rf %{buildroot}
 
 %make_install
 
+mkdir -p %{buildroot}%{_tmpfilesdir}
+install -m 0644 %SOURCE100 %{buildroot}%{_tmpfilesdir}/fontconfig.conf
+
 # All font packages depend on this package, so we create
 # and own /usr/share/fonts
 mydir=$RPM_BUILD_ROOT%{TZ_SYS_RO_SHARE}/fonts
@@ -85,15 +90,9 @@ cat COPYING > %{buildroot}%{TZ_SYS_RO_SHARE}/license/%{name}
 
 umask 0022
 
-mkdir -p %{TZ_SYS_VAR}/cache/fontconfig
-# Remove stale caches
-rm -f %{TZ_SYS_VAR}/cache/fontconfig/*
-mkdir -p %{TZ_SYS_VAR}/cache/fontconfig
 mkdir -p %{TZ_SYS_RO_SHARE}/fonts
 mkdir -p %{TZ_SYS_RO_SHARE}/fallback_fonts
 mkdir -p %{TZ_SYS_RO_SHARE}/app_fonts
-chsmack -t %{TZ_SYS_VAR}/cache/fontconfig
-chsmack -a System::Shared %{TZ_SYS_VAR}/cache/fontconfig
 
 # Skip making fontconfig cache folder for users. (/opt/home/app/.cache)
 # The path will be changed according to a name of user.
@@ -134,8 +133,8 @@ fi
 %doc %{TZ_SYS_RO_ETC}/fonts/conf.d/README
 %config %{TZ_SYS_RO_ETC}/fonts/conf.avail/*.conf
 %config(noreplace) %{TZ_SYS_RO_ETC}/fonts/conf.d/*.conf
-%dir %{TZ_SYS_VAR}/cache/fontconfig
 %{TZ_SYS_RO_SHARE}/license/%{name}
+%{_tmpfilesdir}/fontconfig.conf
 
 %files devel
 %manifest fontconfig.manifest
